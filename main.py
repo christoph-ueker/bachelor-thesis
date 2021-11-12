@@ -2,7 +2,6 @@ import os
 from helper import *
 from uppaalpy import nta as u
 import copy
-# kleiner test
 
 # creates a new template from blank_template
 def new_template(name):
