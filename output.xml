@@ -1,0 +1,99 @@
+<?xml version="1.0" ?>
+<nta>
+	<declaration>// Place global declarations here.
+chan Req30, Req10, Req20;</declaration>
+	<template>
+		<name x="0" y="0">SUT</name>
+		<declaration>// Place local declarations here.</declaration>
+		<location id="id0" x="0" y="0"/>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Req30?</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Req10?</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Req20?</label>
+		</transition>
+	</template>
+	<template>
+		<name x="0" y="0">Node1</name>
+		<declaration>clock cl;</declaration>
+		<location id="id0" x="0" y="0">
+			<name x="0" y="0">La1</name>
+			<label kind="invariant" x="0" y="20">cl&lt;=3</label>
+		</location>
+		<location id="id1" x="200" y="0">
+			<name x="200" y="0">Lp1</name>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="guard" x="0.0" y="100.0">cl&gt;=2</label>
+			<label kind="synchronisation" x="10.0" y="100.0">Req10!</label>
+			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
+			<label kind="comments" x="0" y="0">controllable</label>
+		</transition>
+	</template>
+	<template>
+		<name x="0" y="0">Node2</name>
+		<declaration>clock cl;</declaration>
+		<location id="id0" x="0" y="0">
+			<name x="0" y="0">La1</name>
+			<label kind="invariant" x="0" y="20">cl&lt;=3</label>
+		</location>
+		<location id="id1" x="200" y="0">
+			<name x="200" y="0">Lp1</name>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="guard" x="0.0" y="100.0">cl&gt;=2</label>
+			<label kind="synchronisation" x="10.0" y="100.0">Req20!</label>
+			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
+			<label kind="comments" x="0" y="0">controllable</label>
+		</transition>
+	</template>
+	<template>
+		<name x="0" y="0">Node3</name>
+		<declaration>clock cl;</declaration>
+		<location id="id0" x="0" y="0">
+			<name x="0" y="0">La1</name>
+			<label kind="invariant" x="0" y="20">cl&lt;=3</label>
+		</location>
+		<location id="id1" x="200" y="0">
+			<name x="200" y="0">Lp1</name>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="guard" x="0.0" y="100.0">cl&gt;=2</label>
+			<label kind="synchronisation" x="10.0" y="100.0">Req30!</label>
+			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
+			<label kind="comments" x="0" y="0">controllable</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+NODE0 = SUT();
+NODE1 = Node1();
+NODE2 = Node2();
+NODE3 = Node3();
+// List one or more processes to be composed into a system.
+system SUT, Node1, Node2, Node3;</system>
+	<queries>
+		<query>
+			<formula/>
+			<comment/>
+		</query>
+	</queries>
+</nta>
