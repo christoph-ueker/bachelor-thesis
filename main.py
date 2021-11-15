@@ -3,6 +3,7 @@ from helper import *
 from uppaalpy import nta as u
 import copy
 
+
 # creates a new template from blank_template
 def new_template(name):
     new = copy.deepcopy(blank_template)
@@ -51,6 +52,7 @@ class Log:
 # filename: "logs/log1.txt"
 def read_log_from_file(file):
     log_file = open(file, "r")
+    print("--- " + file + " ---")
     lines = [line.replace('\n', '').replace('<', '').replace('>', '') for line in log_file.readlines()]
     # print(lines)
     log = Log()
@@ -103,7 +105,7 @@ channels = []
 
 #
 stepsize = 200  # stepsize for locations
-last_locations = [] # last used locations
+last_locations = []  # last used locations
 active_locations = []
 
 
@@ -209,11 +211,13 @@ for filename in os.listdir("logs"):
     for i in range(1, number_env_nodes + 1):
         active_locations.append([])
         passive_locations.append([])
+        last_locations.append([])
 
     """ --- END INITIALIZATIONS --- """
 
     # iterate over all events in a log
     for event in log.events:
+        print("Env Event detected")
         # Env event
         if event.type == "Env":
             signal = event.signal + str(event.origin) + str(event.target)
@@ -248,7 +252,7 @@ for filename in os.listdir("logs"):
             # Case 2, TODO: Review this section
             else:
                 if active_index(origin) > 1:  # If not first active location
-                    working_active_loc = last_locations[-1]  # This considers the top of the stack
+                    working_active_loc = last_locations[origin - 1][-1]  # This considers the top of the stack
                 else:  # If first active location
                     # add location to the active locations
                     new_active = u.Location(id=new_id(origin), pos=[new_x(origin), 0],
@@ -257,7 +261,7 @@ for filename in os.listdir("logs"):
                                             invariant=u.Label(kind="invariant", pos=[new_x(origin), 20],
                                                               value="cl<=" + str(clock)))
                     active_locations[origin - 1].append(env[origin - 1].add_loc(new_active))
-                    last_locations.append(new_active)
+                    last_locations[origin - 1].append(new_active)
                     working_active_loc = new_active
 
                 # add location to the passive locations
@@ -265,7 +269,7 @@ for filename in os.listdir("logs"):
                                          name=u.Name(new_loc_name(loc_type="p", index=passive_index(origin)),
                                                      pos=[new_x(origin), 0]))
                 passive_locations[origin - 1].append(env[origin - 1].add_loc(new_passive))
-                last_locations.append(new_passive)
+                last_locations[origin - 1].append(new_passive)
                 # add transition
 
                 guard_label = u.Label(kind="guard", pos=guard_label_pos(working_active_loc, new_passive),
@@ -274,7 +278,7 @@ for filename in os.listdir("logs"):
                                            pos=asgn_label_pos(working_active_loc, new_passive), value="cl=0")
                 sync_label = new_channel(signal, "!")
                 # TODO: review positioning
-                comment = u.Label(kind="comments", pos=[0, 0], value="controllable")
+                comment = u.Label(kind="comments", pos=asgn_label_pos(working_active_loc, new_passive), value="controllable")
                 trans = u.Transition(source=working_active_loc.id, target=new_passive.id, guard=guard_label,
                                      assignment=assignment_label, synchronisation=sync_label, comments=comment)
                 env[origin - 1].add_trans(trans)
@@ -282,10 +286,12 @@ for filename in os.listdir("logs"):
         # TODO: SUT Event
         else:
             print("SUT Event detected")
-            last = last_locations[-1]
-            next_to_last = last_locations[-2]
+            if event.origin == "-":
+                print("timeout event")
             signal = event.signal + str(event.origin) + str(event.target)
             target = event.target
+            last_loc = last_locations[target - 1][-1]
+            next_to_last_loc = last_locations[target - 1][-2]
             clock = event.ts - internal_clock[target - 1]
             internal_clock[target - 1] = event.ts
 
@@ -293,14 +299,53 @@ for filename in os.listdir("logs"):
 
             # Check the condition for Case 1
             cond = False
+            for transition in env[target - 1].get_trans_by_comment("observable"):
+                # TODO: Maybe dont use int here
+                guard_lb = int(transition.guard.value[4:])
+                source_loc = get_loc_by_id(passive_locations[target - 1], transition.source)
+                inv_ub = int(source_loc.invariant.value[4:])
+                lb, ub = interval_extension(guard_lb, inv_ub, R)
+                if signal + "?" == transition.synchronisation.value and lb <= clock <= ub:
+                    cond = True
+                    found_trans = transition
+                    break
 
             # Case 1
             if cond:
-                NotImplemented
+                # update corresponding guard
+                found_trans.guard.value = "cl>=" + str(min(clock, guard_lb))
+                # update corresponding invariant
+                source_loc.invariant.value = "cl<=" + str(max(clock, inv_ub))
 
             # Case 2
             else:
-                NotImplemented
+                if hasattr(last_loc.invariant, 'value'):
+                    inv_ub = int(last_loc.invariant.value[4:])
+                else:
+                    # We have to create invariant for this location first
+                    last_loc.invariant = u.Label(kind="invariant", pos=[last_loc.pos[0], 20], value="cl<=" + str(clock))
+                    inv_ub = clock
+
+                last_loc.invariant.value = "cl<=" + str(max(clock, inv_ub))  # TODO: timeout stuff
+                # add location to the active locations
+                new_active = u.Location(id=new_id(target), pos=[new_x(target), 0],
+                                        name=u.Name(new_loc_name(loc_type="a", index=active_index(target)),
+                                                    pos=[new_x(target), 0]))
+                active_locations[target - 1].append(env[target - 1].add_loc(new_active))
+                last_locations[target - 1].append(new_active)
+                working_active_loc = new_active
+
+                # add transition
+                guard_label = u.Label(kind="guard", pos=guard_label_pos(last_loc, working_active_loc),
+                                      value="cl>=" + str(clock))
+                assignment_label = u.Label(kind="assignment",
+                                           pos=asgn_label_pos(last_loc, working_active_loc), value="cl=0")
+                sync_label = new_channel(signal, "?")
+                # TODO: review positioning
+                comment = u.Label(kind="comments", pos=comment_label_pos(last_loc, working_active_loc), value="observable")
+                trans = u.Transition(source=last_loc.id, target=working_active_loc.id, guard=guard_label,
+                                     assignment=assignment_label, synchronisation=sync_label, comments=comment)
+                env[target - 1].add_trans(trans)
 
 # --- Finishing Ops ---
 
