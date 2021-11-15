@@ -49,7 +49,7 @@ class Log:
 
 # TODO: Change this in case the log file format is adjusted
 # TODO: Currently the format only fits for <10 Env Nodes -> Scalability
-# filename: "logs/log1.txt"
+# filename: "logs/log8.txt"
 def read_log_from_file(file):
     log_file = open(file, "r")
     print("--- " + file + " ---")
@@ -83,7 +83,7 @@ def new_id(node):
     return "id" + str(num_locations(node))
 
 
-# my_log = read_log_from_file("logs/log1.txt")
+# my_log = read_log_from_file("logs/log8.txt")
 # print(my_log)
 
 # --- BEGIN my_alg ---
@@ -198,6 +198,7 @@ for filename in os.listdir("logs"):
     R = 4
     # other initializations
     timeout_ts = 0
+    timeout_units = 0
 
     # returns the number of locations for a specific node
     def num_locations(node):
@@ -215,19 +216,24 @@ for filename in os.listdir("logs"):
 
     """ --- END INITIALIZATIONS --- """
 
+    # TODO: Rename origin and target
     # iterate over all events in a log
-    for event in log.events:
-        print("Env Event detected")
+    for event_index, event in enumerate(log.events):
         # Env event
         if event.type == "Env":
+            print("Env Event detected")
             signal = event.signal + str(event.origin) + str(event.target)
             origin = event.origin
             clock = event.ts - internal_clock[origin - 1]
             internal_clock[origin - 1] = event.ts
 
-            # TODO: Do the timeout stuff
-            # if timeout_ts != 0:
-            #     clock = internal_clock[origin - 1] - timeout_ts
+            """ --- BEGIN TIMEOUT HANDLING --- """
+            # TODO
+            # last event was timeout
+            if timeout_ts != 0:
+                print("prev was timeout")
+                clock = internal_clock[origin - 1] - timeout_ts
+            """ --- END TIMEOUT HANDLING --- """
 
             # Check the condition for Case 1
             cond = False
@@ -235,6 +241,7 @@ for filename in os.listdir("logs"):
                 # TODO: Maybe dont use int here
                 guard_lb = int(transition.guard.value[4:])
                 source_loc = get_loc_by_id(active_locations[origin - 1], transition.source)
+                target_loc = get_loc_by_id(passive_locations[origin - 1], transition.target)
                 inv_ub = int(source_loc.invariant.value[4:])
                 lb, ub = interval_extension(guard_lb, inv_ub, R)
                 if signal + "!" == transition.synchronisation.value and lb <= clock <= ub:
@@ -248,6 +255,39 @@ for filename in os.listdir("logs"):
                 found_trans.guard.value = "cl>=" + str(min(clock, guard_lb))
                 # update corresponding invariant
                 source_loc.invariant.value = "cl<=" + str(max(clock, inv_ub))
+
+                if timeout_ts != 0:
+                    print("Doing timeout stuff in CASE 1")
+                    last_loc = last_locations[origin - 1][-1]
+                    print(last_loc.name.name)
+                    if not hasattr(last_loc.invariant, 'value'):
+                        # We have to create invariant for this location
+                        last_loc.invariant = u.Label(kind="invariant", pos=[last_loc.pos[0], 20],
+                                                     value="cl<=" + str(clock))
+                        inv_ub = 0
+                    last_loc.invariant.value = "cl<=" + str(max(timeout_units, inv_ub))
+                    last_locations[origin - 1].append(source_loc)
+                    working_active_loc = source_loc
+
+                    # add transition TODO: Add function for these transition additions
+                    # TODO: Direct the transition and location to the bottom
+                    # We need pos function for timeouts
+                    guard_label = u.Label(kind="guard", pos=guard_label_pos(last_loc, working_active_loc),
+                                          value="cl>=" + str(timeout_units))
+                    assignment_label = u.Label(kind="assignment",
+                                               pos=asgn_label_pos(last_loc, working_active_loc), value="cl=0")
+                    comment = u.Label(kind="comments", pos=asgn_label_pos(last_loc, working_active_loc),
+                                      value="timeout")
+                    nail = u.Nail(pos=[-30, -30])
+                    trans = u.Transition(source=last_loc.id, target=working_active_loc.id, guard=guard_label,
+                                         assignment=assignment_label, comments=comment, nails=[nail])
+                    env[origin - 1].add_trans(trans)
+
+                    timeout_ts = 0
+
+                else:
+                    last_locations[origin - 1].append(source_loc)
+                    last_locations[origin - 1].append(target_loc)
 
             # Case 2, TODO: Review this section
             else:
@@ -277,25 +317,59 @@ for filename in os.listdir("logs"):
                 assignment_label = u.Label(kind="assignment",
                                            pos=asgn_label_pos(working_active_loc, new_passive), value="cl=0")
                 sync_label = new_channel(signal, "!")
-                # TODO: review positioning
                 comment = u.Label(kind="comments", pos=asgn_label_pos(working_active_loc, new_passive), value="controllable")
                 trans = u.Transition(source=working_active_loc.id, target=new_passive.id, guard=guard_label,
                                      assignment=assignment_label, synchronisation=sync_label, comments=comment)
                 env[origin - 1].add_trans(trans)
 
-        # TODO: SUT Event
+        # SUT Event
         else:
             print("SUT Event detected")
-            if event.origin == "-":
-                print("timeout event")
             signal = event.signal + str(event.origin) + str(event.target)
             target = event.target
-            last_loc = last_locations[target - 1][-1]
-            next_to_last_loc = last_locations[target - 1][-2]
+            if event.origin == "-":
+                print("timeout event")
+                timeout_ts = event.ts
+                # accessing predecessor
+                timeout_units = timeout_ts - log.events[event_index-1].ts
+                continue
             clock = event.ts - internal_clock[target - 1]
             internal_clock[target - 1] = event.ts
+            last_loc = last_locations[target - 1][-1]
+            next_to_last_loc = last_locations[target - 1][-2]
 
-            # TODO: Do the timeout stuff
+            """ --- BEGIN TIMEOUT HANDLING --- """
+            # TODO
+            # last event was timeout
+            if timeout_ts != 0:
+                print("BAD prev was timeout")
+                clock = internal_clock[target - 1] - timeout_ts
+
+                cond = False
+                for transition in env[target - 1].get_trans_by_comment("observable"):
+                    # TODO: Maybe dont use int here
+                    guard_lb = int(transition.guard.value[4:])
+                    source_loc = get_loc_by_id(passive_locations[target - 1], transition.source)
+                    if hasattr(source_loc, "invariant"):
+                        inv_ub = int(source_loc.invariant.value[4:])
+                    else:
+                        inv_ub = clock
+                    lb, ub = interval_extension(guard_lb, inv_ub, R)
+                    if signal + "?" == transition.synchronisation.value and lb <= clock <= ub \
+                            and source_loc in active_locations[target - 1]:
+                        cond = True
+                        found_trans = transition
+                        break
+                if cond:
+                    print("TO BE IMPLEMENTED")
+                else:
+                    clock = timeout_ts - internal_clock[target - 1]
+                    goto = True
+                    break
+                timeout_ts = 0
+                continue
+
+            """ --- END TIMEOUT HANDLING --- """
 
             # Check the condition for Case 1
             cond = False
@@ -332,6 +406,7 @@ for filename in os.listdir("logs"):
                                         name=u.Name(new_loc_name(loc_type="a", index=active_index(target)),
                                                     pos=[new_x(target), 0]))
                 active_locations[target - 1].append(env[target - 1].add_loc(new_active))
+                print("APPENDING: " + new_active.name.name)
                 last_locations[target - 1].append(new_active)
                 working_active_loc = new_active
 
@@ -341,7 +416,6 @@ for filename in os.listdir("logs"):
                 assignment_label = u.Label(kind="assignment",
                                            pos=asgn_label_pos(last_loc, working_active_loc), value="cl=0")
                 sync_label = new_channel(signal, "?")
-                # TODO: review positioning
                 comment = u.Label(kind="comments", pos=comment_label_pos(last_loc, working_active_loc), value="observable")
                 trans = u.Transition(source=last_loc.id, target=working_active_loc.id, guard=guard_label,
                                      assignment=assignment_label, synchronisation=sync_label, comments=comment)
