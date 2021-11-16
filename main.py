@@ -151,6 +151,42 @@ def new_channel(value, suffix):
     return label
 
 
+def add_qual_trans(templ, src, tar, guard, comments, **kwargs):
+    """
+    Adds a new transition
+
+    :param template templ: Template
+    :param loc src: Source location
+    :param loc tar: Target location
+    :param int guard: Guard values
+    :param [int, int] nails: Position tuple for a Nail
+    :param str comments: Comments
+    :param str sync: Synchronisation Channel Label
+    :return: the transition
+    :rtype: trans
+    """
+
+    guard_label = u.Label(kind="guard", pos=guard_label_pos(src, tar),
+                          value="cl>=" + str(guard))
+    # standard assignment
+    assignment_label = u.Label(kind="assignment",
+                               pos=asgn_label_pos(src, tar), value="cl=0")
+    comment = u.Label(kind="comments", pos=asgn_label_pos(src, tar),
+                      value=comments)
+    trans = u.Transition(source=src.id, target=tar.id, guard=guard_label,
+                         assignment=assignment_label, comments=comment)
+    # TODO: maybe add array of nails
+    nails = kwargs.get('nails')
+    if nails is not None:
+        nail = u.Nail(pos=[nails[0], nails[1]])
+        trans.nails = [nail]
+    sync = kwargs.get('sync')
+    if sync is not None:
+        trans.synchronisation = sync
+    templ.add_trans(trans)
+    return trans
+
+
 def interval_extension(lb, ub, r):
     delta = r - (ub - lb)
     new_lb = lb - delta
@@ -271,23 +307,13 @@ for filename in os.listdir("logs"):
                     last_locations[origin - 1].append(source_loc)
                     working_active_loc = source_loc
 
-                    # add transition TODO: Add function for these transition additions
                     # TODO: Direct the transition and location to the bottom
                     # We need pos function for timeouts
-                    guard_label = u.Label(kind="guard", pos=guard_label_pos(last_loc, working_active_loc),
-                                          value="cl>=" + str(timeout_units))
-                    assignment_label = u.Label(kind="assignment",
-                                               pos=asgn_label_pos(last_loc, working_active_loc), value="cl=0")
-                    comment = u.Label(kind="comments", pos=asgn_label_pos(last_loc, working_active_loc),
-                                      value="timeout")
-                    nail = u.Nail(pos=[-30, -30])
-                    trans = u.Transition(source=last_loc.id, target=working_active_loc.id, guard=guard_label,
-                                         assignment=assignment_label, comments=comment, nails=[nail])
-                    env[origin - 1].add_trans(trans)
+                    add_qual_trans(templ=env[origin-1], src=last_loc, tar=working_active_loc, guard=timeout_units,
+                                   nails=[-30, -30], comments="timeout")
 
-                    # adjust timeout location position
-                    print(last_loc.name.name)
-                    last_loc.pos = [30, 30]
+                    # reposition last location
+                    # last_loc.pos = [30, 30]
                     timeout_ts = 0
 
                 else:
@@ -316,16 +342,7 @@ for filename in os.listdir("logs"):
                 passive_locations[origin - 1].append(env[origin - 1].add_loc(new_passive))
                 last_locations[origin - 1].append(new_passive)
                 # add transition
-
-                guard_label = u.Label(kind="guard", pos=guard_label_pos(working_active_loc, new_passive),
-                                      value="cl>=" + str(clock))
-                assignment_label = u.Label(kind="assignment",
-                                           pos=asgn_label_pos(working_active_loc, new_passive), value="cl=0")
-                sync_label = new_channel(signal, "!")
-                comment = u.Label(kind="comments", pos=asgn_label_pos(working_active_loc, new_passive), value="controllable")
-                trans = u.Transition(source=working_active_loc.id, target=new_passive.id, guard=guard_label,
-                                     assignment=assignment_label, synchronisation=sync_label, comments=comment)
-                env[origin - 1].add_trans(trans)
+                add_qual_trans(templ=env[origin-1], src=working_active_loc, tar=new_passive, guard=clock, comments="controllable", sync=new_channel(signal, "!"))
 
         # SUT Event
         else:
@@ -411,20 +428,12 @@ for filename in os.listdir("logs"):
                                         name=u.Name(new_loc_name(loc_type="a", index=active_index(target)),
                                                     pos=[new_x(target), 0]))
                 active_locations[target - 1].append(env[target - 1].add_loc(new_active))
-                print("APPENDING: " + new_active.name.name)
+
                 last_locations[target - 1].append(new_active)
                 working_active_loc = new_active
 
                 # add transition
-                guard_label = u.Label(kind="guard", pos=guard_label_pos(last_loc, working_active_loc),
-                                      value="cl>=" + str(clock))
-                assignment_label = u.Label(kind="assignment",
-                                           pos=asgn_label_pos(last_loc, working_active_loc), value="cl=0")
-                sync_label = new_channel(signal, "?")
-                comment = u.Label(kind="comments", pos=comment_label_pos(last_loc, working_active_loc), value="observable")
-                trans = u.Transition(source=last_loc.id, target=working_active_loc.id, guard=guard_label,
-                                     assignment=assignment_label, synchronisation=sync_label, comments=comment)
-                env[target - 1].add_trans(trans)
+                add_qual_trans(templ=env[target-1], src=last_loc, tar=working_active_loc, guard=clock, comments="observable", sync=new_channel(signal, "?"))
 
 # --- Finishing Ops ---
 
@@ -432,6 +441,8 @@ for filename in os.listdir("logs"):
 # for node in env:
 #     node.add_loc(u.Location(id="id0", pos=[0, 0], name="La1"))
 #     node.add_loc(u.Location(id="id1", pos=[200, 200]))
+
+# iterate over all locations and all transitions to add correct label positions
 
 # write declarations
 declarations = "// Place global declarations here.\n"

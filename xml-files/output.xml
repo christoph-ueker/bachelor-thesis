@@ -72,7 +72,7 @@ chan Req30, Req10, Ack01, Req20, Ack02, Ack03, Req02;</declaration>
 			<label kind="guard" x="100.0" y="200.0">cl&gt;=0</label>
 			<label kind="synchronisation" x="210.0" y="100.0">Ack01?</label>
 			<label kind="assignment" x="105.0" y="200.0">cl=0</label>
-			<label kind="comments" x="110.0" y="210.0">observable</label>
+			<label kind="comments" x="105.0" y="200.0">observable</label>
 		</transition>
 	</template>
 	<template>
@@ -89,7 +89,7 @@ chan Req30, Req10, Ack01, Req20, Ack02, Ack03, Req02;</declaration>
 		<location id="id2" x="400" y="0">
 			<name x="400" y="0">La2</name>
 		</location>
-		<location id="id3" x="30" y="30">
+		<location id="id3" x="600" y="0">
 			<name x="600" y="0">La3</name>
 			<label kind="invariant" x="600" y="20">cl&lt;=8</label>
 		</location>
@@ -108,7 +108,7 @@ chan Req30, Req10, Ack01, Req20, Ack02, Ack03, Req02;</declaration>
 			<label kind="guard" x="100.0" y="200.0">cl&gt;=1</label>
 			<label kind="synchronisation" x="210.0" y="100.0">Ack02?</label>
 			<label kind="assignment" x="105.0" y="200.0">cl=0</label>
-			<label kind="comments" x="110.0" y="210.0">observable</label>
+			<label kind="comments" x="105.0" y="200.0">observable</label>
 		</transition>
 		<transition>
 			<source ref="id1"/>
@@ -116,7 +116,7 @@ chan Req30, Req10, Ack01, Req20, Ack02, Ack03, Req02;</declaration>
 			<label kind="guard" x="100.0" y="300.0">cl&gt;=1</label>
 			<label kind="synchronisation" x="310.0" y="100.0">Req02?</label>
 			<label kind="assignment" x="105.0" y="300.0">cl=0</label>
-			<label kind="comments" x="110.0" y="310.0">observable</label>
+			<label kind="comments" x="105.0" y="300.0">observable</label>
 		</transition>
 		<transition>
 			<source ref="id3"/>
@@ -156,7 +156,7 @@ chan Req30, Req10, Ack01, Req20, Ack02, Ack03, Req02;</declaration>
 			<label kind="guard" x="100.0" y="200.0">cl&gt;=1</label>
 			<label kind="synchronisation" x="210.0" y="100.0">Ack03?</label>
 			<label kind="assignment" x="105.0" y="200.0">cl=0</label>
-			<label kind="comments" x="110.0" y="210.0">observable</label>
+			<label kind="comments" x="105.0" y="200.0">observable</label>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
