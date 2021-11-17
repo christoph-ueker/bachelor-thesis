@@ -344,6 +344,9 @@ class Location(Node):
         self.committed = kwargs.get('is_committed') or False
         self.urgent = kwargs.get('is_urgent') or False
 
+    # def out_edge_count(self):
+    #     return self.out_degree
+
     def to_element(self):
         """Convert this object to an Element.
 

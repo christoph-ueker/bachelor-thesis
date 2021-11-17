@@ -47,76 +47,76 @@ chan Req30, Req10, Ack01, Req20, Ack02, Ack03, Req02;</declaration>
 		<name x="0" y="0">Node1</name>
 		<declaration>clock cl;</declaration>
 		<location id="id0" x="0" y="0">
-			<name x="0" y="0">La1</name>
-			<label kind="invariant" x="0" y="20">cl&lt;=3</label>
+			<name x="7" y="7">La1</name>
+			<label kind="invariant" x="7" y="20">cl&lt;=3</label>
 		</location>
 		<location id="id1" x="200" y="0">
-			<name x="200" y="0">Lp1</name>
-			<label kind="invariant" x="200" y="20">cl&lt;=1</label>
+			<name x="207" y="7">Lp1</name>
+			<label kind="invariant" x="207" y="20">cl&lt;=1</label>
 		</location>
 		<location id="id2" x="400" y="0">
-			<name x="400" y="0">La2</name>
+			<name x="407" y="7">La2</name>
 		</location>
 		<init ref="id0"/>
 		<transition>
 			<source ref="id0"/>
 			<target ref="id1"/>
-			<label kind="guard" x="0.0" y="100.0">cl&gt;=2</label>
-			<label kind="synchronisation" x="10.0" y="100.0">Req10!</label>
-			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
-			<label kind="comments" x="5.0" y="100.0">controllable</label>
+			<label kind="guard" x="100.0" y="0.0">cl&gt;=2</label>
+			<label kind="synchronisation" x="110.0" y="0.0">Req10!</label>
+			<label kind="assignment" x="105.0" y="0.0">cl=0</label>
+			<label kind="comments" x="105.0" y="0.0">controllable</label>
 		</transition>
 		<transition>
 			<source ref="id1"/>
 			<target ref="id2"/>
-			<label kind="guard" x="100.0" y="200.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="210.0" y="100.0">Ack01?</label>
-			<label kind="assignment" x="105.0" y="200.0">cl=0</label>
-			<label kind="comments" x="105.0" y="200.0">observable</label>
+			<label kind="guard" x="300.0" y="0.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="310.0" y="0.0">Ack01?</label>
+			<label kind="assignment" x="305.0" y="0.0">cl=0</label>
+			<label kind="comments" x="305.0" y="0.0">observable</label>
 		</transition>
 	</template>
 	<template>
 		<name x="0" y="0">Node2</name>
 		<declaration>clock cl;</declaration>
 		<location id="id0" x="0" y="0">
-			<name x="0" y="0">La1</name>
-			<label kind="invariant" x="0" y="20">cl&lt;=3</label>
+			<name x="7" y="7">La1</name>
+			<label kind="invariant" x="7" y="20">cl&lt;=3</label>
 		</location>
 		<location id="id1" x="200" y="0">
-			<name x="200" y="0">Lp1</name>
-			<label kind="invariant" x="200" y="20">cl&lt;=1</label>
+			<name x="207" y="7">Lp1</name>
+			<label kind="invariant" x="207" y="20">cl&lt;=1</label>
 		</location>
 		<location id="id2" x="400" y="0">
-			<name x="400" y="0">La2</name>
+			<name x="407" y="7">La2</name>
 		</location>
-		<location id="id3" x="600" y="0">
-			<name x="600" y="0">La3</name>
-			<label kind="invariant" x="600" y="20">cl&lt;=8</label>
+		<location id="id3" x="0" y="200">
+			<name x="7" y="207">La3</name>
+			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
 		</location>
 		<init ref="id0"/>
 		<transition>
 			<source ref="id0"/>
 			<target ref="id1"/>
-			<label kind="guard" x="0.0" y="100.0">cl&gt;=2</label>
-			<label kind="synchronisation" x="10.0" y="100.0">Req20!</label>
-			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
-			<label kind="comments" x="5.0" y="100.0">controllable</label>
+			<label kind="guard" x="100.0" y="0.0">cl&gt;=2</label>
+			<label kind="synchronisation" x="110.0" y="0.0">Req20!</label>
+			<label kind="assignment" x="105.0" y="0.0">cl=0</label>
+			<label kind="comments" x="105.0" y="0.0">controllable</label>
 		</transition>
 		<transition>
 			<source ref="id1"/>
 			<target ref="id2"/>
-			<label kind="guard" x="100.0" y="200.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="210.0" y="100.0">Ack02?</label>
-			<label kind="assignment" x="105.0" y="200.0">cl=0</label>
-			<label kind="comments" x="105.0" y="200.0">observable</label>
+			<label kind="guard" x="300.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="310.0" y="0.0">Ack02?</label>
+			<label kind="assignment" x="305.0" y="0.0">cl=0</label>
+			<label kind="comments" x="305.0" y="0.0">observable</label>
 		</transition>
 		<transition>
 			<source ref="id1"/>
 			<target ref="id3"/>
-			<label kind="guard" x="100.0" y="300.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="310.0" y="100.0">Req02?</label>
-			<label kind="assignment" x="105.0" y="300.0">cl=0</label>
-			<label kind="comments" x="105.0" y="300.0">observable</label>
+			<label kind="guard" x="400.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="410.0" y="0.0">Req02?</label>
+			<label kind="assignment" x="405.0" y="0.0">cl=0</label>
+			<label kind="comments" x="405.0" y="0.0">observable</label>
 		</transition>
 		<transition>
 			<source ref="id3"/>
@@ -124,39 +124,38 @@ chan Req30, Req10, Ack01, Req20, Ack02, Ack03, Req02;</declaration>
 			<label kind="guard" x="300.0" y="0.0">cl&gt;=8</label>
 			<label kind="assignment" x="305.0" y="0.0">cl=0</label>
 			<label kind="comments" x="305.0" y="0.0">timeout</label>
-			<nail x="-30" y="-30"/>
 		</transition>
 	</template>
 	<template>
 		<name x="0" y="0">Node3</name>
 		<declaration>clock cl;</declaration>
 		<location id="id0" x="0" y="0">
-			<name x="0" y="0">La1</name>
-			<label kind="invariant" x="0" y="20">cl&lt;=3</label>
+			<name x="7" y="7">La1</name>
+			<label kind="invariant" x="7" y="20">cl&lt;=3</label>
 		</location>
 		<location id="id1" x="200" y="0">
-			<name x="200" y="0">Lp1</name>
-			<label kind="invariant" x="200" y="20">cl&lt;=3</label>
+			<name x="207" y="7">Lp1</name>
+			<label kind="invariant" x="207" y="20">cl&lt;=3</label>
 		</location>
 		<location id="id2" x="400" y="0">
-			<name x="400" y="0">La2</name>
+			<name x="407" y="7">La2</name>
 		</location>
 		<init ref="id0"/>
 		<transition>
 			<source ref="id0"/>
 			<target ref="id1"/>
-			<label kind="guard" x="0.0" y="100.0">cl&gt;=2</label>
-			<label kind="synchronisation" x="10.0" y="100.0">Req30!</label>
-			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
-			<label kind="comments" x="5.0" y="100.0">controllable</label>
+			<label kind="guard" x="100.0" y="0.0">cl&gt;=2</label>
+			<label kind="synchronisation" x="110.0" y="0.0">Req30!</label>
+			<label kind="assignment" x="105.0" y="0.0">cl=0</label>
+			<label kind="comments" x="105.0" y="0.0">controllable</label>
 		</transition>
 		<transition>
 			<source ref="id1"/>
 			<target ref="id2"/>
-			<label kind="guard" x="100.0" y="200.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="210.0" y="100.0">Ack03?</label>
-			<label kind="assignment" x="105.0" y="200.0">cl=0</label>
-			<label kind="comments" x="105.0" y="200.0">observable</label>
+			<label kind="guard" x="300.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="310.0" y="0.0">Ack03?</label>
+			<label kind="assignment" x="305.0" y="0.0">cl=0</label>
+			<label kind="comments" x="305.0" y="0.0">observable</label>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.

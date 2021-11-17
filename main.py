@@ -310,10 +310,11 @@ for filename in os.listdir("logs"):
                     # TODO: Direct the transition and location to the bottom
                     # We need pos function for timeouts
                     add_qual_trans(templ=env[origin-1], src=last_loc, tar=working_active_loc, guard=timeout_units,
-                                   nails=[-30, -30], comments="timeout")
+                                   comments="timeout")  # nails=[-30, -30],
 
                     # reposition last location
-                    # last_loc.pos = [30, 30]
+                    repos_loc(last_loc, working_active_loc.pos[0], working_active_loc.pos[1] + stepsize)
+
                     timeout_ts = 0
 
                 else:
@@ -326,19 +327,21 @@ for filename in os.listdir("logs"):
                     working_active_loc = last_locations[origin - 1][-1]  # This considers the top of the stack
                 else:  # If first active location
                     # add location to the active locations
-                    new_active = u.Location(id=new_id(origin), pos=[new_x(origin), 0],
+                    position = [new_x(origin), 0]
+                    new_active = u.Location(id=new_id(origin), pos=position,
                                             name=u.Name(new_loc_name(loc_type="a", index=active_index(origin)),
-                                                        pos=[new_x(origin), 0]),
-                                            invariant=u.Label(kind="invariant", pos=[new_x(origin), 20],
+                                                        pos=name_loc_pos(position[0], position[1])),
+                                            invariant=u.Label(kind="invariant", pos=inv_loc_pos(position[0], position[1]),
                                                               value="cl<=" + str(clock)))
                     active_locations[origin - 1].append(env[origin - 1].add_loc(new_active))
                     last_locations[origin - 1].append(new_active)
                     working_active_loc = new_active
 
                 # add location to the passive locations
-                new_passive = u.Location(id=new_id(origin), pos=[new_x(origin), 0],
+                position = [new_x(origin), 0]
+                new_passive = u.Location(id=new_id(origin), pos=position,
                                          name=u.Name(new_loc_name(loc_type="p", index=passive_index(origin)),
-                                                     pos=[new_x(origin), 0]))
+                                                     pos=name_loc_pos(position[0], position[1])))
                 passive_locations[origin - 1].append(env[origin - 1].add_loc(new_passive))
                 last_locations[origin - 1].append(new_passive)
                 # add transition
@@ -419,14 +422,15 @@ for filename in os.listdir("logs"):
                     inv_ub = int(last_loc.invariant.value[4:])
                 else:
                     # We have to create invariant for this location first
-                    last_loc.invariant = u.Label(kind="invariant", pos=[last_loc.pos[0], 20], value="cl<=" + str(clock))
+                    last_loc.invariant = u.Label(kind="invariant", pos=inv_loc_pos(last_loc.pos[0], last_loc.pos[1]), value="cl<=" + str(clock))
                     inv_ub = clock
 
                 last_loc.invariant.value = "cl<=" + str(max(clock, inv_ub))  # TODO: timeout stuff
                 # add location to the active locations
-                new_active = u.Location(id=new_id(target), pos=[new_x(target), 0],
+                position = [new_x(target), 0]
+                new_active = u.Location(id=new_id(target), pos=position,
                                         name=u.Name(new_loc_name(loc_type="a", index=active_index(target)),
-                                                    pos=[new_x(target), 0]))
+                                                    pos=name_loc_pos(position[0], position[1])))
                 active_locations[target - 1].append(env[target - 1].add_loc(new_active))
 
                 last_locations[target - 1].append(new_active)
@@ -443,6 +447,18 @@ for filename in os.listdir("logs"):
 #     node.add_loc(u.Location(id="id1", pos=[200, 200]))
 
 # iterate over all locations and all transitions to add correct label positions
+# for nr, node in enumerate(env):
+#     print("Node: " + str(nr))
+#     transitions = []
+#     # TODO: make all_locations globally available
+#     all_locations = passive_locations[nr] + active_locations[nr]
+#     appearences = []
+#     for number, location in enumerate(all_locations):
+#         appearences.append(0)
+#     for transition in node.get_edges():
+#         transitions.append(transition)
+#         print(get_loc_by_id(all_locations, transition.source).name.name)
+#         appearences[]
 
 # write declarations
 declarations = "// Place global declarations here.\n"

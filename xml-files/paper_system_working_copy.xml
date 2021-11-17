@@ -2,7 +2,7 @@
 <!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
 <nta>
 	<declaration>// Place global declarations here.
-chan Req10, Ack10, Req01, Ack01, Ack02, Req02, Ack20, Req20, Req30, Ack30, Req03, Ack03;
+broadcast chan Req10, Ack10, Req01, Ack01, Ack02, Req02, Ack20, Req20, Req30, Ack30, Req03, Ack03;
 int TO10 = 10;
 int TO100 = 100;
 int __reach__ = 0;</declaration>
@@ -10,6 +10,7 @@ int __reach__ = 0;</declaration>
 		<name x="5" y="5">NodeSUT</name>
 		<declaration>// Place local declarations here.</declaration>
 		<location id="id0" x="-3153" y="-960">
+			<label kind="exponentialrate" x="-3163" y="-926">1</label>
 		</location>
 		<init ref="id0"/>
 		<transition>
@@ -357,7 +358,7 @@ system Node0, Node1, Node2, Node3;
     </system>
 	<queries>
 		<query>
-			<formula>E&lt;&gt;Node1.end &amp;&amp; Node2.end &amp;&amp; Node3.end</formula>
+			<formula>ee</formula>
 			<comment></comment>
 		</query>
 	</queries>
