@@ -121,6 +121,10 @@ def passive_index(node):
     return len(passive_locations[node - 1]) + 1
 
 
+def all_locations(node):
+    return passive_locations[node-1] + active_locations[node-1]
+
+
 # adds transition to SUT (if new), adds to used channels, determines label for Env transition
 def new_channel(value, suffix):
     # BLOCK for Env Channel
@@ -175,6 +179,7 @@ def add_qual_trans(templ, src, tar, guard, comments, **kwargs):
                       value=comments)
     trans = u.Transition(source=src.id, target=tar.id, guard=guard_label,
                          assignment=assignment_label, comments=comment)
+    print("[" + templ.name.name + "] Adding transition from: " + src.name.name + " to: " + tar.name.name)
     # TODO: maybe add array of nails
     nails = kwargs.get('nails')
     if nails is not None:
@@ -198,7 +203,7 @@ def get_loc_by_id(loc_list, id):
     for loc in loc_list:
         if loc.id == id:
             return loc
-    return "ERROR"
+    return "Error while looking for id: " + id
 
 
 # this is how we add locations
@@ -258,7 +263,7 @@ for filename in os.listdir("logs"):
     for event_index, event in enumerate(log.events):
         # Env event
         if event.type == "Env":
-            print("Env Event detected")
+            print("Env Event: " + event.signal + str(event.origin) + str(event.target))
             signal = event.signal + str(event.origin) + str(event.target)
             origin = event.origin
             clock = event.ts - internal_clock[origin - 1]
@@ -297,18 +302,17 @@ for filename in os.listdir("logs"):
                 if timeout_ts != 0:
                     print("Doing timeout stuff in CASE 1")
                     last_loc = last_locations[origin - 1][-1]
-                    print(last_loc.name.name)
+                    print("Last loc was: " + last_loc.name.name)
                     if not hasattr(last_loc.invariant, 'value'):
                         # We have to create invariant for this location
                         last_loc.invariant = u.Label(kind="invariant", pos=[last_loc.pos[0], 20],
                                                      value="cl<=" + str(clock))
                         inv_ub = 0
                     last_loc.invariant.value = "cl<=" + str(max(timeout_units, inv_ub))
-                    last_locations[origin - 1].append(source_loc)
+                    # appending the last location before the timeout
+                    last_locations[origin - 1].append(last_locations[origin - 1][-2])
                     working_active_loc = source_loc
 
-                    # TODO: Direct the transition and location to the bottom
-                    # We need pos function for timeouts
                     add_qual_trans(templ=env[origin-1], src=last_loc, tar=working_active_loc, guard=timeout_units,
                                    comments="timeout")  # nails=[-30, -30],
 
@@ -349,7 +353,7 @@ for filename in os.listdir("logs"):
 
         # SUT Event
         else:
-            print("SUT Event detected")
+            print("SUT Event: " + event.signal + str(event.origin) + str(event.target))
             signal = event.signal + str(event.origin) + str(event.target)
             target = event.target
             if event.origin == "-":
@@ -361,6 +365,7 @@ for filename in os.listdir("logs"):
             clock = event.ts - internal_clock[target - 1]
             internal_clock[target - 1] = event.ts
             last_loc = last_locations[target - 1][-1]
+            print("Last loc: " + last_loc.name.name)
             next_to_last_loc = last_locations[target - 1][-2]
 
             """ --- BEGIN TIMEOUT HANDLING --- """
@@ -401,8 +406,11 @@ for filename in os.listdir("logs"):
             for transition in env[target - 1].get_trans_by_comment("observable"):
                 # TODO: Maybe dont use int here
                 guard_lb = int(transition.guard.value[4:])
-                source_loc = get_loc_by_id(passive_locations[target - 1], transition.source)
-                inv_ub = int(source_loc.invariant.value[4:])
+                source_loc = get_loc_by_id(all_locations(target), transition.source)
+                if hasattr(source_loc, 'invariant'):
+                    inv_ub = int(source_loc.invariant.value[4:])
+                else:
+                    inv_ub = clock
                 lb, ub = interval_extension(guard_lb, inv_ub, R)
                 if signal + "?" == transition.synchronisation.value and lb <= clock <= ub:
                     cond = True
@@ -414,6 +422,8 @@ for filename in os.listdir("logs"):
                 # update corresponding guard
                 found_trans.guard.value = "cl>=" + str(min(clock, guard_lb))
                 # update corresponding invariant
+                if not hasattr(source_loc, 'invariant'):
+                    source_loc.invariant = u.Label(kind="invariant", pos=inv_loc_pos(source_loc.pos[0], source_loc.pos[1]))
                 source_loc.invariant.value = "cl<=" + str(max(clock, inv_ub))
 
             # Case 2
