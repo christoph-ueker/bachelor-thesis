@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+chan Req10, Ack01, Req30, Req20, Ack03, Req02, Ack02;</declaration>
+	<template>
+		<name x="0" y="0">SUT</name>
+		<declaration>// Place local declarations here.</declaration>
+		<location id="id0" x="0" y="0">
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-60" y="-15">Req10?</label>
+			<nail x="-30" y="-30"/>
+			<nail x="30" y="-30"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-60" y="-15">Ack01!</label>
+			<nail x="-30" y="-30"/>
+			<nail x="30" y="-30"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-60" y="-15">Req30?</label>
+			<nail x="-30" y="-30"/>
+			<nail x="30" y="-30"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-60" y="-15">Req20?</label>
+			<nail x="-30" y="-30"/>
+			<nail x="30" y="-30"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-60" y="-15">Ack03!</label>
+			<nail x="-30" y="-30"/>
+			<nail x="30" y="-30"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-60" y="-15">Req02!</label>
+			<nail x="-30" y="-30"/>
+			<nail x="30" y="-30"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-60" y="-15">Ack02!</label>
+			<nail x="-30" y="-30"/>
+			<nail x="30" y="-30"/>
+		</transition>
+	</template>
+	<template>
+		<name x="0" y="0">Node1</name>
+		<declaration>clock cl;</declaration>
+		<location id="id1" x="0" y="0">
+			<name x="7" y="7">La1</name>
+			<label kind="invariant" x="7" y="20">cl&lt;=3</label>
+		</location>
+		<location id="id2" x="200" y="0">
+			<name x="207" y="7">Lp1</name>
+			<label kind="invariant" x="207" y="20">cl&lt;=1</label>
+		</location>
+		<location id="id3" x="400" y="0">
+			<name x="407" y="7">La2</name>
+		</location>
+		<init ref="id1"/>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="guard" x="40" y="-30">cl&gt;=2</label>
+			<label kind="synchronisation" x="40" y="-15">Req10!</label>
+			<label kind="assignment" x="40" y="0">cl=0</label>
+			<label kind="comments" x="40" y="30">controllable</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="guard" x="240" y="-30">cl&gt;=0</label>
+			<label kind="synchronisation" x="240" y="-15">Ack01?</label>
+			<label kind="assignment" x="240" y="0">cl=0</label>
+			<label kind="comments" x="240" y="30">observable</label>
+		</transition>
+	</template>
+	<template>
+		<name x="0" y="0">Node2</name>
+		<declaration>clock cl;</declaration>
+		<location id="id4" x="0" y="0">
+			<name x="7" y="7">La1</name>
+			<label kind="invariant" x="7" y="20">cl&lt;=3</label>
+		</location>
+		<location id="id5" x="200" y="0">
+			<name x="207" y="7">Lp1</name>
+			<label kind="invariant" x="207" y="20">cl&lt;=1</label>
+		</location>
+		<location id="id6" x="0" y="200">
+			<name x="7" y="207">La2</name>
+			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
+		</location>
+		<location id="id7" x="600" y="0">
+			<name x="607" y="7">La3 / END</name>
+		</location>
+		<location id="id8" x="204" y="204">
+			<label kind="invariant" x="221" y="221">cl&lt;=2</label>
+		</location>
+		<location id="id9" x="450" y="204">
+		</location>
+		<init ref="id4"/>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id7"/>
+			<label kind="guard" x="501" y="59">cl&gt;=2</label>
+			<label kind="synchronisation" x="476" y="85">Ack20!</label>
+			<label kind="assignment" x="467" y="110">cl=0</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="guard" x="238" y="178">cl&gt;=2</label>
+			<label kind="synchronisation" x="306" y="178">Req02?</label>
+			<label kind="assignment" x="382" y="178">cl=0</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id8"/>
+			<label kind="guard" x="42" y="178">cl&gt;=3</label>
+			<label kind="assignment" x="136" y="178">cl=0</label>
+			<label kind="comments" x="85" y="221">timeout</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="guard" x="40" y="-30">cl&gt;=2</label>
+			<label kind="synchronisation" x="40" y="-15">Req20!</label>
+			<label kind="assignment" x="40" y="0">cl=0</label>
+			<label kind="comments" x="40" y="30">controllable</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id6"/>
+			<label kind="guard" x="40" y="70">cl&gt;=1</label>
+			<label kind="synchronisation" x="40" y="85">Req02?</label>
+			<label kind="assignment" x="40" y="100">cl=0</label>
+			<label kind="comments" x="40" y="130">observable</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id7"/>
+			<label kind="guard" x="340" y="-30">cl&gt;=1</label>
+			<label kind="synchronisation" x="340" y="-15">Ack02?</label>
+			<label kind="assignment" x="340" y="0">cl=0</label>
+			<label kind="comments" x="340" y="30">observable</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id4"/>
+			<label kind="guard" x="-60" y="70">cl&gt;=8</label>
+			<label kind="assignment" x="-60" y="100">cl=0</label>
+			<label kind="comments" x="-60" y="130">timeout</label>
+		</transition>
+	</template>
+	<template>
+		<name x="0" y="0">Node3</name>
+		<declaration>clock cl;</declaration>
+		<location id="id10" x="0" y="0">
+			<name x="7" y="7">La1</name>
+			<label kind="invariant" x="7" y="20">cl&lt;=3</label>
+		</location>
+		<location id="id11" x="200" y="0">
+			<name x="207" y="7">Lp1</name>
+			<label kind="invariant" x="207" y="20">cl&lt;=3</label>
+		</location>
+		<location id="id12" x="400" y="0">
+			<name x="407" y="7">La2</name>
+		</location>
+		<init ref="id10"/>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id11"/>
+			<label kind="guard" x="40" y="-30">cl&gt;=2</label>
+			<label kind="synchronisation" x="40" y="-15">Req30!</label>
+			<label kind="assignment" x="40" y="0">cl=0</label>
+			<label kind="comments" x="40" y="30">controllable</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id12"/>
+			<label kind="guard" x="240" y="-30">cl&gt;=1</label>
+			<label kind="synchronisation" x="240" y="-15">Ack03?</label>
+			<label kind="assignment" x="240" y="0">cl=0</label>
+			<label kind="comments" x="240" y="30">observable</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+NODE0 = SUT();
+NODE1 = Node1();
+NODE2 = Node2();
+NODE3 = Node3();
+// List one or more processes to be composed into a system.
+system SUT, Node1, Node2, Node3;</system>
+	<queries>
+		<query>
+			<formula></formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>

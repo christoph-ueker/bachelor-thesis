@@ -50,7 +50,7 @@ class Log:
 
 # TODO: Change this in case the log file format is adjusted
 # TODO: Currently the format only fits for <10 Env Nodes -> Scalability
-# filename: "logs/log8.txt"
+# filename: "logs/log1.txt"
 def read_log_from_file(file):
     log_file = open(file, "r")
     print("--- " + file + " ---")
@@ -84,7 +84,7 @@ def new_id(node):
     return "id" + str(num_locations(node))
 
 
-# my_log = read_log_from_file("logs/log8.txt")
+# my_log = read_log_from_file("logs/log1.txt")
 # print(my_log)
 
 # --- BEGIN my_alg ---
@@ -126,11 +126,12 @@ def all_locations(node):
 
 
 # adds transition to SUT (if new), adds to used channels, determines label for Env transition
-def new_channel(value, suffix):
+def new_channel(ori, tar, value, suffix):
     # BLOCK for Env Channel
-    label = u.Label(kind="synchronisation", pos=sync_label_pos(working_active_loc, new_passive),
+    label = u.Label(kind="synchronisation", pos=sync_label_pos(ori, tar),
                     value=value + suffix)
 
+    print("FLAG")
     # BLOCK for adding transition to SUT, if new Channel
     if suffix == "?":
         inverse = value + "!"
@@ -179,7 +180,7 @@ def add_qual_trans(templ, src, tar, guard, comments, **kwargs):
                       value=comments)
     trans = u.Transition(source=src.id, target=tar.id, guard=guard_label,
                          assignment=assignment_label, comments=comment)
-    print("[" + templ.name.name + "] Adding transition from: " + src.name.name + " to: " + tar.name.name)
+    # print("[" + templ.name.name + "] Adding transition from: " + src.name.name + " to: " + tar.name.name)
     # TODO: maybe add array of nails
     nails = kwargs.get('nails')
     if nails is not None:
@@ -235,6 +236,7 @@ for filename in os.listdir("logs"):
 
     # initialize internal clocks and interval abstraction parameter
     internal_clock = []
+
     for i in range(1, number_env_nodes + 1):
         internal_clock.append(0)
     R = 4
@@ -251,45 +253,56 @@ for filename in os.listdir("logs"):
         return "L" + loc_type + str(index)
 
 
+    working_loc = []
     for i in range(1, number_env_nodes + 1):
         active_locations.append([])
         passive_locations.append([])
         last_locations.append([])
+        working_loc.append(None)  # initialize with some random locations
 
     """ --- END INITIALIZATIONS --- """
 
-    # TODO: Rename origin and target
     # iterate over all events in a log
     for event_index, event in enumerate(log.events):
+
+        if event_index > 0:
+            for i in range(len(env)):
+                if hasattr(working_loc[i], 'name'):
+                    print("WORKING LOCATION for Process " + str(i+1) + ": " + working_loc[i].name.name)
+
         # Env event
         if event.type == "Env":
             print("Env Event: " + event.signal + str(event.origin) + str(event.target))
+
             signal = event.signal + str(event.origin) + str(event.target)
-            origin = event.origin
-            clock = event.ts - internal_clock[origin - 1]
-            internal_clock[origin - 1] = event.ts
+            proc = event.origin
+            clock = event.ts - internal_clock[proc-1]
+            internal_clock[proc-1] = event.ts
 
             """ --- BEGIN TIMEOUT HANDLING --- """
             # TODO
             # last event was timeout
             if timeout_ts != 0:
                 print("prev was timeout")
-                clock = internal_clock[origin - 1] - timeout_ts
+                clock = internal_clock[proc-1] - timeout_ts
             """ --- END TIMEOUT HANDLING --- """
 
             # Check the condition for Case 1
             cond = False
-            for transition in env[origin - 1].get_trans_by_comment("controllable"):
-                # TODO: Maybe dont use int here
-                guard_lb = int(transition.guard.value[4:])
-                source_loc = get_loc_by_id(active_locations[origin - 1], transition.source)
-                target_loc = get_loc_by_id(passive_locations[origin - 1], transition.target)
-                inv_ub = int(source_loc.invariant.value[4:])
-                lb, ub = interval_extension(guard_lb, inv_ub, R)
-                if signal + "!" == transition.synchronisation.value and lb <= clock <= ub:
-                    cond = True
-                    found_trans = transition
-                    break
+            if len(last_locations[proc-1]) > 0:
+                for transition in env[proc-1].get_trans_by_comment("controllable"):
+                    source_loc = get_loc_by_id(active_locations[proc-1], transition.source)
+                    if source_loc is last_locations[proc-1][-1]:
+                        # TODO: Maybe dont use int here
+                        guard_lb = int(transition.guard.value[4:])
+
+                        target_loc = get_loc_by_id(passive_locations[proc-1], transition.target)
+                        inv_ub = int(source_loc.invariant.value[4:])
+                        lb, ub = interval_extension(guard_lb, inv_ub, R)
+                        if signal + "!" == transition.synchronisation.value and lb <= clock <= ub:
+                            cond = True
+                            found_trans = transition
+                            break
 
             # Case 1
             if cond:
@@ -298,11 +311,12 @@ for filename in os.listdir("logs"):
                 # update corresponding invariant
                 source_loc.invariant.value = "cl<=" + str(max(clock, inv_ub))
 
+                working_loc[proc-1] = target_loc
+
                 # TIMEOUT
                 if timeout_ts != 0:
                     print("Doing timeout stuff in CASE 1")
-                    last_loc = last_locations[origin - 1][-1]
-                    print("Last loc was: " + last_loc.name.name)
+                    last_loc = last_locations[proc-1][-1]
                     if not hasattr(last_loc.invariant, 'value'):
                         # We have to create invariant for this location
                         last_loc.invariant = u.Label(kind="invariant", pos=[last_loc.pos[0], 20],
@@ -310,103 +324,113 @@ for filename in os.listdir("logs"):
                         inv_ub = 0
                     last_loc.invariant.value = "cl<=" + str(max(timeout_units, inv_ub))
                     # appending the last location before the timeout
-                    last_locations[origin - 1].append(last_locations[origin - 1][-2])
+                    last_locations[proc-1].append(last_locations[proc-1][-2])
                     working_active_loc = source_loc
 
-                    add_qual_trans(templ=env[origin-1], src=last_loc, tar=working_active_loc, guard=timeout_units,
+                    add_qual_trans(templ=env[proc-1], src=last_loc, tar=working_active_loc, guard=timeout_units,
                                    comments="timeout")  # nails=[-30, -30],
 
                     # reposition last location
                     repos_loc(last_loc, working_active_loc.pos[0], working_active_loc.pos[1] + stepsize)
 
+                    working_loc[proc-1] = working_active_loc
+
                     timeout_ts = 0
 
                 else:
-                    last_locations[origin - 1].append(source_loc)
-                    last_locations[origin - 1].append(target_loc)
+                    last_locations[proc-1].append(source_loc)
+                    last_locations[proc-1].append(target_loc)
+
+                    working_loc[proc-1] = target_loc
 
             # Case 2, TODO: Review this section
             else:
-                if active_index(origin) > 1:  # If not first active location
-                    working_active_loc = last_locations[origin - 1][-1]  # This considers the top of the stack
+                if active_index(proc) > 1:  # If not first active location
+                    # working_active_loc = working_loc[proc-1]
+                    working_active_loc = active_locations[proc-1][-1]  # This considers the top of the stack
                 else:  # If first active location
                     # add location to the active locations
-                    position = [new_x(origin), 0]
-                    new_active = u.Location(id=new_id(origin), pos=position,
-                                            name=u.Name(new_loc_name(loc_type="a", index=active_index(origin)),
+                    position = [new_x(proc), 0]
+                    new_active = u.Location(id=new_id(proc), pos=position,
+                                            name=u.Name(new_loc_name(loc_type="a", index=active_index(proc)),
                                                         pos=name_loc_pos(position[0], position[1])),
                                             invariant=u.Label(kind="invariant", pos=inv_loc_pos(position[0], position[1]),
                                                               value="cl<=" + str(clock)))
-                    active_locations[origin - 1].append(env[origin - 1].add_loc(new_active))
-                    last_locations[origin - 1].append(new_active)
+                    active_locations[proc-1].append(env[proc-1].add_loc(new_active))
+                    last_locations[proc-1].append(new_active)
                     working_active_loc = new_active
 
                 # add location to the passive locations
-                position = [new_x(origin), 0]
-                new_passive = u.Location(id=new_id(origin), pos=position,
-                                         name=u.Name(new_loc_name(loc_type="p", index=passive_index(origin)),
+                position = [new_x(proc), 0]
+                new_passive = u.Location(id=new_id(proc), pos=position,
+                                         name=u.Name(new_loc_name(loc_type="p", index=passive_index(proc)),
                                                      pos=name_loc_pos(position[0], position[1])))
-                passive_locations[origin - 1].append(env[origin - 1].add_loc(new_passive))
-                last_locations[origin - 1].append(new_passive)
+                passive_locations[proc-1].append(env[proc-1].add_loc(new_passive))
+                last_locations[proc-1].append(new_passive)
+                working_loc[proc-1] = new_passive
                 # add transition
-                add_qual_trans(templ=env[origin-1], src=working_active_loc, tar=new_passive, guard=clock, comments="controllable", sync=new_channel(signal, "!"))
-
+                # print(working_active_loc.name.name)
+                add_qual_trans(templ=env[proc-1], src=working_active_loc, tar=new_passive, guard=clock, comments="controllable", sync=new_channel(working_active_loc, new_passive, signal, "!"))
         # SUT Event
         else:
             print("SUT Event: " + event.signal + str(event.origin) + str(event.target))
             signal = event.signal + str(event.origin) + str(event.target)
-            target = event.target
+            proc = event.target
             if event.origin == "-":
                 print("timeout event")
                 timeout_ts = event.ts
                 # accessing predecessor
                 timeout_units = timeout_ts - log.events[event_index-1].ts
                 continue
-            clock = event.ts - internal_clock[target - 1]
-            internal_clock[target - 1] = event.ts
-            last_loc = last_locations[target - 1][-1]
-            print("Last loc: " + last_loc.name.name)
-            next_to_last_loc = last_locations[target - 1][-2]
+            clock = event.ts - internal_clock[proc-1]
+            internal_clock[proc-1] = event.ts
+            last_loc = last_locations[proc-1][-1]
+            # next_to_last_loc = last_locations[proc-1][-2]
 
             """ --- BEGIN TIMEOUT HANDLING --- """
             # TODO
             # last event was timeout
             if timeout_ts != 0:
-                print("BAD prev was timeout")
-                clock = internal_clock[target - 1] - timeout_ts
+                print("Doing timeout stuff in SUT BLOCK")
+                clock = internal_clock[proc-1] - timeout_ts
 
-                cond = False
-                for transition in env[target - 1].get_trans_by_comment("observable"):
-                    # TODO: Maybe dont use int here
-                    guard_lb = int(transition.guard.value[4:])
-                    source_loc = get_loc_by_id(passive_locations[target - 1], transition.source)
-                    if hasattr(source_loc, "invariant"):
-                        inv_ub = int(source_loc.invariant.value[4:])
-                    else:
-                        inv_ub = clock
-                    lb, ub = interval_extension(guard_lb, inv_ub, R)
-                    if signal + "?" == transition.synchronisation.value and lb <= clock <= ub \
-                            and source_loc in active_locations[target - 1]:
-                        cond = True
-                        found_trans = transition
-                        break
-                if cond:
-                    print("TO BE IMPLEMENTED")
-                else:
-                    clock = timeout_ts - internal_clock[target - 1]
-                    goto = True
-                    break
+                # TODO: Create new location
+                last_loc = last_locations[proc-1][-1]
+                print(last_loc.name.name)
+                if not hasattr(last_loc.invariant, 'value'):
+                    # We have to create invariant for this location
+                    last_loc.invariant = u.Label(kind="invariant", pos=inv_loc_pos(last_loc.pos[0], last_loc.pos[1]),
+                                                 value="cl<=" + str(clock))
+                    inv_ub = 0
+                last_loc.invariant.value = "cl<=" + str(max(timeout_units, inv_ub))
+                # appending the last location before the timeout
+                last_locations[proc-1].append(last_locations[proc-1][-2])
+                working_active_loc = source_loc
+
+                add_qual_trans(templ=env[proc-1], src=last_loc, tar=working_active_loc, guard=timeout_units,
+                               comments="timeout")  # nails=[-30, -30],
+
+                # reposition last location
+                repos_loc(last_loc, working_active_loc.pos[0], working_active_loc.pos[1] + stepsize)
+                last_locations[proc-1].append(working_active_loc)
                 timeout_ts = 0
+                # else:
+                #     clock = timeout_ts - internal_clock[proc-1]
+                #     goto = True
+                #     break
+
+
                 continue
 
             """ --- END TIMEOUT HANDLING --- """
 
             # Check the condition for Case 1
             cond = False
-            for transition in env[target - 1].get_trans_by_comment("observable"):
+            for transition in env[proc-1].get_trans_by_comment("observable"):
                 # TODO: Maybe dont use int here
                 guard_lb = int(transition.guard.value[4:])
-                source_loc = get_loc_by_id(all_locations(target), transition.source)
+                source_loc = get_loc_by_id(all_locations(proc), transition.source)
+                target_loc = get_loc_by_id(all_locations(proc), transition.target)
                 if hasattr(source_loc, 'invariant'):
                     inv_ub = int(source_loc.invariant.value[4:])
                 else:
@@ -425,6 +449,7 @@ for filename in os.listdir("logs"):
                 if not hasattr(source_loc, 'invariant'):
                     source_loc.invariant = u.Label(kind="invariant", pos=inv_loc_pos(source_loc.pos[0], source_loc.pos[1]))
                 source_loc.invariant.value = "cl<=" + str(max(clock, inv_ub))
+                working_loc[proc - 1] = target_loc
 
             # Case 2
             else:
@@ -437,17 +462,18 @@ for filename in os.listdir("logs"):
 
                 last_loc.invariant.value = "cl<=" + str(max(clock, inv_ub))  # TODO: timeout stuff
                 # add location to the active locations
-                position = [new_x(target), 0]
-                new_active = u.Location(id=new_id(target), pos=position,
-                                        name=u.Name(new_loc_name(loc_type="a", index=active_index(target)),
+                position = [new_x(proc), 0]
+                new_active = u.Location(id=new_id(proc), pos=position,
+                                        name=u.Name(new_loc_name(loc_type="a", index=active_index(proc)),
                                                     pos=name_loc_pos(position[0], position[1])))
-                active_locations[target - 1].append(env[target - 1].add_loc(new_active))
+                active_locations[proc-1].append(env[proc-1].add_loc(new_active))
 
-                last_locations[target - 1].append(new_active)
+                last_locations[proc-1].append(new_active)
                 working_active_loc = new_active
-
+                working_loc[proc - 1] = new_active
                 # add transition
-                add_qual_trans(templ=env[target-1], src=last_loc, tar=working_active_loc, guard=clock, comments="observable", sync=new_channel(signal, "?"))
+                add_qual_trans(templ=env[proc-1], src=last_loc, tar=working_active_loc, guard=clock, comments="observable", sync=new_channel(last_loc, working_active_loc, signal, "?"))
+
 
 # --- Finishing Ops ---
 
