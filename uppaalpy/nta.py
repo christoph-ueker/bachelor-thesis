@@ -141,7 +141,7 @@ class Template:
     # adjusted 09.11. added in order to easily add locations
     def add_loc(self, loc):
         self.graph.add_node((self.name.name, loc.id), obj=loc)
-        # print("Adding location" + str(loc.name) +" with pos: " + str(loc.pos) + " for: " + self.name.name)
+        print("Adding location " + str(loc.id) +" with pos: " + str(loc.pos) + " for: " + self.name.name)
         return loc
 
     # adjusted 11.11.: added in order to easily add transitions
@@ -155,6 +155,15 @@ class Template:
         edge_list = []
         for edge in all_edges:
             if edge.comments.value == comment:
+                edge_list.append(edge)
+        return edge_list
+
+    # adjusted 19.11.: added in order to receive all edges with specific source node
+    def get_trans_by_source(self, src):
+        all_edges = self.get_edges()
+        edge_list = []
+        for edge in all_edges:
+            if edge.source == src.id:
                 edge_list.append(edge)
         return edge_list
 

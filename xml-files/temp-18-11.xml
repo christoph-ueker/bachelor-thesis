@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+chan Req20, Req02, Ack20;</declaration>
+	<template>
+		<name x="5" y="5">Template</name>
+		<declaration>// Place local declarations here.
+clock cl;</declaration>
+		<location id="id0" x="0" y="0">
+			<label kind="invariant" x="0" y="17">cl&lt;=3</label>
+		</location>
+		<location id="id1" x="272" y="0">
+			<label kind="invariant" x="272" y="17">cl&lt;=2</label>
+		</location>
+		<location id="id2" x="510" y="0">
+			<label kind="invariant" x="518" y="8">cl&lt;=3</label>
+		</location>
+		<location id="id3" x="510" y="187">
+			<label kind="invariant" x="518" y="196">cl&lt;=3</label>
+		</location>
+		<location id="id4" x="748" y="187">
+			<label kind="invariant" x="738" y="204">cl&lt;=2</label>
+		</location>
+		<location id="id5" x="960" y="187">
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="guard" x="765" y="161">cl&gt;=2</label>
+			<label kind="synchronisation" x="824" y="161">Ack20!</label>
+			<label kind="assignment" x="884" y="161">cl=0</label>
+			<nail x="765" y="187"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="guard" x="544" y="161">cl&gt;=2</label>
+			<label kind="synchronisation" x="612" y="161">Req02?</label>
+			<label kind="assignment" x="680" y="161">cl=0</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="guard" x="518" y="42">cl&gt;=3</label>
+			<label kind="assignment" x="518" y="110">cl=0</label>
+			<label kind="comments" x="518" y="76">timeout</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="guard" x="314" y="-25">cl&gt;=2</label>
+			<label kind="synchronisation" x="374" y="-25">Req02?</label>
+			<label kind="assignment" x="442" y="-25">cl=0</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="guard" x="51" y="-25">cl&gt;=3</label>
+			<label kind="synchronisation" x="102" y="-25">Req20!</label>
+			<label kind="assignment" x="170" y="-25">cl=0</label>
+		</transition>
+	</template>
+	<template>
+		<name>Template0</name>
+		<location id="id6" x="0" y="0">
+		</location>
+		<init ref="id6"/>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-126" y="-5">Ack20?</label>
+			<nail x="-144" y="25"/>
+			<nail x="-93" y="93"/>
+			<nail x="-8" y="17"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="18" y="-76">Req20?</label>
+			<nail x="102" y="-119"/>
+			<nail x="153" y="-42"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-59" y="-127">Req02!</label>
+			<nail x="-85" y="-93"/>
+			<nail x="42" y="-102"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+Process = Template();
+ProcessSUT = Template0();
+// List one or more processes to be composed into a system.
+system ProcessSUT, Process;
+    </system>
+	<queries>
+		<query>
+			<formula></formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>
