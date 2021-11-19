@@ -144,6 +144,10 @@ class Template:
         print("Adding location " + str(loc.id) +" with pos: " + str(loc.pos) + " for: " + self.name.name)
         return loc
 
+    def del_loc(self, loc):
+        self.graph.remove_node((self.name.name, loc))
+        return 0
+
     # adjusted 11.11.: added in order to easily add transitions
     def add_trans(self, trans):
         self.graph.add_edge((self.name.name, trans.source),

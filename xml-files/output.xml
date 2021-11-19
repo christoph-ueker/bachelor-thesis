@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <nta>
 	<declaration>// Place global declarations here.
-chan Req10, Ack01, Req30, Req20, Ack03, Req02, Ack02;</declaration>
+chan Req10, Ack01, Req30, Req20, Ack03, Req02, Ack02, Ack20;</declaration>
 	<template>
 		<name x="0" y="0">SUT</name>
 		<declaration>// Place local declarations here.</declaration>
@@ -41,6 +41,11 @@ chan Req10, Ack01, Req30, Req20, Ack03, Req02, Ack02;</declaration>
 			<source ref="id0"/>
 			<target ref="id0"/>
 			<label kind="synchronisation" x="10.0" y="0.0">Ack02!</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Ack20?</label>
 		</transition>
 	</template>
 	<template>
@@ -84,7 +89,7 @@ chan Req10, Ack01, Req30, Req20, Ack03, Req02, Ack02;</declaration>
 		</location>
 		<location id="id1" x="200" y="0">
 			<name x="207" y="7">Lp1</name>
-			<label kind="invariant" x="207" y="20">cl&lt;=1</label>
+			<label kind="invariant" x="207" y="20">cl&lt;=2</label>
 		</location>
 		<location id="id2" x="0" y="200">
 			<name x="7" y="207">La2</name>
@@ -92,6 +97,14 @@ chan Req10, Ack01, Req30, Req20, Ack03, Req02, Ack02;</declaration>
 		</location>
 		<location id="id3" x="600" y="0">
 			<name x="607" y="7">END</name>
+		</location>
+		<location id="id4" x="200" y="200">
+			<name x="207" y="207">La4</name>
+			<label kind="invariant" x="207" y="220">cl&lt;=2</label>
+		</location>
+		<location id="id5" x="400" y="200">
+			<name x="407" y="207">La5</name>
+			<label kind="invariant" x="407" y="220">cl&lt;=2</label>
 		</location>
 		<init ref="id0"/>
 		<transition>
@@ -124,6 +137,29 @@ chan Req10, Ack01, Req30, Req20, Ack03, Req02, Ack02;</declaration>
 			<label kind="guard" x="200.0" y="0.0">cl&gt;=8</label>
 			<label kind="assignment" x="205.0" y="0.0">cl=0</label>
 			<label kind="comments" x="205.0" y="0.0">timeout</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id4"/>
+			<label kind="guard" x="100.0" y="200.0">cl&gt;=3</label>
+			<label kind="assignment" x="105.0" y="200.0">cl=0</label>
+			<label kind="comments" x="105.0" y="200.0">timeout</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="guard" x="300.0" y="200.0">cl&gt;=2</label>
+			<label kind="synchronisation" x="310.0" y="200.0">Req02?</label>
+			<label kind="assignment" x="305.0" y="200.0">cl=0</label>
+			<label kind="comments" x="305.0" y="200.0">observable</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id3"/>
+			<label kind="guard" x="500.0" y="100.0">cl&gt;=2</label>
+			<label kind="synchronisation" x="510.0" y="100.0">Ack20!</label>
+			<label kind="assignment" x="505.0" y="100.0">cl=0</label>
+			<label kind="comments" x="505.0" y="100.0">controllable</label>
 		</transition>
 	</template>
 	<template>
