@@ -48,7 +48,7 @@ class Log:
         return ret
 
 
-# TODO: Change this in case the log file format is adjusted
+# TODO: Change file format and adjust this section
 # TODO: Currently the format only fits for <10 Env Nodes -> Scalability
 # filename: "logs/log1.txt"
 def read_log_from_file(file):
@@ -158,14 +158,16 @@ def new_channel(ori, tar, value, suffix):
     if value not in channels:
         channels.append(value)
 
-    # TODO: Proper positioning of self-edges and labels for SUT (maybe even dynamic readjusting
+    # TODO: Proper positioning of self-edges and labels for SUT (maybe even dynamic readjusting)
     # old ones to fit in a circle -> make it scalable
+    # use nails, put label between nails
     if inverse not in sut_channels:
         sut_channels.append(inverse)
         sut_label = u.Label(kind="synchronisation", pos=sync_label_pos(sut_loc, sut_loc),
                             value=inverse)
         trans = u.Transition(source=sut_loc.id, target=sut_loc.id, synchronisation=sut_label)
         sut.add_trans(trans)
+        # @see arrange_sut_edges
     return label
 
 
@@ -204,8 +206,6 @@ def add_qual_trans(node, src, tar, guard, comments, **kwargs):
         # redirect transition to end location as target
         # Assumption: After acknowledgment we are done with that Node
         if sync.value[0:3] == "Ack":
-            print(has_end_loc(node))
-            print(trans.target != get_end_loc(node))
             if has_end_loc(node) and tar != get_end_loc(node):
                 env[node - 1].del_loc(trans.target)
                 trans.target = get_end_loc(node).id
@@ -350,7 +350,7 @@ for count, filename in enumerate(os.listdir("logs")):
 
                 working_loc[proc - 1] = target_loc
 
-            # Case 2, TODO: Review this section
+            # Case 2
             else:
                 print("Env Case 2 for " + str(env[proc-1].name.name))
                 if active_index(proc) > 1:  # If not first active location
@@ -407,7 +407,6 @@ for count, filename in enumerate(os.listdir("logs")):
             print("Working loc is: " + working_loc[proc - 1].name.name)
 
             """ --- BEGIN TIMEOUT HANDLING --- """
-            # TODO
             # last event was timeout
             if timeout_ts != 0:
                 clock = internal_clock[proc - 1] - timeout_ts
@@ -515,7 +514,7 @@ for count, filename in enumerate(os.listdir("logs")):
                                                  value="cl<=" + str(clock))
                     inv_ub = clock
 
-                last_loc.invariant.value = "cl<=" + str(max(clock, inv_ub))  # TODO: timeout stuff
+                last_loc.invariant.value = "cl<=" + str(max(clock, inv_ub))
                 # add location to the active locations
                 position = [new_x(proc), 0]
                 new_active = u.Location(id=new_id(proc), pos=position,

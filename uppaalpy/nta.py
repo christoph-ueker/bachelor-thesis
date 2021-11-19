@@ -144,6 +144,7 @@ class Template:
         print("Adding location " + str(loc.id) +" with pos: " + str(loc.pos) + " for: " + self.name.name)
         return loc
 
+    # adjusted 19.11.: added in order to easily delete locations
     def del_loc(self, loc):
         self.graph.remove_node((self.name.name, loc))
         return 0
