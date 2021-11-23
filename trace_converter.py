@@ -17,20 +17,21 @@ def mapping(number):
     signal = ""
     # 8 types of signals
     if number % 8 == 0:
-        signal = "Req" + str(math.floor(number/6) + 1) + "0"
+        signal = "Req" + str(math.floor(number/8) + 1) + "0"
     if number % 8 == 1:
-        signal = "Ack" + "0" + str(math.floor(number / 6) + 1)
+        signal = "Ack" + "0" + str(math.floor(number/8) + 1)
     if number % 8 in [2, 6, 7]:
-        signal = "Req" + "0" + str(math.floor(number / 6) + 1)
+        signal = "Req" + "0" + str(math.floor(number/8) + 1)
     if number % 8 == 3:
-        signal = "Ack" + str(math.floor(number / 6) + 1) + "0"
+        signal = "Ack" + str(math.floor(number/8)+1) + "0"
     if number % 8 == 4:
         signal = "."
-        # signal = "TO" + str(math.floor(number / 6) + 1) + "0"
+        # signal = "TO" + str(math.floor(number / 8) + 1) + "0"
     if number % 8 == 5:
         signal = "."
-        # signal = "TO" + str(math.floor(number / 6) + 1) + "00"
+        # signal = "TO" + str(math.floor(number / 8) + 1) + "00"
     return signal
+
 
 # deletes every second line, as they are duplicates from UPPAAL
 def del_duplicates(arr):
@@ -100,4 +101,6 @@ for num, log in enumerate(logs):
         event_string = "<"
         event_string += mapping(event[1]) + "," + str(event[0]) + ">"
         output.write(str(event_string) + "\n")
+
+# TODO: Drop logs with two timeouts in a row for debugging purposes
 output.close()

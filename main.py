@@ -48,32 +48,62 @@ class Log:
         return ret
 
 
-# TODO: Change file format and adjust this section
 # TODO: Currently the format only fits for <10 Env Nodes -> Scalability
-# filename: "logs/log1.txt"
-def read_log_from_file(file):
+def read_logs(file):
+    logs = []
+    print(type(logs))
     log_file = open(file, "r")
-    print("\n--- " + file + " ---")
     lines = [line.replace('\n', '').replace('<', '').replace('>', '') for line in log_file.readlines()]
-    # print(lines)
-    log = Log()
-    for line in lines:
-        wholesignal, ts = line.split(',')
-        ts = int(ts)
-        # timeout represented by wildcard '.'
-        if wholesignal == '.':
-            signal = "---"
-            origin = "-"
-            target = "-"
+
+    i = -1
+    for index, line in enumerate(lines):
+        # line initializing new event feed for a log (log: x)
+        if line[0] == "l":
+            logs.append(Log())
+            i += 1
         else:
-            # first 3 characters are Req or Ack
-            signal = wholesignal[:3]
-            origin = int(wholesignal[3])
-            target = int(wholesignal[4])
-        # print(signal + " " + origin + " " + target + " " + str(ts))
-        log.events.append(Event(signal, origin, target, ts))
+            wholesignal, ts = line.split(',')
+            ts = int(ts)
+            # timeout represented by wildcard '.'
+            if wholesignal == '.':
+                signal = "---"
+                origin = "-"
+                target = "-"
+            else:
+                # first 3 characters are Req or Ack
+                signal = wholesignal[:3]
+                origin = int(wholesignal[3])
+                target = int(wholesignal[4])
+            logs[i].events.append(Event(signal, origin, target, ts))
+
     log_file.close()
-    return log
+    return logs
+
+
+# TODO: Keep this for now
+# def read_log(log_string):
+#     log_file = open(file, "r")
+#     print("\n--- " + file + " ---")
+#     lines = [line.replace('\n', '').replace('<', '').replace('>', '') for line in log_file.readlines()]
+#     # print(lines)
+#     log = Log()
+#     for line in lines:
+#         wholesignal, ts = line.split(',')
+#         ts = int(ts)
+#         # timeout represented by wildcard '.'
+#         if wholesignal == '.':
+#             signal = "---"
+#             origin = "-"
+#             target = "-"
+#         else:
+#             # first 3 characters are Req or Ack
+#             signal = wholesignal[:3]
+#             origin = int(wholesignal[3])
+#             target = int(wholesignal[4])
+#         # print(signal + " " + origin + " " + target + " " + str(ts))
+#         log.events.append(Event(signal, origin, target, ts))
+#     log_file.close()
+#     return log
 
 
 def new_x(node):
@@ -234,9 +264,13 @@ def get_loc_by_id(loc_list, id):
 # this is how we add locations
 sut_loc = sut.add_loc(u.Location(id="id0", pos=[0, 0]))
 
+logs = read_logs("traces_output.txt")
+# for log in logs:
+#     print(log)
 # iterate over the files in logs folder
-for count, filename in enumerate(os.listdir("logs")):
-    log = read_log_from_file("logs/" + filename)
+for count, log in enumerate(logs):
+    print("\n\nLog: " + str(count) + "\n")
+    # log = read_log("logs/" + filename)
 
     # TODO: This assumption is fine for now, Iam assuming it
     # count the Env Nodes, it has to be the same for all logs
@@ -244,9 +278,11 @@ for count, filename in enumerate(os.listdir("logs")):
     for event in log.events:
         # ignore timeouts
         if event.signal != "---":
-            if event.origin > number_env_nodes or event.target > number_env_nodes:
+            if event.origin > number_env_nodes:
                 number_env_nodes = event.origin
-
+            if event.target > number_env_nodes:
+                number_env_nodes = event.target
+    print("Number of Nodes: " + str(number_env_nodes) + "\n")
     # create new template for Env Node, if we have none yet
     if not env:
         for i in range(1, number_env_nodes + 1):
@@ -325,6 +361,7 @@ for count, filename in enumerate(os.listdir("logs")):
             # Check the condition for Case 1
             cond = False
             # going through all transitions with source being the location we are currently in
+            # TODO: Check whether this is fine, as it is different to paper
             print("Working loc is: " + working_loc[proc - 1].name.name)
             for transition in env[proc - 1].get_trans_by_source(working_loc[proc - 1]):
                 # source_loc = get_loc_by_id(active_locations[proc-1], transition.source)
@@ -333,26 +370,36 @@ for count, filename in enumerate(os.listdir("logs")):
                 # TODO: Maybe dont use int here
                 guard_lb = int(transition.guard.value[4:])
                 target_loc = get_loc_by_id(passive_locations[proc - 1], transition.target)
-                inv_ub = int(source_loc.invariant.value[4:])
+                if hasattr(source_loc.invariant, 'value'):
+                    inv_ub = int(source_loc.invariant.value[4:])
+                else:
+                    inv_ub = guard_lb
                 lb, ub = interval_extension(guard_lb, inv_ub, R)
-                if signal + "!" == transition.synchronisation.value and lb <= clock <= ub:
-                    cond = True
-                    found_trans = transition
-                    break
+                if hasattr(transition.synchronisation, 'value'):
+                    if signal + "!" == transition.synchronisation.value and lb <= clock <= ub:
+                        cond = True
+                        found_trans = transition
+                        break
 
             # Case 1
             if cond:
-                print("Env Case 1 for " + str(env[proc-1].name.name))
+                print("Env Case 1 for " + str(env[proc - 1].name.name))
                 # update corresponding guard
                 found_trans.guard.value = "cl>=" + str(min(clock, guard_lb))
                 # update corresponding invariant
-                source_loc.invariant.value = "cl<=" + str(max(clock, inv_ub))
+                if hasattr(source_loc.invariant, 'value'):
+                    source_loc.invariant.value = "cl<=" + str(max(clock, inv_ub))
+                else:
+                    position = [source_loc.pos[0], source_loc.pos[1]]
+                    source_loc.invariant = u.Label(kind="invariant",
+                                                   pos=inv_loc_pos(position[0], position[1]),
+                                                   value="cl<=" + str(max(clock, inv_ub)))
 
                 working_loc[proc - 1] = target_loc
 
             # Case 2
             else:
-                print("Env Case 2 for " + str(env[proc-1].name.name))
+                print("Env Case 2 for " + str(env[proc - 1].name.name))
                 if active_index(proc) > 1:  # If not first active location
                     # working_active_loc = working_loc[proc-1]
                     working_active_loc = active_locations[proc - 1][-1]  # This considers the top of the stack
@@ -375,8 +422,8 @@ for count, filename in enumerate(os.listdir("logs")):
                                    comments="controllable",
                                    sync=new_channel(working_active_loc, end_loc, signal, "!"))
                     working_active_loc.invariant = u.Label(kind="invariant", pos=inv_loc_pos(working_active_loc.pos[0],
-                                                                                      working_active_loc.pos[1]),
-                                                              value="cl<=" + str(clock))
+                                                                                             working_active_loc.pos[1]),
+                                                           value="cl<=" + str(clock))
                     working_loc[proc - 1] = end_loc
                 else:
                     # add location to the passive locations
@@ -389,7 +436,8 @@ for count, filename in enumerate(os.listdir("logs")):
                     working_loc[proc - 1] = new_passive
                     # add transition
                     add_qual_trans(node=proc, src=working_active_loc, tar=new_passive, guard=clock,
-                                   comments="controllable", sync=new_channel(working_active_loc, new_passive, signal, "!"))
+                                   comments="controllable",
+                                   sync=new_channel(working_active_loc, new_passive, signal, "!"))
         # SUT Event
         else:
             print("SUT Event: " + event.signal + str(event.origin) + str(event.target))
@@ -443,7 +491,8 @@ for count, filename in enumerate(os.listdir("logs")):
                     last_locations[proc - 1].append(new_active)
                     if not hasattr(last_loc.invariant, 'value'):
                         # We have to create invariant for this location
-                        last_loc.invariant = u.Label(kind="invariant", pos=inv_loc_pos(last_loc.pos[0], last_loc.pos[1]),
+                        last_loc.invariant = u.Label(kind="invariant",
+                                                     pos=inv_loc_pos(last_loc.pos[0], last_loc.pos[1]),
                                                      value="cl<=" + str(clock))
                         inv_ub = 0
                     last_loc.invariant.value = "cl<=" + str(max(timeout_units, inv_ub))
@@ -454,21 +503,23 @@ for count, filename in enumerate(os.listdir("logs")):
                     # create new active location
                     position = [working_loc[proc - 1].pos[0] + 2 * stepsize, working_loc[proc - 1].pos[1]]
                     new_active2 = u.Location(id=new_id(proc), pos=position,
-                                            name=u.Name(new_loc_name(loc_type="a", index=active_index(proc)),
-                                                        pos=name_loc_pos(position[0], position[1])))
+                                             name=u.Name(new_loc_name(loc_type="a", index=active_index(proc)),
+                                                         pos=name_loc_pos(position[0], position[1])))
                     active_locations[proc - 1].append(env[proc - 1].add_loc(new_active2))
                     last_locations[proc - 1].append(new_active2)
                     if not hasattr(new_active.invariant, 'value'):
                         # We have to create invariant for this location
-                        new_active.invariant = u.Label(kind="invariant", pos=inv_loc_pos(new_active.pos[0], new_active.pos[1]),
-                                                     value="cl<=" + str(clock))
+                        new_active.invariant = u.Label(kind="invariant",
+                                                       pos=inv_loc_pos(new_active.pos[0], new_active.pos[1]),
+                                                       value="cl<=" + str(clock))
                         inv_ub = 0
                     new_active.invariant.value = "cl<=" + str(max(clock, inv_ub))
 
                     add_qual_trans(node=proc, src=new_active, tar=new_active2, guard=clock,
-                                   comments="observable", sync=new_channel(new_active, new_active2, signal, "?"))  # nails=[-30, -30],
+                                   comments="observable",
+                                   sync=new_channel(new_active, new_active2, signal, "?"))  # nails=[-30, -30],
 
-                    working_loc[proc-1] = new_active2
+                    working_loc[proc - 1] = new_active2
                     timeout_ts = 0
                     continue
 
@@ -486,14 +537,15 @@ for count, filename in enumerate(os.listdir("logs")):
                 else:
                     inv_ub = clock
                 lb, ub = interval_extension(guard_lb, inv_ub, R)
-                if signal + "?" == transition.synchronisation.value and lb <= clock <= ub:
-                    cond = True
-                    found_trans = transition
-                    break
+                if hasattr(transition.synchronisation, 'value'):
+                    if signal + "?" == transition.synchronisation.value and lb <= clock <= ub:
+                        cond = True
+                        found_trans = transition
+                        break
 
             # Case 1
             if cond:
-                print("SUT Case 1 for " + str(env[proc-1].name.name))
+                print("SUT Case 1 for " + str(env[proc - 1].name.name))
                 # update corresponding guard
                 found_trans.guard.value = "cl>=" + str(min(clock, guard_lb))
                 # update corresponding invariant
@@ -505,7 +557,7 @@ for count, filename in enumerate(os.listdir("logs")):
 
             # Case 2
             else:
-                print("SUT Case 2 for " + str(env[proc-1].name.name))
+                print("SUT Case 2 for " + str(env[proc - 1].name.name))
                 if hasattr(last_loc.invariant, 'value'):
                     inv_ub = int(last_loc.invariant.value[4:])
                 else:
