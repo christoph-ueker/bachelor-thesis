@@ -42,6 +42,14 @@ def del_duplicates(arr):
     return temp
 
 
+def wanna_delete_double_to_log(log):
+    wanna_delete = False
+    for i, event in enumerate(log):
+        if mapping(log[i][1]) == "." == mapping(log[i - 1][1]):
+            wanna_delete = True
+    return wanna_delete
+
+
 # number of simulations
 node_count = 3
 sim_count = 0
@@ -90,17 +98,20 @@ for index, log in enumerate(arranged_logs):
 # print results to separate text file for further workings
 output = open("traces_output.txt", 'w')
 
+log_number = 0
 # delete duplicates
-for num, log in enumerate(logs):
-    output.write("log: " + str(num+1) + "\n")
+for log in logs:
     log = del_duplicates(log)
     log = list(dict.fromkeys(log))
     # sort by time (first part of tuple)
     log = sorted(log, key=lambda x: x[0])
-    for event in log:
-        event_string = "<"
-        event_string += mapping(event[1]) + "," + str(event[0]) + ">"
-        output.write(str(event_string) + "\n")
+    # deleting all logs with two timeouts in a row
+    if not wanna_delete_double_to_log(log):
+        log_number += 1
+        output.write("log: " + str(log_number + 1) + "\n")
+        for i, event in enumerate(log):
+            event_string = "<"
+            event_string += mapping(event[1]) + "," + str(event[0]) + ">"
+            output.write(str(event_string) + "\n")
 
-# TODO: Drop logs with two timeouts in a row for debugging purposes
 output.close()

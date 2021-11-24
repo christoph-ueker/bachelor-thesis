@@ -261,6 +261,16 @@ def get_loc_by_id(loc_list, id):
     return "Error while looking for id: " + id
 
 
+# checks whether a location is in the targets of a list of transitions
+def in_target_locs(loc, transitions):
+    # print("\nlocation: " + loc.id)
+    for trans in transitions:
+        if trans.target == loc.id:
+            # print("\ntarget: " + trans.target)
+            return True
+    return False
+
+
 # this is how we add locations
 sut_loc = sut.add_loc(u.Location(id="id0", pos=[0, 0]))
 
@@ -282,7 +292,7 @@ for count, log in enumerate(logs):
                 number_env_nodes = event.origin
             if event.target > number_env_nodes:
                 number_env_nodes = event.target
-    print("Number of Nodes: " + str(number_env_nodes) + "\n")
+    # print("Number of Nodes: " + str(number_env_nodes) + "\n")
     # create new template for Env Node, if we have none yet
     if not env:
         for i in range(1, number_env_nodes + 1):
@@ -299,7 +309,8 @@ for count, log in enumerate(logs):
 
     for i in range(1, number_env_nodes + 1):
         internal_clock.append(0)
-    R = 4
+    # initially 4
+    R = 6
     # other initializations
     timeout_ts = 0
     timeout_units = 0
@@ -329,6 +340,7 @@ for count, log in enumerate(logs):
     # iterate over all events in a log
     for event_index, event in enumerate(log.events):
         # Env event
+        print("\n")
         if event.type == "Env":
             print("Env Event: " + event.signal + str(event.origin) + str(event.target))
             signal = event.signal + str(event.origin) + str(event.target)
@@ -349,14 +361,14 @@ for count, log in enumerate(logs):
                 working_loc[proc - 1].invariant.value = "cl<=" + str(max(timeout_units, inv_ub))
                 # appending the last location before the timeout
                 last_locations[proc - 1].append(last_locations[proc - 1][-2])
-                if init_loc not in env[proc - 1].get_trans_by_source(working_loc[proc - 1]):
+                if not in_target_locs(init_loc, env[proc - 1].get_trans_by_source(working_loc[proc - 1])):
+                    print("\n\nXXX\n\n")
                     add_qual_trans(node=proc, src=working_loc[proc - 1], tar=init_loc, guard=timeout_units,
                                    comments="timeout")  # nails=[-30, -30],
-
                     # reposition last location
                     repos_loc(working_loc[proc - 1], init_loc.pos[0], init_loc.pos[1] + stepsize)
-                    working_loc[proc - 1] = init_loc
-                    timeout_ts = 0
+                working_loc[proc - 1] = init_loc
+                timeout_ts = 0
 
             # Check the condition for Case 1
             cond = False
@@ -520,8 +532,8 @@ for count, log in enumerate(logs):
                                    sync=new_channel(new_active, new_active2, signal, "?"))  # nails=[-30, -30],
 
                     working_loc[proc - 1] = new_active2
-                    timeout_ts = 0
-                    continue
+                timeout_ts = 0
+                continue
 
             """ --- END TIMEOUT HANDLING --- """
 
@@ -542,6 +554,9 @@ for count, log in enumerate(logs):
                         cond = True
                         found_trans = transition
                         break
+                else:
+                    print("-----------------------------------------------------ERROR")
+                    print(transition.target)
 
             # Case 1
             if cond:
