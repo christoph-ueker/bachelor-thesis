@@ -249,9 +249,14 @@ def add_qual_trans(node, src, tar, guard, comments, **kwargs):
 
 def interval_extension(lb, ub, r):
     delta = r - (ub - lb)
-    new_lb = lb - delta
-    new_ub = ub + delta
-    return new_lb, new_ub
+    # TODO: Check whether this is valid
+    # This ensures we only EXTEND the interval
+    if delta > 0:
+        new_lb = lb - delta
+        new_ub = ub + delta
+        return new_lb, new_ub
+    else:
+        return lb, ub
 
 
 def get_loc_by_id(loc_list, id):
@@ -310,8 +315,9 @@ for count, log in enumerate(logs):
     for i in range(1, number_env_nodes + 1):
         internal_clock.append(0)
     # initially 4
-    R = 6
+    R = 8
     # other initializations
+
     timeout_ts = 0
     timeout_units = 0
 
@@ -342,8 +348,8 @@ for count, log in enumerate(logs):
         # Env event
         print("\n")
         if event.type == "Env":
-            print("Env Event: " + event.signal + str(event.origin) + str(event.target))
             signal = event.signal + str(event.origin) + str(event.target)
+            print("Env Event: " + signal)
             proc = event.origin
             clock = event.ts - internal_clock[proc - 1]
             internal_clock[proc - 1] = event.ts
@@ -430,12 +436,13 @@ for count, log in enumerate(logs):
 
                 if has_end_loc(proc):
                     end_loc = get_end_loc(proc)
-                    add_qual_trans(node=proc, src=working_active_loc, tar=end_loc, guard=clock,
-                                   comments="controllable",
-                                   sync=new_channel(working_active_loc, end_loc, signal, "!"))
-                    working_active_loc.invariant = u.Label(kind="invariant", pos=inv_loc_pos(working_active_loc.pos[0],
-                                                                                             working_active_loc.pos[1]),
-                                                           value="cl<=" + str(clock))
+                    if not in_target_locs(end_loc, env[proc - 1].get_trans_by_source(working_active_loc)):
+                        add_qual_trans(node=proc, src=working_active_loc, tar=end_loc, guard=clock,
+                                       comments="controllable",
+                                       sync=new_channel(working_active_loc, end_loc, signal, "!"))
+                        working_active_loc.invariant = u.Label(kind="invariant", pos=inv_loc_pos(working_active_loc.pos[0],
+                                                                                                 working_active_loc.pos[1]),
+                                                               value="cl<=" + str(clock))
                     working_loc[proc - 1] = end_loc
                 else:
                     # add location to the passive locations
@@ -550,13 +557,19 @@ for count, log in enumerate(logs):
                     inv_ub = clock
                 lb, ub = interval_extension(guard_lb, inv_ub, R)
                 if hasattr(transition.synchronisation, 'value'):
+                    print("SIGNAL: " + signal + "?, SYNC VAL: " + transition.synchronisation.value)
+                    print("lb: " + str(lb) + ", clock: " + str(clock) + ", ub: " + str(ub))
                     if signal + "?" == transition.synchronisation.value and lb <= clock <= ub:
                         cond = True
                         found_trans = transition
                         break
-                else:
-                    print("-----------------------------------------------------ERROR")
-                    print(transition.target)
+                # else:
+                #     if lb <= clock <= ub:
+                #         cond = True
+                #         found_trans = transition
+                #         break
+                # print("-----------------------------------------------------\n")
+                # print(transition.target)
 
             # Case 1
             if cond:
