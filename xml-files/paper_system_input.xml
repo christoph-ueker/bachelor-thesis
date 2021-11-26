@@ -331,7 +331,7 @@ system Node1, Node2, Node3;
     </system>
 	<queries>
 		<query>
-			<formula>simulate [&lt;= 100; 10000] {c1, c2, c3}</formula>
+			<formula>simulate 1000 [&lt;= 100] {c1, c2, c3}</formula>
 			<comment></comment>
 		</query>
 	</queries>

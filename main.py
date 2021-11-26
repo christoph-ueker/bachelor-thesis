@@ -65,10 +65,10 @@ def read_logs(file):
             wholesignal, ts = line.split(',')
             ts = int(ts)
             # timeout represented by wildcard '.'
-            if wholesignal == '.':
+            if wholesignal[:2] == 'To':
                 signal = "---"
                 origin = "-"
-                target = "-"
+                target = int(wholesignal[2])
             else:
                 # first 3 characters are Req or Ack
                 signal = wholesignal[:3]
@@ -183,6 +183,9 @@ def new_channel(ori, tar, value, suffix):
     else:
         inverse = None
         print("WRONG SUFFIX FOR CHANNEL CREATION")
+    if value == "Ack":
+        print("SETTING END LOCATION")
+        tar.name = "END"
 
     # store used channels to write them to UPPAAL global declarations
     if value not in channels:
@@ -241,6 +244,7 @@ def add_qual_trans(node, src, tar, guard, comments, **kwargs):
                 trans.target = get_end_loc(node).id
             else:
                 target = get_loc_by_id(all_locations(node), tar.id)
+                print("SETTING END LOCATION")
                 target.name.name = "END"
         trans.synchronisation = sync
     env[node - 1].add_trans(trans)
@@ -284,7 +288,7 @@ logs = read_logs("traces_output.txt")
 #     print(log)
 # iterate over the files in logs folder
 for count, log in enumerate(logs):
-    print("\n\nLog: " + str(count) + "\n")
+    print("\nLog: " + str(count))
     # log = read_log("logs/" + filename)
 
     # TODO: This assumption is fine for now, Iam assuming it
@@ -315,10 +319,10 @@ for count, log in enumerate(logs):
     for i in range(1, number_env_nodes + 1):
         internal_clock.append(0)
     # initially 4
-    R = 8
+    R = 20
     # other initializations
 
-    timeout_ts = 0
+    timeout_ts = []
     timeout_units = 0
 
     # returns the number of locations for a specific node
@@ -327,7 +331,9 @@ for count, log in enumerate(logs):
 
 
     def new_loc_name(loc_type, index):
-        return "L" + loc_type + str(index)
+        name = "L" + loc_type + str(index)
+        print("New loc name: " + name)
+        return name
 
 
     working_loc = []
@@ -335,6 +341,7 @@ for count, log in enumerate(logs):
         active_locations.append([])
         passive_locations.append([])
         last_locations.append([])
+        timeout_ts.append(0)
         working_loc.append(u.Location(id="id1337", pos=[0, 0], name=u.Name("1337", pos=[0, 0])))  # random init
 
     if count > 0:
@@ -346,7 +353,6 @@ for count, log in enumerate(logs):
     # iterate over all events in a log
     for event_index, event in enumerate(log.events):
         # Env event
-        print("\n")
         if event.type == "Env":
             signal = event.signal + str(event.origin) + str(event.target)
             print("Env Event: " + signal)
@@ -355,8 +361,8 @@ for count, log in enumerate(logs):
             internal_clock[proc - 1] = event.ts
 
             # last event was timeout, we have to go to initial loc by assumption
-            if timeout_ts != 0:
-                clock = internal_clock[proc - 1] - timeout_ts
+            if timeout_ts[proc - 1] != 0:
+                clock = internal_clock[proc - 1] - timeout_ts[proc - 1]
                 print("timeout handling")
                 init_loc = get_loc_by_id(all_locations(proc), env[proc - 1].graph.initial_location[1])
                 if not hasattr(working_loc[proc - 1].invariant, 'value'):
@@ -368,13 +374,13 @@ for count, log in enumerate(logs):
                 # appending the last location before the timeout
                 last_locations[proc - 1].append(last_locations[proc - 1][-2])
                 if not in_target_locs(init_loc, env[proc - 1].get_trans_by_source(working_loc[proc - 1])):
-                    print("\n\nXXX\n\n")
+                    print("Repositioning location...")
                     add_qual_trans(node=proc, src=working_loc[proc - 1], tar=init_loc, guard=timeout_units,
                                    comments="timeout")  # nails=[-30, -30],
                     # reposition last location
                     repos_loc(working_loc[proc - 1], init_loc.pos[0], init_loc.pos[1] + stepsize)
                 working_loc[proc - 1] = init_loc
-                timeout_ts = 0
+                timeout_ts[proc - 1] = 0
 
             # Check the condition for Case 1
             cond = False
@@ -464,9 +470,9 @@ for count, log in enumerate(logs):
             proc = event.target
             if event.origin == "-":
                 print("timeout event, skipping...")
-                timeout_ts = event.ts
+                timeout_ts[proc - 1] = event.ts
                 # accessing predecessor
-                timeout_units = timeout_ts - log.events[event_index - 1].ts
+                timeout_units = timeout_ts[proc - 1] - log.events[event_index - 1].ts
                 continue
             clock = event.ts - internal_clock[proc - 1]
             internal_clock[proc - 1] = event.ts
@@ -475,25 +481,28 @@ for count, log in enumerate(logs):
 
             """ --- BEGIN TIMEOUT HANDLING --- """
             # last event was timeout
-            if timeout_ts != 0:
-                clock = internal_clock[proc - 1] - timeout_ts
+            if timeout_ts[proc - 1] != 0:
+                clock = internal_clock[proc - 1] - timeout_ts[proc - 1]
                 print("timeout handling")
                 last_loc = working_loc[proc - 1]
                 cond = False
                 for transition in env[proc - 1].get_trans_by_source(last_loc):
-                    guard_lb = int(transition.guard.value[4:])
-                    target_loc = get_loc_by_id(all_locations(proc), transition.target)
-                    inv_ub = int(last_loc.invariant.value[4:])
-                    lb, ub = interval_extension(guard_lb, inv_ub, R)
-                    # # need this
-                    # if not hasattr(transition, 'synchronisation'):
-                    #     compare = signal + "?"
-                    # else:
-                    #     compare = transition.synchronisation.value
-                    if lb <= clock <= ub:
-                        cond = True
-                        found_trans = transition
-                        break
+                    # we dont go back to initial location by assumption
+                    if transition.target != init_loc.id:
+                        guard_lb = int(transition.guard.value[4:])
+                        target_loc = get_loc_by_id(all_locations(proc), transition.target)
+                        inv_ub = int(last_loc.invariant.value[4:])
+                        lb, ub = interval_extension(guard_lb, inv_ub, R)
+                        print("lb: " + str(lb) + ", clock: " + str(clock) + ", ub: " + str(ub))
+                        # # need this
+                        # if not hasattr(transition, 'synchronisation'):
+                        #     compare = signal + "?"
+                        # else:
+                        #     compare = transition.synchronisation.value
+                        if lb <= clock <= ub:
+                            cond = True
+                            found_trans = transition
+                            break
                 if cond:
                     # update corresponding guard
                     found_trans.guard.value = "cl>=" + str(min(clock, guard_lb))
@@ -539,7 +548,7 @@ for count, log in enumerate(logs):
                                    sync=new_channel(new_active, new_active2, signal, "?"))  # nails=[-30, -30],
 
                     working_loc[proc - 1] = new_active2
-                timeout_ts = 0
+                timeout_ts[proc - 1] = 0
                 continue
 
             """ --- END TIMEOUT HANDLING --- """
