@@ -5,6 +5,23 @@ from uppaalpy import nta as u
 import copy
 
 
+import sys
+
+
+# Disable
+def blockPrint():
+    sys.stdout = open(os.devnull, 'w')
+
+
+# suppress all printing
+blockPrint()
+
+
+# Restore
+def enablePrint():
+    sys.stdout = sys.__stdout__
+
+
 # creates a new template from blank_template
 def new_template(name):
     new = copy.deepcopy(blank_template)
@@ -215,12 +232,16 @@ def add_qual_trans(node, src, tar, guard, comments, **kwargs):
     :param [int, int] nails: Position tuple for a Nail
     :param str comments: Comments
     :param str sync: Synchronisation Channel Label
+    :param str guard_string: Used  for timeout transitions
     :return: the transition
     :rtype: trans
     """
 
+    guard_string = kwargs.get('guard_string')
+    if guard_string is None:
+        guard_string = "cl>="
     guard_label = u.Label(kind="guard", pos=guard_label_pos(src, tar),
-                          value="cl>=" + str(guard))
+                          value=guard_string + str(guard))
     # standard assignment
     assignment_label = u.Label(kind="assignment",
                                pos=asgn_label_pos(src, tar), value="cl=0")
@@ -319,11 +340,11 @@ for count, log in enumerate(logs):
     for i in range(1, number_env_nodes + 1):
         internal_clock.append(0)
     # initially 4
-    R = 20
+    R = 8
     # other initializations
 
     timeout_ts = []
-    timeout_units = 0
+    timeout_units = []
 
     # returns the number of locations for a specific node
     def num_locations(node):
@@ -342,6 +363,7 @@ for count, log in enumerate(logs):
         passive_locations.append([])
         last_locations.append([])
         timeout_ts.append(0)
+        timeout_units.append(0)
         working_loc.append(u.Location(id="id1337", pos=[0, 0], name=u.Name("1337", pos=[0, 0])))  # random init
 
     if count > 0:
@@ -360,27 +382,34 @@ for count, log in enumerate(logs):
             clock = event.ts - internal_clock[proc - 1]
             internal_clock[proc - 1] = event.ts
 
+
+            """ --- BEGIN TIMEOUT HANDLING --- """
             # last event was timeout, we have to go to initial loc by assumption
             if timeout_ts[proc - 1] != 0:
                 clock = internal_clock[proc - 1] - timeout_ts[proc - 1]
                 print("timeout handling")
                 init_loc = get_loc_by_id(all_locations(proc), env[proc - 1].graph.initial_location[1])
+
                 if not hasattr(working_loc[proc - 1].invariant, 'value'):
                     # We have to create invariant for this location
                     working_loc[proc - 1].invariant = u.Label(kind="invariant", pos=[last_loc.pos[0], 20],
                                                               value="cl<=" + str(clock))
                     inv_ub = 0
-                working_loc[proc - 1].invariant.value = "cl<=" + str(max(timeout_units, inv_ub))
+                else:
+                    inv_ub = int(working_loc[proc - 1].invariant.value[4:])
+                working_loc[proc - 1].invariant.value = "cl<=" + str(max(timeout_units[proc - 1], inv_ub))
                 # appending the last location before the timeout
                 last_locations[proc - 1].append(last_locations[proc - 1][-2])
                 if not in_target_locs(init_loc, env[proc - 1].get_trans_by_source(working_loc[proc - 1])):
                     print("Repositioning location...")
-                    add_qual_trans(node=proc, src=working_loc[proc - 1], tar=init_loc, guard=timeout_units,
-                                   comments="timeout")  # nails=[-30, -30],
+                    add_qual_trans(node=proc, src=working_loc[proc - 1], tar=init_loc, guard=timeout_units[proc - 1],
+                                   comments="timeout", guard_string="cl==")  # nails=[-30, -30],
                     # reposition last location
                     repos_loc(working_loc[proc - 1], init_loc.pos[0], init_loc.pos[1] + stepsize)
                 working_loc[proc - 1] = init_loc
                 timeout_ts[proc - 1] = 0
+            """ --- END TIMEOUT HANDLING --- """
+
 
             # Check the condition for Case 1
             cond = False
@@ -471,13 +500,20 @@ for count, log in enumerate(logs):
             if event.origin == "-":
                 print("timeout event, skipping...")
                 timeout_ts[proc - 1] = event.ts
-                # accessing predecessor
-                timeout_units = timeout_ts[proc - 1] - log.events[event_index - 1].ts
+                # accessing predecessor in that process
+                tempi = 1
+                for i in range(1, 100):
+                    if log.events[event_index - i].target == proc:
+                        tempi = i
+                        break
+                timeout_units[proc - 1] = timeout_ts[proc - 1] - log.events[event_index - tempi].ts
+                print("TIMEOUT UNITS = " + str(timeout_units[proc - 1]))
                 continue
             clock = event.ts - internal_clock[proc - 1]
             internal_clock[proc - 1] = event.ts
             last_loc = working_loc[proc - 1]
             print("Working loc is: " + working_loc[proc - 1].name.name)
+
 
             """ --- BEGIN TIMEOUT HANDLING --- """
             # last event was timeout
@@ -523,9 +559,9 @@ for count, log in enumerate(logs):
                                                      pos=inv_loc_pos(last_loc.pos[0], last_loc.pos[1]),
                                                      value="cl<=" + str(clock))
                         inv_ub = 0
-                    last_loc.invariant.value = "cl<=" + str(max(timeout_units, inv_ub))
+                    last_loc.invariant.value = "cl<=" + str(max(timeout_units[proc - 1], inv_ub))
 
-                    add_qual_trans(node=proc, src=last_loc, tar=new_active, guard=timeout_units,
+                    add_qual_trans(node=proc, src=last_loc, tar=new_active, guard=timeout_units[proc - 1],
                                    comments="timeout")  # nails=[-30, -30],
 
                     # create new active location
@@ -550,8 +586,8 @@ for count, log in enumerate(logs):
                     working_loc[proc - 1] = new_active2
                 timeout_ts[proc - 1] = 0
                 continue
-
             """ --- END TIMEOUT HANDLING --- """
+
 
             # Check the condition for Case 1
             cond = False

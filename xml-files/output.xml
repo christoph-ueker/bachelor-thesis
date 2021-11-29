@@ -81,7 +81,7 @@ chan Req10, Req30, Req20, Req02, Req01, Req03, Ack10, Ack30, Ack02, Ack01, Ack20
 		</location>
 		<location id="id2" x="0" y="200">
 			<name x="7" y="207">La2</name>
-			<label kind="invariant" x="7" y="220">cl&lt;=10</label>
+			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
 		</location>
 		<location id="id3" x="600" y="0">
 			<name x="607" y="7">La3</name>
@@ -89,6 +89,14 @@ chan Req10, Req30, Req20, Req02, Req01, Req03, Ack10, Ack30, Ack02, Ack01, Ack20
 		</location>
 		<location id="id4" x="800" y="0">
 			<name x="807" y="7">END</name>
+		</location>
+		<location id="id6" x="0" y="200">
+			<name x="7" y="207">La5</name>
+			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
+		</location>
+		<location id="id7" x="1400" y="0">
+			<name x="1407" y="7">La6</name>
+			<label kind="invariant" x="1407" y="20">cl&lt;=2</label>
 		</location>
 		<init ref="id0"/>
 		<transition>
@@ -116,6 +124,14 @@ chan Req10, Req30, Req20, Req02, Req01, Req03, Ack10, Ack30, Ack02, Ack01, Ack20
 			<label kind="comments" x="605.0" y="0.0">observable</label>
 		</transition>
 		<transition>
+			<source ref="id1"/>
+			<target ref="id6"/>
+			<label kind="guard" x="700.0" y="0.0">cl&gt;=9</label>
+			<label kind="synchronisation" x="710.0" y="0.0">Req01?</label>
+			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
+			<label kind="comments" x="705.0" y="0.0">observable</label>
+		</transition>
+		<transition>
 			<source ref="id2"/>
 			<target ref="id3"/>
 			<label kind="guard" x="500.0" y="0.0">cl&gt;=0</label>
@@ -126,7 +142,7 @@ chan Req10, Req30, Req20, Req02, Req01, Req03, Ack10, Ack30, Ack02, Ack01, Ack20
 		<transition>
 			<source ref="id2"/>
 			<target ref="id0"/>
-			<label kind="guard" x="200.0" y="0.0">cl&gt;=0</label>
+			<label kind="guard" x="200.0" y="0.0">cl==8</label>
 			<label kind="assignment" x="205.0" y="0.0">cl=0</label>
 			<label kind="comments" x="205.0" y="0.0">timeout</label>
 		</transition>
@@ -138,6 +154,29 @@ chan Req10, Req30, Req20, Req02, Req01, Req03, Ack10, Ack30, Ack02, Ack01, Ack20
 			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
 			<label kind="comments" x="705.0" y="0.0">controllable</label>
 		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="guard" x="1300.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="1310.0" y="0.0">Req01?</label>
+			<label kind="assignment" x="1305.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1305.0" y="0.0">observable</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id0"/>
+			<label kind="guard" x="600.0" y="0.0">cl==8</label>
+			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
+			<label kind="comments" x="605.0" y="0.0">timeout</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id4"/>
+			<label kind="guard" x="1100.0" y="0.0">cl&gt;=2</label>
+			<label kind="synchronisation" x="1110.0" y="0.0">Ack10!</label>
+			<label kind="assignment" x="1105.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1105.0" y="0.0">controllable</label>
+		</transition>
 	</template>
 	<template>
 		<name x="0" y="0">Node2</name>
@@ -148,11 +187,11 @@ chan Req10, Req30, Req20, Req02, Req01, Req03, Ack10, Ack30, Ack02, Ack01, Ack20
 		</location>
 		<location id="id1" x="200" y="0">
 			<name x="207" y="7">Lp1</name>
-			<label kind="invariant" x="207" y="20">cl&lt;=11</label>
+			<label kind="invariant" x="207" y="20">cl&lt;=13</label>
 		</location>
 		<location id="id2" x="0" y="200">
 			<name x="7" y="207">La2</name>
-			<label kind="invariant" x="7" y="220">cl&lt;=4</label>
+			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
 		</location>
 		<location id="id3" x="600" y="0">
 			<name x="607" y="7">END</name>
@@ -160,6 +199,14 @@ chan Req10, Req30, Req20, Req02, Req01, Req03, Ack10, Ack30, Ack02, Ack01, Ack20
 		<location id="id4" x="800" y="0">
 			<name x="807" y="7">La4</name>
 			<label kind="invariant" x="807" y="20">cl&lt;=2</label>
+		</location>
+		<location id="id6" x="0" y="200">
+			<name x="7" y="207">La6</name>
+			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
+		</location>
+		<location id="id7" x="1400" y="0">
+			<name x="1407" y="7">La7</name>
+			<label kind="invariant" x="1407" y="20">cl&lt;=2</label>
 		</location>
 		<init ref="id0"/>
 		<transition>
@@ -187,9 +234,25 @@ chan Req10, Req30, Req20, Req02, Req01, Req03, Ack10, Ack30, Ack02, Ack01, Ack20
 			<label kind="comments" x="405.0" y="0.0">observable</label>
 		</transition>
 		<transition>
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="guard" x="600.0" y="0.0">cl&gt;=9</label>
+			<label kind="synchronisation" x="610.0" y="0.0">Ack02?</label>
+			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
+			<label kind="comments" x="605.0" y="0.0">observable</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id6"/>
+			<label kind="guard" x="700.0" y="0.0">cl&gt;=10</label>
+			<label kind="synchronisation" x="710.0" y="0.0">Req02?</label>
+			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
+			<label kind="comments" x="705.0" y="0.0">observable</label>
+		</transition>
+		<transition>
 			<source ref="id2"/>
 			<target ref="id0"/>
-			<label kind="guard" x="200.0" y="0.0">cl&gt;=6</label>
+			<label kind="guard" x="200.0" y="0.0">cl==8</label>
 			<label kind="assignment" x="205.0" y="0.0">cl=0</label>
 			<label kind="comments" x="205.0" y="0.0">timeout</label>
 		</transition>
@@ -209,6 +272,29 @@ chan Req10, Req30, Req20, Req02, Req01, Req03, Ack10, Ack30, Ack02, Ack01, Ack20
 			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
 			<label kind="comments" x="705.0" y="0.0">controllable</label>
 		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id0"/>
+			<label kind="guard" x="600.0" y="0.0">cl==8</label>
+			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
+			<label kind="comments" x="605.0" y="0.0">timeout</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="guard" x="700.0" y="100.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="710.0" y="100.0">Req02?</label>
+			<label kind="assignment" x="705.0" y="100.0">cl=0</label>
+			<label kind="comments" x="705.0" y="100.0">observable</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id3"/>
+			<label kind="guard" x="1000.0" y="0.0">cl&gt;=2</label>
+			<label kind="synchronisation" x="1010.0" y="0.0">Ack20!</label>
+			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1005.0" y="0.0">controllable</label>
+		</transition>
 	</template>
 	<template>
 		<name x="0" y="0">Node3</name>
@@ -223,7 +309,7 @@ chan Req10, Req30, Req20, Req02, Req01, Req03, Ack10, Ack30, Ack02, Ack01, Ack20
 		</location>
 		<location id="id2" x="0" y="200">
 			<name x="7" y="207">La2</name>
-			<label kind="invariant" x="7" y="220">cl&lt;=6</label>
+			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
 		</location>
 		<location id="id3" x="600" y="0">
 			<name x="607" y="7">La3</name>
@@ -231,6 +317,10 @@ chan Req10, Req30, Req20, Req02, Req01, Req03, Ack10, Ack30, Ack02, Ack01, Ack20
 		</location>
 		<location id="id4" x="800" y="0">
 			<name x="807" y="7">END</name>
+		</location>
+		<location id="id6" x="0" y="200">
+			<name x="7" y="207">La5</name>
+			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
 		</location>
 		<init ref="id0"/>
 		<transition>
@@ -258,6 +348,14 @@ chan Req10, Req30, Req20, Req02, Req01, Req03, Ack10, Ack30, Ack02, Ack01, Ack20
 			<label kind="comments" x="605.0" y="0.0">observable</label>
 		</transition>
 		<transition>
+			<source ref="id1"/>
+			<target ref="id6"/>
+			<label kind="guard" x="700.0" y="0.0">cl&gt;=10</label>
+			<label kind="synchronisation" x="710.0" y="0.0">Req03?</label>
+			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
+			<label kind="comments" x="705.0" y="0.0">observable</label>
+		</transition>
+		<transition>
 			<source ref="id2"/>
 			<target ref="id3"/>
 			<label kind="guard" x="500.0" y="0.0">cl&gt;=0</label>
@@ -268,7 +366,7 @@ chan Req10, Req30, Req20, Req02, Req01, Req03, Ack10, Ack30, Ack02, Ack01, Ack20
 		<transition>
 			<source ref="id2"/>
 			<target ref="id0"/>
-			<label kind="guard" x="200.0" y="0.0">cl&gt;=6</label>
+			<label kind="guard" x="200.0" y="0.0">cl==8</label>
 			<label kind="assignment" x="205.0" y="0.0">cl=0</label>
 			<label kind="comments" x="205.0" y="0.0">timeout</label>
 		</transition>
@@ -279,6 +377,13 @@ chan Req10, Req30, Req20, Req02, Req01, Req03, Ack10, Ack30, Ack02, Ack01, Ack20
 			<label kind="synchronisation" x="710.0" y="0.0">Ack30!</label>
 			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
 			<label kind="comments" x="705.0" y="0.0">controllable</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id0"/>
+			<label kind="guard" x="600.0" y="0.0">cl==8</label>
+			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
+			<label kind="comments" x="605.0" y="0.0">timeout</label>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
