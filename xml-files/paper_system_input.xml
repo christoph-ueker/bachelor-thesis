@@ -199,7 +199,7 @@ int c3 = -1;</declaration>
 		<transition>
 			<source ref="id7"/>
 			<target ref="id8"/>
-			<label kind="guard" x="-1989" y="-196">cl&gt;=TO100</label>
+			<label kind="guard" x="-1989" y="-195">cl&gt;=TO100</label>
 			<label kind="assignment" x="-1904" y="-196">cl=0, c2=13</label>
 			<nail x="-1742" y="-170"/>
 			<nail x="-1997" y="-170"/>
@@ -331,7 +331,19 @@ system Node1, Node2, Node3;
     </system>
 	<queries>
 		<query>
-			<formula>simulate 1000 [&lt;= 100] {c1, c2, c3}</formula>
+			<formula>E&lt;&gt; c3 == 21</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; c2 == 13</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; c1 == 5</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>simulate 9999 [&lt;= 100] {c1, c2, c3}</formula>
 			<comment></comment>
 		</query>
 	</queries>
