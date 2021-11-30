@@ -1,29 +1,20 @@
-import os
 import subprocess
 from helper import *
 from uppaalpy import nta as u
 import copy
-
-
 import sys
 
-
-# Disable
-def blockPrint():
-    sys.stdout = open(os.devnull, 'w')
-
-
-# suppress all printing
+# this suppresses all printing to console, comment out to reactivate
 blockPrint()
 
 
-# Restore
-def enablePrint():
-    sys.stdout = sys.__stdout__
-
-
-# creates a new template from blank_template
 def new_template(name):
+    """Creates new template from blank_template and appends it to sys.templates
+
+    :param str name:    name of the new template
+    :return:            new template
+    :rtype:             u.Template
+    """
     new = copy.deepcopy(blank_template)
     new.name = u.Name(name=name, pos=[0, 0])
     sys.templates.append(new)
@@ -31,14 +22,19 @@ def new_template(name):
 
 
 class Event:
+    """Class for events read from logs
+
+    Attributes:
+        signal: either Req or Ack
+        origin: either 0 for SUT or the number of a Env Node
+        target: either 0 for SUT or the number of a Env Node
+        ts:     timestamp
+        type:   either SUT or ENV, depending on origin
+    """
     def __init__(self, signal, origin, target, ts):
-        # either Req or Ack
         self.signal = signal
-        # either 0 for SUT or the number of a Env Node
         self.origin = origin
-        # either 0 for SUT or the number of a Env Node
         self.target = target
-        # timestamp
         self.ts = ts
 
         if self.origin in [0, '-']:
@@ -46,18 +42,22 @@ class Event:
         else:
             self.type = "Env"
 
-    # required for debugging printing
+    # debug printing
     def __str__(self):
         return "signal={0}, origin={1}, target={2}, timestamp={3}".format(str(self.signal), str(self.origin),
                                                                           str(self.target), str(self.ts))
 
 
-# contains list of Event
 class Log:
+    """Contains list of events
+
+    Attributes:
+        events: list of events from class Event
+    """
     def __init__(self):
         self.events = []
 
-    # required for debugging printing
+    # debug printing
     def __str__(self):
         ret = ""
         for event in self.events:
@@ -67,25 +67,29 @@ class Log:
 
 # TODO: Currently the format only fits for <10 Env Nodes -> Scalability
 def read_logs(file):
+    """Reads logs line-wise from file into an array
+
+    :param str file: text file containing the logs in a line-wise fashion
+    :return: array of logs
+    """
     logs = []
-    print(type(logs))
     log_file = open(file, "r")
     lines = [line.replace('\n', '').replace('<', '').replace('>', '') for line in log_file.readlines()]
 
     i = -1
     for index, line in enumerate(lines):
-        # line initializing new event feed for a log (log: x)
+        # line initializing new event feed for a log ("log: x")
         if line[0] == "l":
             logs.append(Log())
             i += 1
         else:
             wholesignal, ts = line.split(',')
             ts = int(ts)
-            # timeout represented by wildcard '.'
+            # timeout represented by 'To'
             if wholesignal[:2] == 'To':
                 signal = "---"
                 origin = "-"
-                target = int(wholesignal[2])
+                target = int(wholesignal[2:])
             else:
                 # first 3 characters are Req or Ack
                 signal = wholesignal[:3]
@@ -97,44 +101,27 @@ def read_logs(file):
     return logs
 
 
-# TODO: Keep this for now
-# def read_log(log_string):
-#     log_file = open(file, "r")
-#     print("\n--- " + file + " ---")
-#     lines = [line.replace('\n', '').replace('<', '').replace('>', '') for line in log_file.readlines()]
-#     # print(lines)
-#     log = Log()
-#     for line in lines:
-#         wholesignal, ts = line.split(',')
-#         ts = int(ts)
-#         # timeout represented by wildcard '.'
-#         if wholesignal == '.':
-#             signal = "---"
-#             origin = "-"
-#             target = "-"
-#         else:
-#             # first 3 characters are Req or Ack
-#             signal = wholesignal[:3]
-#             origin = int(wholesignal[3])
-#             target = int(wholesignal[4])
-#         # print(signal + " " + origin + " " + target + " " + str(ts))
-#         log.events.append(Event(signal, origin, target, ts))
-#     log_file.close()
-#     return log
-
-
 def new_x(node):
-    return stepsize * num_locations(node)
+    """Determines x position for a new location
+
+    :param int node:    Template to add the new location
+    :return:            new x position
+    :rtype:             int
+    """
+    return step_size * num_locations(node)
 
 
 def new_id(node):
+    """Determines id for a new location
+
+    :param int node:    Template to add the new location
+    :return:            new id
+    :rtype:             str
+    """
     return "id" + str(num_locations(node))
 
 
-# my_log = read_log_from_file("logs/log1.txt")
-# print(my_log)
-
-# --- BEGIN my_alg ---
+""" --- MAJOR INITIALISATIONS --- """
 
 # load the blank system generated by UPPAAL as a starting point
 sys = u.NTA.from_xml(path='xml-files/blank_system.xml')
@@ -142,71 +129,104 @@ sys.templates[0].graph.remove_node(('Template', 'id0'))
 blank_template = copy.deepcopy(sys.templates[0])
 sys.templates.pop()
 
-# creates new template for SUT
 sut = new_template("SUT")
+# list of templates for the Env nodes
 env = []
 
 # store used Channel names of SUT
 sut_channels = []
-# store used Channel names in general of adding to declarations
+# store used channels to write them to UPPAAL global declarations
 channels = []
 
-#
-stepsize = 200  # stepsize for locations
+step_size = 200  # step size for locations
 last_locations = []  # last used locations
 active_locations = []
-
-
-def active_index(node):
-    return len(active_locations[node - 1]) + 1
-
-
 passive_locations = []
 
 
+def active_index(node):
+    """Determines index for a new active location
+
+    :param int node:    Template to add the new location
+    :return:            new active index
+    :rtype:             int
+    """
+    return len(active_locations[node - 1]) + 1
+
+
 def passive_index(node):
+    """Determines index for a new passive location
+
+    :param int node:    Template to add the new location
+    :return:            new passive index
+    :rtype:             int
+    """
     return len(passive_locations[node - 1]) + 1
 
 
 def all_locations(node):
+    """Combines active and passive locations of a node's template
+
+    :param int node:    Template of locations
+    :return:            list of all locations
+    :rtype:             list of u.Location
+    """
     return passive_locations[node - 1] + active_locations[node - 1]
 
 
 def has_end_loc(node):
-    temp = False
+    """Checks whether a node's template already has an end location called 'END'
+
+    :param int node:    node to check the template of
+    :return:            true if it has 'END' location
+    :rtype:             bool
+    """
     for location in all_locations(node):
         if location.name.name == "END":
-            temp = True
-    return temp
+            return True
+    return False
 
 
 def get_end_loc(node):
+    """Retrieves the end location of a node's template
+
+    :param int node:    node to retrieve the end location of
+    :return:            end location
+    :rtype:             u.Location
+    """
+    if not has_end_loc(node):
+        raise LookupError('There is no end location for this node!')
     for location in all_locations(node):
         if location.name.name == "END":
             return location
 
 
-# adds transition to SUT (if new), adds to used channels, determines label for Env transition
-def new_channel(ori, tar, value, suffix):
+def new_channel(ori, tar, name, suffix):
+    """Adds new transition to SUT (if the channel is new), adds channel to used channels,
+    determines label for Env transition
+
+    :param u.Location ori:  origin of the channel's transition
+    :param u.Location tar:  target of the channel's transition
+    :param str name:        channel's name
+    :param str suffix:      either '?' or '!'
+    :return:                label for the Env channel
+    :rtype:                 u.Label
+    """
     # BLOCK for Env Channel
     label = u.Label(kind="synchronisation", pos=sync_label_pos(ori, tar),
-                    value=value + suffix)
-    print("Creating Channel: " + value + suffix)
+                    value=name + suffix)
+    print("Creating Channel: " + name + suffix)
+
     # BLOCK for adding transition to SUT, if new Channel
     if suffix == "?":
-        inverse = value + "!"
+        inverse = name + "!"
     elif suffix == "!":
-        inverse = value + "?"
+        inverse = name + "?"
     else:
-        inverse = None
-        print("WRONG SUFFIX FOR CHANNEL CREATION")
-    if value == "Ack":
-        print("SETTING END LOCATION")
-        tar.name = "END"
+        raise AssertionError("Wrong suffix for channel creation!")
 
-    # store used channels to write them to UPPAAL global declarations
-    if value not in channels:
-        channels.append(value)
+    if name not in channels:
+        channels.append(name)
 
     # TODO: Proper positioning of self-edges and labels for SUT (maybe even dynamic readjusting)
     # old ones to fit in a circle -> make it scalable
@@ -223,18 +243,18 @@ def new_channel(ori, tar, value, suffix):
 
 def add_qual_trans(node, src, tar, guard, comments, **kwargs):
     """
-    Adds a new transition
+    Adds a new transition to a node's template
 
-    :param template node: Template
-    :param loc src: Source location
-    :param loc tar: Target location
-    :param int guard: Guard values
-    :param [int, int] nails: Position tuple for a Nail
-    :param str comments: Comments
-    :param str sync: Synchronisation Channel Label
-    :param str guard_string: Used  for timeout transitions
-    :return: the transition
-    :rtype: trans
+    :param int node:            Template to add the transition to
+    :param u.Location src:      source location
+    :param u.Location tar:      target location
+    :param int guard:           guard values
+    :param str comments:        comments
+    :kwarg [int, int] nails:    position tuple for a u.Nail
+    :kwarg str sync:            synchronisation Channel Label
+    :kwarg str guard_string:    used  for timeout transitions to state '=='
+    :return:                    new transition
+    :rtype:                     u.Transition
     """
 
     guard_string = kwargs.get('guard_string')
@@ -242,7 +262,7 @@ def add_qual_trans(node, src, tar, guard, comments, **kwargs):
         guard_string = "cl>="
     guard_label = u.Label(kind="guard", pos=guard_label_pos(src, tar),
                           value=guard_string + str(guard))
-    # standard assignment
+    # the standard assignment for every transition 'cl=0'
     assignment_label = u.Label(kind="assignment",
                                pos=asgn_label_pos(src, tar), value="cl=0")
     comment = u.Label(kind="comments", pos=asgn_label_pos(src, tar),
@@ -257,10 +277,10 @@ def add_qual_trans(node, src, tar, guard, comments, **kwargs):
         trans.nails = [nail]
     sync = kwargs.get('sync')
     if sync is not None:
-        # redirect transition to end location as target
-        # Assumption: After acknowledgment we are done with that Node
         if sync.value[0:3] == "Ack":
+            # Assumption: After acknowledgment we are done with that Node
             if has_end_loc(node) and tar != get_end_loc(node):
+                # redirect transition to end location as target
                 env[node - 1].del_loc(trans.target)
                 trans.target = get_end_loc(node).id
             else:
@@ -273,9 +293,17 @@ def add_qual_trans(node, src, tar, guard, comments, **kwargs):
 
 
 def interval_extension(lb, ub, r):
+    """Calculating new lower and upper bound by applying the mathematical interval extension
+
+    :param int lb:  initial lower bound
+    :param int ub:  initial upper bound
+    :param int r:   interval extension parameter to be used
+    :return:        new lower and upper bound
+    :rtype:         (int, int)
+    """
     delta = r - (ub - lb)
     # TODO: Check whether this is valid
-    # This ensures we only EXTEND the interval
+    # we only EXTEND the interval
     if delta > 0:
         new_lb = lb - delta
         new_ub = ub + delta
@@ -285,22 +313,33 @@ def interval_extension(lb, ub, r):
 
 
 def get_loc_by_id(loc_list, id):
+    """Retrieves the location behind an id
+
+    :param list of u.Location loc_list: list of locations to look through
+    :param string id:                   id to look after
+    :return:                            location behind the given id
+    :rtype:                             u.Location
+    """
     for loc in loc_list:
         if loc.id == id:
             return loc
     return "Error while looking for id: " + id
 
 
-# checks whether a location is in the targets of a list of transitions
 def in_target_locs(loc, transitions):
-    # print("\nlocation: " + loc.id)
+    """Checks whether a location is in the targets of a list of transitions
+
+    :param u.Location loc:                      location to be checked
+    :param list of u.Transition transitions:    list of transitions to be checked
+    :return:                                    whether the location is in the targets
+    :rtype:                                     bool
+    """
     for trans in transitions:
         if trans.target == loc.id:
-            # print("\ntarget: " + trans.target)
             return True
     return False
 
-
+# TODO: finish clean documentation
 # this is how we add locations
 sut_loc = sut.add_loc(u.Location(id="id0", pos=[0, 0]))
 
@@ -405,7 +444,7 @@ for count, log in enumerate(logs):
                     add_qual_trans(node=proc, src=working_loc[proc - 1], tar=init_loc, guard=timeout_units[proc - 1],
                                    comments="timeout", guard_string="cl==")  # nails=[-30, -30],
                     # reposition last location
-                    repos_loc(working_loc[proc - 1], init_loc.pos[0], init_loc.pos[1] + stepsize)
+                    repos_loc(working_loc[proc - 1], init_loc.pos[0], init_loc.pos[1] + step_size)
                 working_loc[proc - 1] = init_loc
                 timeout_ts[proc - 1] = 0
             """ --- END TIMEOUT HANDLING --- """
@@ -547,7 +586,7 @@ for count, log in enumerate(logs):
                     working_loc[proc - 1] = target_loc
                 else:
                     # create new active/timeout location
-                    position = [working_loc[proc - 1].pos[0] + stepsize, working_loc[proc - 1].pos[1]]
+                    position = [working_loc[proc - 1].pos[0] + step_size, working_loc[proc - 1].pos[1]]
                     new_active = u.Location(id=new_id(proc), pos=position,
                                             name=u.Name(new_loc_name(loc_type="a", index=active_index(proc)),
                                                         pos=name_loc_pos(position[0], position[1])))
@@ -565,7 +604,7 @@ for count, log in enumerate(logs):
                                    comments="timeout")  # nails=[-30, -30],
 
                     # create new active location
-                    position = [working_loc[proc - 1].pos[0] + 2 * stepsize, working_loc[proc - 1].pos[1]]
+                    position = [working_loc[proc - 1].pos[0] + 2 * step_size, working_loc[proc - 1].pos[1]]
                     new_active2 = u.Location(id=new_id(proc), pos=position,
                                              name=u.Name(new_loc_name(loc_type="a", index=active_index(proc)),
                                                          pos=name_loc_pos(position[0], position[1])))
@@ -661,7 +700,7 @@ for count, log in enumerate(logs):
 #     node.add_loc(u.Location(id="id0", pos=[0, 0], name="La1"))
 #     node.add_loc(u.Location(id="id1", pos=[200, 200]))
 
-# write declarations
+# write global declarations
 declarations = "// Place global declarations here.\n"
 if channels:
     declarations += "chan "

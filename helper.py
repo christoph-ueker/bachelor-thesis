@@ -1,4 +1,22 @@
-""" POSITIONAL HELPER FUNCTIONS """
+import sys
+import os
+
+""" BEGIN GENERAL HELPER FUNCTIONS """
+
+
+# Disable printing to console
+def blockPrint():
+    sys.stdout = open(os.devnull, 'w')
+
+
+# Restore printing to console
+def enablePrint():
+    sys.stdout = sys.__stdout__
+
+
+""" END GENERAL HELPER FUNCTIONS """
+
+""" BEGIN POSITIONAL HELPER FUNCTIONS """
 
 
 def guard_label_pos(ori, tar):
