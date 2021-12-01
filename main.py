@@ -5,20 +5,7 @@ import copy
 import sys
 
 # this suppresses all printing to console, comment out to reactivate
-blockPrint()
-
-
-def new_template(name):
-    """Creates new template from blank_template and appends it to sys.templates
-
-    :param str name:    name of the new template
-    :return:            new template
-    :rtype:             u.Template
-    """
-    new = copy.deepcopy(blank_template)
-    new.name = u.Name(name=name, pos=[0, 0])
-    sys.templates.append(new)
-    return new
+# blockPrint()
 
 
 class Event:
@@ -63,6 +50,19 @@ class Log:
         for event in self.events:
             ret += str(event) + "\n"
         return ret
+
+
+def new_template(name):
+    """Creates new template from blank_template and appends it to sys.templates
+
+    :param str name:    name of the new template
+    :return:            new template
+    :rtype:             u.Template
+    """
+    new = copy.deepcopy(blank_template)
+    new.name = u.Name(name=name, pos=[0, 0])
+    sys.templates.append(new)
+    return new
 
 
 # TODO: Currently the format only fits for <10 Env Nodes -> Scalability
@@ -130,16 +130,11 @@ blank_template = copy.deepcopy(sys.templates[0])
 sys.templates.pop()
 
 sut = new_template("SUT")
-# list of templates for the Env nodes
-env = []
-
-# store used Channel names of SUT
-sut_channels = []
-# store used channels to write them to UPPAAL global declarations
-channels = []
+env = []  # list of templates for the Env nodes
+sut_channels = []  # store used Channel names of SUT
+channels = []  # store used channels to write them to UPPAAL global declarations
 
 step_size = 200  # step size for locations
-last_locations = []  # last used locations
 active_locations = []
 passive_locations = []
 
@@ -339,72 +334,84 @@ def in_target_locs(loc, transitions):
             return True
     return False
 
-# TODO: finish clean documentation
-# this is how we add locations
+
+def num_locations(node):
+    """Determines the number of locations for a specific node
+
+    :param int node:    number of node
+    :return:            number of locations for a specific node
+    :rtype:             int
+    """
+    return len(active_locations[node - 1]) + len(passive_locations[node - 1])
+
+
+def new_loc_name(loc_type, index):
+    """
+
+    :param str loc_type:    either "a" for active or "p" for passive
+    :param int index:       index of the specific location set (active or passive)
+    :return:                name for the new location
+    :rtype:                 str
+    """
+    name = "L" + loc_type + str(index)
+    print("New loc name: " + name)
+    return name
+
+
+# SUT has only one location
 sut_loc = sut.add_loc(u.Location(id="id0", pos=[0, 0]))
 
 logs = read_logs("traces_output.txt")
-# for log in logs:
-#     print(log)
-# iterate over the files in logs folder
+
+# iterate over all logs
 for count, log in enumerate(logs):
     print("\nLog: " + str(count))
-    # log = read_log("logs/" + filename)
 
-    # TODO: This assumption is fine for now, Iam assuming it
-    # count the Env Nodes, it has to be the same for all logs
-    number_env_nodes = 0
-    for event in log.events:
-        # ignore timeouts
-        if event.signal != "---":
-            if event.origin > number_env_nodes:
-                number_env_nodes = event.origin
-            if event.target > number_env_nodes:
-                number_env_nodes = event.target
-    # print("Number of Nodes: " + str(number_env_nodes) + "\n")
-    # create new template for Env Node, if we have none yet
-    if not env:
+    # setup everything
+    if count == 0:
+        # count the Env Nodes, assumption: it has to be the same for all logs
+        number_env_nodes = 0
+        for event in log.events:
+            # ignore timeouts
+            if event.signal != "---":
+                if event.origin > number_env_nodes:
+                    number_env_nodes = event.origin
+                if event.target > number_env_nodes:
+                    number_env_nodes = event.target
+
+        # create new template for Env Node
         for i in range(1, number_env_nodes + 1):
             env.append(new_template("Node" + str(i)))
 
-    # create clock declaration for every Env Template
-    for node in env:
-        node.declaration = u.Declaration("clock cl;")
+        # create clock declaration for every Env Template
+        for node in env:
+            node.declaration = u.Declaration("clock cl;")
 
     """ --- BEGIN INITIALIZATIONS --- """
 
-    # initialize internal clocks and interval abstraction parameter
+    # initialize internal clocks
     internal_clock = []
-
     for i in range(1, number_env_nodes + 1):
         internal_clock.append(0)
-    # initially 4
-    R = 8
-    # other initializations
 
+    # initialize interval abstraction parameter
+    R = 8
+
+    # other initializations
     timeout_ts = []
     timeout_units = []
-
-    # returns the number of locations for a specific node
-    def num_locations(node):
-        return len(active_locations[node - 1]) + len(passive_locations[node - 1])
-
-
-    def new_loc_name(loc_type, index):
-        name = "L" + loc_type + str(index)
-        print("New loc name: " + name)
-        return name
-
-
     working_loc = []
+
+    # intialize arrays with length being the number of Env nodes, so you can access specific traits for them by index
     for i in range(number_env_nodes):
         active_locations.append([])
         passive_locations.append([])
-        last_locations.append([])
         timeout_ts.append(0)
         timeout_units.append(0)
-        working_loc.append(u.Location(id="id1337", pos=[0, 0], name=u.Name("1337", pos=[0, 0])))  # random init
+        # some random initial location
+        working_loc.append(u.Location(id="id1337", pos=[0, 0], name=u.Name("1337", pos=[0, 0])))
 
+    # if we are not in the first log, we set the working location for each node to the initial location
     if count > 0:
         for i in range(number_env_nodes):
             working_loc[i] = get_loc_by_id(all_locations(i + 1), env[i].graph.initial_location[1])
@@ -417,18 +424,20 @@ for count, log in enumerate(logs):
         if event.type == "Env":
             signal = event.signal + str(event.origin) + str(event.target)
             print("Env Event: " + signal)
+
             proc = event.origin
             clock = event.ts - internal_clock[proc - 1]
             internal_clock[proc - 1] = event.ts
 
-
             """ --- BEGIN TIMEOUT HANDLING --- """
-            # last event was timeout, we have to go to initial loc by assumption
+
+            # last event was timeout, we have to go to initial location by assumption
             if timeout_ts[proc - 1] != 0:
                 clock = internal_clock[proc - 1] - timeout_ts[proc - 1]
                 print("timeout handling")
                 init_loc = get_loc_by_id(all_locations(proc), env[proc - 1].graph.initial_location[1])
 
+                # there is no invariant in the working location yet
                 if not hasattr(working_loc[proc - 1].invariant, 'value'):
                     # We have to create invariant for this location
                     working_loc[proc - 1].invariant = u.Label(kind="invariant", pos=[last_loc.pos[0], 20],
@@ -438,28 +447,26 @@ for count, log in enumerate(logs):
                     inv_ub = int(working_loc[proc - 1].invariant.value[4:])
                 working_loc[proc - 1].invariant.value = "cl<=" + str(max(timeout_units[proc - 1], inv_ub))
                 # appending the last location before the timeout
-                last_locations[proc - 1].append(last_locations[proc - 1][-2])
                 if not in_target_locs(init_loc, env[proc - 1].get_trans_by_source(working_loc[proc - 1])):
-                    print("Repositioning location...")
                     add_qual_trans(node=proc, src=working_loc[proc - 1], tar=init_loc, guard=timeout_units[proc - 1],
                                    comments="timeout", guard_string="cl==")  # nails=[-30, -30],
                     # reposition last location
+                    print("Repositioning location...")
                     repos_loc(working_loc[proc - 1], init_loc.pos[0], init_loc.pos[1] + step_size)
                 working_loc[proc - 1] = init_loc
                 timeout_ts[proc - 1] = 0
-            """ --- END TIMEOUT HANDLING --- """
 
+            """ --- END TIMEOUT HANDLING --- """
 
             # Check the condition for Case 1
             cond = False
-            # going through all transitions with source being the location we are currently in
+
             # TODO: Check whether this is fine, as it is different to paper
+            # going through all transitions with source being the location we are currently in
+            source_loc = working_loc[proc - 1]
             print("Working loc is: " + working_loc[proc - 1].name.name)
             for transition in env[proc - 1].get_trans_by_source(working_loc[proc - 1]):
-                # source_loc = get_loc_by_id(active_locations[proc-1], transition.source)
-                source_loc = working_loc[proc - 1]
-                # if source_loc is last_locations[proc-1][-1]:
-                # TODO: Maybe dont use int here
+
                 guard_lb = int(transition.guard.value[4:])
                 target_loc = get_loc_by_id(passive_locations[proc - 1], transition.target)
                 if hasattr(source_loc.invariant, 'value'):
@@ -476,6 +483,7 @@ for count, log in enumerate(logs):
             # Case 1
             if cond:
                 print("Env Case 1 for " + str(env[proc - 1].name.name))
+
                 # update corresponding guard
                 found_trans.guard.value = "cl>=" + str(min(clock, guard_lb))
                 # update corresponding invariant
@@ -492,8 +500,8 @@ for count, log in enumerate(logs):
             # Case 2
             else:
                 print("Env Case 2 for " + str(env[proc - 1].name.name))
+
                 if active_index(proc) > 1:  # If not first active location
-                    # working_active_loc = working_loc[proc-1]
                     working_active_loc = active_locations[proc - 1][-1]  # This considers the top of the stack
                 else:  # If first active location
                     # add location to the active locations
@@ -505,7 +513,6 @@ for count, log in enumerate(logs):
                                                               pos=inv_loc_pos(position[0], position[1]),
                                                               value="cl<=" + str(clock)))
                     active_locations[proc - 1].append(env[proc - 1].add_loc(new_active))
-                    last_locations[proc - 1].append(new_active)
                     working_active_loc = new_active
 
                 if has_end_loc(proc):
@@ -514,8 +521,9 @@ for count, log in enumerate(logs):
                         add_qual_trans(node=proc, src=working_active_loc, tar=end_loc, guard=clock,
                                        comments="controllable",
                                        sync=new_channel(working_active_loc, end_loc, signal, "!"))
-                        working_active_loc.invariant = u.Label(kind="invariant", pos=inv_loc_pos(working_active_loc.pos[0],
-                                                                                                 working_active_loc.pos[1]),
+                        working_active_loc.invariant = u.Label(kind="invariant",
+                                                               pos=inv_loc_pos(working_active_loc.pos[0],
+                                                                               working_active_loc.pos[1]),
                                                                value="cl<=" + str(clock))
                     working_loc[proc - 1] = end_loc
                 else:
@@ -525,7 +533,6 @@ for count, log in enumerate(logs):
                                              name=u.Name(new_loc_name(loc_type="p", index=passive_index(proc)),
                                                          pos=name_loc_pos(position[0], position[1])))
                     passive_locations[proc - 1].append(env[proc - 1].add_loc(new_passive))
-                    last_locations[proc - 1].append(new_passive)
                     working_loc[proc - 1] = new_passive
                     # add transition
                     add_qual_trans(node=proc, src=working_active_loc, tar=new_passive, guard=clock,
@@ -533,8 +540,9 @@ for count, log in enumerate(logs):
                                    sync=new_channel(working_active_loc, new_passive, signal, "!"))
         # SUT Event
         else:
-            print("SUT Event: " + event.signal + str(event.origin) + str(event.target))
             signal = event.signal + str(event.origin) + str(event.target)
+            print("SUT Event: " + signal)
+
             proc = event.target
             if event.origin == "-":
                 print("timeout event, skipping...")
@@ -553,7 +561,6 @@ for count, log in enumerate(logs):
             last_loc = working_loc[proc - 1]
             print("Working loc is: " + working_loc[proc - 1].name.name)
 
-
             """ --- BEGIN TIMEOUT HANDLING --- """
             # last event was timeout
             if timeout_ts[proc - 1] != 0:
@@ -568,12 +575,7 @@ for count, log in enumerate(logs):
                         target_loc = get_loc_by_id(all_locations(proc), transition.target)
                         inv_ub = int(last_loc.invariant.value[4:])
                         lb, ub = interval_extension(guard_lb, inv_ub, R)
-                        print("lb: " + str(lb) + ", clock: " + str(clock) + ", ub: " + str(ub))
-                        # # need this
-                        # if not hasattr(transition, 'synchronisation'):
-                        #     compare = signal + "?"
-                        # else:
-                        #     compare = transition.synchronisation.value
+
                         if lb <= clock <= ub:
                             cond = True
                             found_trans = transition
@@ -585,13 +587,13 @@ for count, log in enumerate(logs):
                     last_loc.invariant.value = "cl<=" + str(max(clock, inv_ub))
                     working_loc[proc - 1] = target_loc
                 else:
+                    testi = input("im here now")
                     # create new active/timeout location
                     position = [working_loc[proc - 1].pos[0] + step_size, working_loc[proc - 1].pos[1]]
                     new_active = u.Location(id=new_id(proc), pos=position,
                                             name=u.Name(new_loc_name(loc_type="a", index=active_index(proc)),
                                                         pos=name_loc_pos(position[0], position[1])))
                     active_locations[proc - 1].append(env[proc - 1].add_loc(new_active))
-                    last_locations[proc - 1].append(new_active)
                     if not hasattr(last_loc.invariant, 'value'):
                         # We have to create invariant for this location
                         last_loc.invariant = u.Label(kind="invariant",
@@ -609,7 +611,6 @@ for count, log in enumerate(logs):
                                              name=u.Name(new_loc_name(loc_type="a", index=active_index(proc)),
                                                          pos=name_loc_pos(position[0], position[1])))
                     active_locations[proc - 1].append(env[proc - 1].add_loc(new_active2))
-                    last_locations[proc - 1].append(new_active2)
                     if not hasattr(new_active.invariant, 'value'):
                         # We have to create invariant for this location
                         new_active.invariant = u.Label(kind="invariant",
@@ -626,7 +627,6 @@ for count, log in enumerate(logs):
                 timeout_ts[proc - 1] = 0
                 continue
             """ --- END TIMEOUT HANDLING --- """
-
 
             # Check the condition for Case 1
             cond = False
@@ -647,13 +647,6 @@ for count, log in enumerate(logs):
                         cond = True
                         found_trans = transition
                         break
-                # else:
-                #     if lb <= clock <= ub:
-                #         cond = True
-                #         found_trans = transition
-                #         break
-                # print("-----------------------------------------------------\n")
-                # print(transition.target)
 
             # Case 1
             if cond:
@@ -686,7 +679,6 @@ for count, log in enumerate(logs):
                                                     pos=name_loc_pos(position[0], position[1])))
                 active_locations[proc - 1].append(env[proc - 1].add_loc(new_active))
 
-                last_locations[proc - 1].append(new_active)
                 working_active_loc = new_active
                 working_loc[proc - 1] = new_active
                 # add transition
@@ -694,11 +686,6 @@ for count, log in enumerate(logs):
                                comments="observable", sync=new_channel(last_loc, working_active_loc, signal, "?"))
 
 # --- Finishing Ops ---
-
-# testwise addition of locations
-# for node in env:
-#     node.add_loc(u.Location(id="id0", pos=[0, 0], name="La1"))
-#     node.add_loc(u.Location(id="id1", pos=[200, 200]))
 
 # write global declarations
 declarations = "// Place global declarations here.\n"
@@ -732,7 +719,7 @@ sys.system = u.SystemDeclaration(system_declarations)
 # save the system to xml
 sys.to_file(path='xml-files/output.xml', pretty=True)
 
-# run UPPAAL and suppressing it's output
+# run UPPAAL and suppressing its output
 running_uppaal = subprocess.call(['java', '-jar', 'UPPAAL/uppaal.jar', 'xml-files/output.xml'],
                                  stdout=subprocess.DEVNULL,
                                  stderr=subprocess.STDOUT)
