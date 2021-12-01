@@ -451,7 +451,6 @@ for count, log in enumerate(logs):
                     add_qual_trans(node=proc, src=working_loc[proc - 1], tar=init_loc, guard=timeout_units[proc - 1],
                                    comments="timeout", guard_string="cl==")  # nails=[-30, -30],
                     # reposition last location
-                    print("Repositioning location...")
                     repos_loc(working_loc[proc - 1], init_loc.pos[0], init_loc.pos[1] + step_size)
                 working_loc[proc - 1] = init_loc
                 timeout_ts[proc - 1] = 0

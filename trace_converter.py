@@ -1,54 +1,27 @@
 """
 This module converts the export text file from a UPPAAL simulation to
 the used log format in the main module.
-Performant for at least 10000 logs.
 """
 
 import math
 import os
+from main import Event
+from main import Log
 
 
-class Event:
-    def __init__(self, signal, origin, target, ts):
-        # either Req or Ack
-        self.signal = signal
-        # either 0 for SUT or the number of a Env Node
-        self.origin = origin
-        # either 0 for SUT or the number of a Env Node
-        self.target = target
-        # timestamp
-        self.ts = ts
-
-        if self.origin in [0, '-']:
-            self.type = "SUT"
-        else:
-            self.type = "Env"
-
-    # required for debugging printing
-    def __str__(self):
-        return "signal={0}, origin={1}, target={2}, timestamp={3}".format(str(self.signal), str(self.origin),
-                                                                          str(self.target), str(self.ts))
-
-
-# contains list of Event
-class Log:
-    def __init__(self):
-        self.events = []
-
-    # required for debugging printing
-    def __str__(self):
-        ret = ""
-        for event in self.events:
-            ret += str(event) + "\n"
-        return ret
+"""
+Set these
+"""
+# number of Env nodes
+node_count = 3
 
 
 def mapping(number):
-    """
-    This is the chosen mapping between the values for the integers and their corresponding
-    signal.
-    :param number: the number defined in the adjusted UPPAAL paper_system
-    :return: signal: Signal used for learning process
+    """This is the chosen mapping between the values for the integers and their corresponding signal.
+
+    :param int number:  number defined in the adjusted UPPAAL paper_system called paper_system_input
+    :return:            signal used for learning process
+    :rtype:             str
     """
     signal = ""
     # 8 types of signals
@@ -69,10 +42,15 @@ def mapping(number):
     return signal
 
 
-# deletes every second line, as they are duplicates from UPPAAL
 def del_duplicates(arr):
+    """Deletes every second line, as they are duplicates from UPPAAL simulation
+
+    :param list of Log arr: log list
+    :return:                adjusted log list
+    :rtype:                 list of Log
+    """
     temp = []
-    for i, sth in enumerate(arr):
+    for i in range(len(arr)):
         if arr[i][1] != arr[i - 1][1]:
             temp.append(arr[i])
     return temp
@@ -87,8 +65,6 @@ def wanna_delete_double_to_log(log):
     return False
 
 
-# number of simulations
-node_count = 3
 sim_count = 0
 with open("traces.txt", 'r') as trace_file:
     lines = trace_file.readlines()
