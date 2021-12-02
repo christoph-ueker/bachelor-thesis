@@ -5,9 +5,50 @@ the used log format in the main module.
 
 import math
 import os
-from main import Event
-from main import Log
 
+
+class Event:
+    """Class for events read from logs
+
+    Attributes:
+        signal: either Req or Ack
+        origin: either 0 for SUT or the number of a Env Node
+        target: either 0 for SUT or the number of a Env Node
+        ts:     timestamp
+        type:   either SUT or ENV, depending on origin
+    """
+    def __init__(self, signal, origin, target, ts):
+        self.signal = signal
+        self.origin = origin
+        self.target = target
+        self.ts = ts
+
+        if self.origin in [0, '-']:
+            self.type = "SUT"
+        else:
+            self.type = "Env"
+
+    # debug printing
+    def __str__(self):
+        return "signal={0}, origin={1}, target={2}, timestamp={3}".format(str(self.signal), str(self.origin),
+                                                                          str(self.target), str(self.ts))
+
+
+class Log:
+    """Contains list of events
+
+    Attributes:
+        events: list of events from class Event
+    """
+    def __init__(self):
+        self.events = []
+
+    # debug printing
+    def __str__(self):
+        ret = ""
+        for event in self.events:
+            ret += str(event) + "\n"
+        return ret
 
 """
 Set these
@@ -25,8 +66,8 @@ def mapping(number):
     """
     signal = ""
     # 8 types of signals
-    if number == -1:
-        return "Req10"
+    # if number == -1:
+    #     return "Req10"
     if number % 8 == 0:
         return "Req" + str(math.floor(number / 8) + 1) + "0"
     if number % 8 == 1:
@@ -66,7 +107,7 @@ def wanna_delete_double_to_log(log):
 
 
 sim_count = 0
-with open("traces.txt", 'r') as trace_file:
+with open("test.txt", 'r') as trace_file:
     lines = trace_file.readlines()
 
     # save lines to array
@@ -111,8 +152,7 @@ for index, log in enumerate(arranged_logs):
         # only keep useful lines
         if event[0] != '#' and log[id - 1][0] != '#':
             x, y = event.split(' ')
-            if y != "0.0":
-                logs[index].append((round(float(x)), int(float(y))))
+            logs[index].append((round(float(x)), int(float(y))))
 
 # for log in logs:
 #     print("--- log ---")
@@ -124,21 +164,23 @@ output = open("traces_output.txt", 'w')
 
 log_number = 0
 # delete duplicates
-for log in logs:
-    # log = list(dict.fromkeys(log))
-    log = del_duplicates(log)
+for index, log in enumerate(logs):
+    # drop the first one to do weird simulations by UPPAAL
+    if index > 0:
+        # log = list(dict.fromkeys(log))
+        log = del_duplicates(log)
 
-    # sort by time (first part of tuple)
-    log = sorted(log, key=lambda x: x[0])
-    # deleting all logs with two timeouts in a row
-    if not wanna_delete_double_to_log(log):
-        log_number += 1
-        output.write("log: " + str(log_number) + "\n")
-        for i, event in enumerate(log):
+        # sort by time (first part of tuple)
+        log = sorted(log, key=lambda x: x[0])
+        # deleting all logs with two timeouts in a row
+        if not wanna_delete_double_to_log(log):
+            log_number += 1
+            output.write("log: " + str(log_number) + "\n")
+            for i, event in enumerate(log):
 
-            event_string = "<"
-            event_string += mapping(event[1]) + "," + str(event[0]) + ">"
-            output.write(str(event_string) + "\n")
+                event_string = "<"
+                event_string += mapping(event[1]) + "," + str(event[0]) + ">"
+                output.write(str(event_string) + "\n")
 output.close()
 
 # Post output validations

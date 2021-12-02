@@ -5,7 +5,7 @@ import copy
 import sys
 
 # this suppresses all printing to console, comment out to reactivate
-# blockPrint()
+blockPrint()
 
 
 class Event:
@@ -130,6 +130,7 @@ blank_template = copy.deepcopy(sys.templates[0])
 sys.templates.pop()
 
 sut = new_template("SUT")
+test = new_template()
 env = []  # list of templates for the Env nodes
 sut_channels = []  # store used Channel names of SUT
 channels = []  # store used channels to write them to UPPAAL global declarations
