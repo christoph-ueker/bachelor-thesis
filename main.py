@@ -4,6 +4,13 @@ from uppaalpy import nta as u
 import copy
 import sys
 
+os.system('python simulator.py')
+
+print("Main is running now...")
+
+# initialize interval abstraction parameter
+R = int(input("What should I take for interval abstraction parameter?:\n"))
+
 # this suppresses all printing to console, comment out to reactivate
 blockPrint()
 
@@ -93,8 +100,10 @@ def read_logs(file):
             else:
                 # first 3 characters are Req or Ack
                 signal = wholesignal[:3]
-                origin = int(wholesignal[3])
-                target = int(wholesignal[4])
+                rest = wholesignal[3:]
+                origin, target = rest.split('x')
+                origin = int(origin)
+                target = int(target)
             logs[i].events.append(Event(signal, origin, target, ts))
 
     log_file.close()
@@ -130,7 +139,7 @@ blank_template = copy.deepcopy(sys.templates[0])
 sys.templates.pop()
 
 sut = new_template("SUT")
-test = new_template()
+# test = new_template()
 env = []  # list of templates for the Env nodes
 sut_channels = []  # store used Channel names of SUT
 channels = []  # store used channels to write them to UPPAAL global declarations
@@ -395,8 +404,7 @@ for count, log in enumerate(logs):
     for i in range(1, number_env_nodes + 1):
         internal_clock.append(0)
 
-    # initialize interval abstraction parameter
-    R = 8
+
 
     # other initializations
     timeout_ts = []
@@ -423,12 +431,13 @@ for count, log in enumerate(logs):
     for event_index, event in enumerate(log.events):
         # Env event
         if event.type == "Env":
-            signal = event.signal + str(event.origin) + str(event.target)
+            signal = event.signal + str(event.origin) + "x" + str(event.target)
             print("Env Event: " + signal)
 
             proc = event.origin
             clock = event.ts - internal_clock[proc - 1]
             internal_clock[proc - 1] = event.ts
+            init_loc = get_loc_by_id(all_locations(proc), env[proc - 1].graph.initial_location[1])
 
             """ --- BEGIN TIMEOUT HANDLING --- """
 
@@ -436,7 +445,6 @@ for count, log in enumerate(logs):
             if timeout_ts[proc - 1] != 0:
                 clock = internal_clock[proc - 1] - timeout_ts[proc - 1]
                 print("timeout handling")
-                init_loc = get_loc_by_id(all_locations(proc), env[proc - 1].graph.initial_location[1])
 
                 # there is no invariant in the working location yet
                 if not hasattr(working_loc[proc - 1].invariant, 'value'):
@@ -540,7 +548,7 @@ for count, log in enumerate(logs):
                                    sync=new_channel(working_active_loc, new_passive, signal, "!"))
         # SUT Event
         else:
-            signal = event.signal + str(event.origin) + str(event.target)
+            signal = event.signal + str(event.origin) + "x" + str(event.target)
             print("SUT Event: " + signal)
 
             proc = event.target
@@ -559,6 +567,7 @@ for count, log in enumerate(logs):
             clock = event.ts - internal_clock[proc - 1]
             internal_clock[proc - 1] = event.ts
             last_loc = working_loc[proc - 1]
+            init_loc = get_loc_by_id(all_locations(proc), env[proc - 1].graph.initial_location[1])
             print("Working loc is: " + working_loc[proc - 1].name.name)
 
             """ --- BEGIN TIMEOUT HANDLING --- """
@@ -587,7 +596,7 @@ for count, log in enumerate(logs):
                     last_loc.invariant.value = "cl<=" + str(max(clock, inv_ub))
                     working_loc[proc - 1] = target_loc
                 else:
-                    testi = input("im here now")
+                    # testi = input("im here now")
                     # create new active/timeout location
                     position = [working_loc[proc - 1].pos[0] + step_size, working_loc[proc - 1].pos[1]]
                     new_active = u.Location(id=new_id(proc), pos=position,
@@ -636,7 +645,8 @@ for count, log in enumerate(logs):
                 source_loc = source_loc = working_loc[proc - 1]
                 target_loc = get_loc_by_id(all_locations(proc), transition.target)
                 if hasattr(source_loc, 'invariant'):
-                    inv_ub = int(source_loc.invariant.value[4:])
+                    if source_loc.invariant is not None:
+                        inv_ub = int(source_loc.invariant.value[4:])
                 else:
                     inv_ub = clock
                 lb, ub = interval_extension(guard_lb, inv_ub, R)

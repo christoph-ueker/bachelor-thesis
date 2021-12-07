@@ -373,7 +373,8 @@ class Location(Node):
         if self.invariant is not None:
             element.append(self.invariant.to_element())
         if self.exponentialrate is not None:
-            element.append(self.exponentialrat.to_element())
+            # adjusted 06.12.: typo "exponentialrat"
+            element.append(self.exponentialrate.to_element())
         if self.testcodeEnter is not None:
             element.append(self.testcodeEnter.to_element())
         if self.testcodeExit is not None:

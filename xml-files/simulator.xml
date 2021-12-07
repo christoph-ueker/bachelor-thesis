@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.</declaration>
+	<template>
+		<name>NodeENV</name>
+		<parameter>int &amp;c, int node</parameter>
+		<declaration>clock cl;</declaration>
+		<location id="id0" x="-1708" y="-246">
+			<label kind="invariant" x="-1768" y="-255">cl&lt;=3</label>
+		</location>
+		<location id="id1" x="-1436" y="-314">
+			<label kind="exponentialrate" x="-1446" y="-280">1</label>
+		</location>
+		<location id="id2" x="-1096" y="-246">
+			<name x="-1105" y="-238">end</name>
+		</location>
+		<location id="id3" x="-1564" y="-246">
+			<label kind="invariant" x="-1581" y="-289">cl&lt;=8</label>
+		</location>
+		<location id="id4" x="-1334" y="-246">
+			<label kind="invariant" x="-1351" y="-280">cl&lt;=3</label>
+		</location>
+		<location id="id5" x="-1215" y="-246">
+			<label kind="invariant" x="-1232" y="-289">cl&lt;=2</label>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-1657" y="-221">cl&gt;=2.5</label>
+			<label kind="assignment" x="-1598" y="-212">cl=0, c=8*node+5</label>
+			<nail x="-1410" y="-195"/>
+			<nail x="-1665" y="-195"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-1198" y="-272">cl&gt;=1</label>
+			<label kind="assignment" x="-1197" y="-246">c=8*node+3</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="assignment" x="-1326" y="-272">cl=0, c=8*node+6</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-1683" y="-272">cl&gt;=8</label>
+			<label kind="assignment" x="-1691" y="-246">cl=0, c=8*node+4</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="assignment" x="-1547" y="-246">cl=0, c=8*node+7</label>
+			<nail x="-1462" y="-246"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id4"/>
+			<label kind="assignment" x="-1419" y="-238">cl=0, c=8*node+2</label>
+			<nail x="-1428" y="-246"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="assignment" x="-1418" y="-314">c=8*node+1</label>
+			<nail x="-1096" y="-314"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-1666" y="-340">cl&gt;=2</label>
+			<label kind="assignment" x="-1690" y="-314">c=8*node+0</label>
+			<nail x="-1708" y="-314"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+// Node0 = NodeSUT();
+int c0 = -1, c1 = -1, c2 = -1;
+Node0 = NodeENV(c0, 0);
+Node1 = NodeENV(c1, 1);
+Node2 = NodeENV(c2, 2);
+
+// List one or more processes to be composed into a system.
+system Node0, Node1, Node2;
+    </system>
+	<queries>
+		<query>
+			<formula>E&lt;&gt; c3 == 21</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; c2 == 13</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; c1 == 5</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>simulate 9999 [&lt;= 100] {c0, c1, c2}</formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>
