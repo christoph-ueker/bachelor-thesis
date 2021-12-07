@@ -72,7 +72,6 @@ def new_template(name):
     return new
 
 
-# TODO: Currently the format only fits for <10 Env Nodes -> Scalability
 def read_logs(file):
     """Reads logs line-wise from file into an array
 
@@ -404,8 +403,6 @@ for count, log in enumerate(logs):
     for i in range(1, number_env_nodes + 1):
         internal_clock.append(0)
 
-
-
     # other initializations
     timeout_ts = []
     timeout_units = []
@@ -640,7 +637,6 @@ for count, log in enumerate(logs):
             # Check the condition for Case 1
             cond = False
             for transition in env[proc - 1].get_trans_by_source(working_loc[proc - 1]):
-                # TODO: Maybe dont use int here
                 guard_lb = int(transition.guard.value[4:])
                 source_loc = source_loc = working_loc[proc - 1]
                 target_loc = get_loc_by_id(all_locations(proc), transition.target)
@@ -730,6 +726,6 @@ sys.system = u.SystemDeclaration(system_declarations)
 sys.to_file(path='xml-files/output.xml', pretty=True)
 
 # run UPPAAL and suppressing its output
-running_uppaal = subprocess.call(['java', '-jar', 'UPPAAL/uppaal.jar', 'xml-files/output.xml'],
+running_uppaal = subprocess.call(['java', '-jar', 'UPPAAL-Stratego/uppaal.jar', 'xml-files/output.xml'],
                                  stdout=subprocess.DEVNULL,
                                  stderr=subprocess.STDOUT)

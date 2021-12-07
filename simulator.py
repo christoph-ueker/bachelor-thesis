@@ -75,4 +75,4 @@ with open('simulations.txt', 'w') as out:
 # Call the trace converter
 os.chdir('..')
 os.chdir('..')
-os.system('python trace_converter_automatic.py ' + str(nodes) + " " + str(simulations) + " " + 'UPPAAL-Stratego/bin-Windows/simulations.txt')
+os.system('python trace_converter.py ' + str(nodes) + " " + str(simulations) + " " + 'UPPAAL-Stratego/bin-Windows/simulations.txt')
