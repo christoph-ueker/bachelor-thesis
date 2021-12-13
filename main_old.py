@@ -573,27 +573,13 @@ for count, log in enumerate(logs):
             if event.origin == "-":
                 print("timeout event, skipping...")
                 timeout_ts[proc - 1] = event.ts
-
                 # accessing predecessor in that process
-                temp_target = 1
-                temp_origin = 1
+                tempi = 1
                 for i in range(1, 100):
                     if log.events[event_index - i].target == proc:
-                        temp_target = i
+                        tempi = i
                         break
-                for i in range(1, 100):
-                    if log.events[event_index - i].origin == proc:
-                        temp_origin = i
-                        break
-                if temp_target < temp_origin:
-                    temp = temp_target
-                else:
-                    temp = temp_origin
-                timeout_units[proc - 1] = timeout_ts[proc - 1] - log.events[event_index - temp].ts
-                if timeout_units[proc - 1] == 9:
-                    enablePrint()
-                    print(count)
-                    blockPrint()
+                timeout_units[proc - 1] = timeout_ts[proc - 1] - log.events[event_index - tempi].ts
                 print("TIMEOUT UNITS = " + str(timeout_units[proc - 1]))
                 continue
             clock = event.ts - internal_clock[proc - 1]
@@ -606,33 +592,71 @@ for count, log in enumerate(logs):
 
             # last event was timeout
             if timeout_ts[proc - 1] != 0:
-                # TODO: Revision this
+                enablePrint()
+                print("xxx")
+                blockPrint()
                 clock = internal_clock[proc - 1] - timeout_ts[proc - 1]
-
-                # enablePrint()
-                # print("timeout handling for SUT")
-                # blockPrint()
-
-                # there is no invariant in the working location yet
-                if not hasattr(working_loc[proc - 1].invariant, 'value'):
-                    # We have to create invariant for this location
-                    working_loc[proc - 1].invariant = u.Label(kind="invariant", pos=[last_loc.pos[0], 20],
-                                                              value="cl<=" + str(clock))
-                    inv_ub = 0
-                else:
-                    inv_ub = int(working_loc[proc - 1].invariant.value[4:])
-                working_loc[proc - 1].invariant.value = "cl<=" + str(max(timeout_units[proc - 1], inv_ub))
-
-                if not in_target_locs_guard(init_loc, timeout_units[proc - 1],
-                                            env[proc - 1].get_trans_by_source(working_loc[proc - 1])):
-                    add_qual_trans(node=proc, src=working_loc[proc - 1], tar=init_loc, guard=timeout_units[proc - 1],
-                                   comments="timeout", guard_string="cl==")  # nails=[-30, -30],
-                    # reposition last location
-                    repos_loc(working_loc[proc - 1], init_loc.pos[0], init_loc.pos[1] + step_size)
-                working_loc[proc - 1] = init_loc
-                timeout_ts[proc - 1] = 0
+                print("timeout handling")
                 last_loc = working_loc[proc - 1]
+                cond = False
+                for transition in env[proc - 1].get_trans_by_source(last_loc):
+                    # we go back to initial location by assumption
+                    if transition.target != init_loc.id:
+                        guard_lb = int(transition.guard.value[4:])
+                        target_loc = get_loc_by_id(all_locations(proc), transition.target)
+                        inv_ub = int(last_loc.invariant.value[4:])
+                        lb, ub = interval_extension(guard_lb, inv_ub, R)
 
+                        if lb <= clock <= ub:
+                            cond = True
+                            found_trans = transition
+                            break
+                if cond:
+                    # update corresponding guard
+                    found_trans.guard.value = "cl>=" + str(min(clock, guard_lb))
+                    # update corresponding invariant
+                    last_loc.invariant.value = "cl<=" + str(max(clock, inv_ub))
+                    working_loc[proc - 1] = target_loc
+                else:
+                    # testi = input("im here now")
+                    # create new active/timeout location
+                    position = [working_loc[proc - 1].pos[0] + step_size, working_loc[proc - 1].pos[1]]
+                    new_active = u.Location(id=new_id(proc), pos=position,
+                                            name=u.Name(new_loc_name(loc_type="a", index=active_index(proc)),
+                                                        pos=name_loc_pos(position[0], position[1])))
+                    active_locations[proc - 1].append(env[proc - 1].add_loc(new_active))
+                    if not hasattr(last_loc.invariant, 'value'):
+                        # We have to create invariant for this location
+                        last_loc.invariant = u.Label(kind="invariant",
+                                                     pos=inv_loc_pos(last_loc.pos[0], last_loc.pos[1]),
+                                                     value="cl<=" + str(clock))
+                        inv_ub = 0
+                    last_loc.invariant.value = "cl<=" + str(max(timeout_units[proc - 1], inv_ub))
+
+                    add_qual_trans(node=proc, src=last_loc, tar=new_active, guard=timeout_units[proc - 1],
+                                   comments="timeout")  # nails=[-30, -30],
+
+                    # create new active location
+                    position = [working_loc[proc - 1].pos[0] + 2 * step_size, working_loc[proc - 1].pos[1]]
+                    new_active2 = u.Location(id=new_id(proc), pos=position,
+                                             name=u.Name(new_loc_name(loc_type="a", index=active_index(proc)),
+                                                         pos=name_loc_pos(position[0], position[1])))
+                    active_locations[proc - 1].append(env[proc - 1].add_loc(new_active2))
+                    if not hasattr(new_active.invariant, 'value'):
+                        # We have to create invariant for this location
+                        new_active.invariant = u.Label(kind="invariant",
+                                                       pos=inv_loc_pos(new_active.pos[0], new_active.pos[1]),
+                                                       value="cl<=" + str(clock))
+                        inv_ub = 0
+                    new_active.invariant.value = "cl<=" + str(max(clock, inv_ub))
+
+                    add_qual_trans(node=proc, src=new_active, tar=new_active2, guard=clock,
+                                   comments="observable",
+                                   sync=new_channel(new_active, new_active2, signal, "?"))  # nails=[-30, -30],
+
+                    working_loc[proc - 1] = new_active2
+                timeout_ts[proc - 1] = 0
+                continue
             """ --- END TIMEOUT HANDLING --- """
 
             # Check the condition for Case 1
@@ -697,15 +721,15 @@ for count, log in enumerate(logs):
 # post-processing
 
 # insert nail in the middle of all transitions
-for node in env:
-    transitions = node.get_edges()
-    locations = node.get_nodes()
-    for trans in transitions:
-        pos = middle_nail_pos(
-            get_loc_by_id(locations, trans.source), get_loc_by_id(locations, trans.target))
-        print(pos)
-        middle_nail = u.Nail(pos=pos)
-        trans.nails = [middle_nail]
+# for node in env:
+#     transitions = node.get_edges()
+#     locations = node.get_nodes()
+#     for trans in transitions:
+#         pos = middle_nail_pos(
+#             get_loc_by_id(locations, trans.source), get_loc_by_id(locations, trans.target))
+#         print(pos)
+#         middle_nail = u.Nail(pos=pos)
+#         trans.nails = [middle_nail]
 
 # write global declarations
 declarations = "// Place global declarations here.\n"

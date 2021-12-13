@@ -26,21 +26,27 @@
 		<location id="id6" x="-1350" y="-246">
 			<label kind="invariant" x="-1343" y="-238">cl&lt;=3</label>
 		</location>
-		<location id="id7" x="-1751" y="-246">
-			<label kind="invariant" x="-1793" y="-280">cl&lt;=3</label>
-			<label kind="exponentialrate" x="-1742" y="-280">1</label>
+		<location id="id7" x="-1436" y="-442">
+			<label kind="invariant" x="-1453" y="-476">cl&lt;=8</label>
+		</location>
+		<location id="id8" x="-1368" y="-374">
+			<label kind="invariant" x="-1359" y="-366">cl&lt;=3</label>
+		</location>
+		<location id="id9" x="-1215" y="-442">
+			<label kind="invariant" x="-1198" y="-467">cl&lt;=3</label>
 		</location>
 		<init ref="id0"/>
 		<transition>
-			<source ref="id7"/>
+			<source ref="id9"/>
 			<target ref="id5"/>
-			<label kind="assignment" x="-1581" y="-144">cl=0, c=8*node+6</label>
-			<nail x="-1751" y="-119"/>
-			<nail x="-1215" y="-119"/>
+			<label kind="assignment" x="-1198" y="-374">cl=0, c=8*node+6</label>
 		</transition>
 		<transition>
-			<source ref="id7"/>
-			<target ref="id0"/>
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="guard" x="-1300" y="-399">cl&gt;=3</label>
+			<label kind="assignment" x="-1300" y="-408">cl=0, c=8*node+5</label>
+			<nail x="-1232" y="-433"/>
 		</transition>
 		<transition>
 			<source ref="id1"/>
@@ -49,7 +55,7 @@
 		</transition>
 		<transition>
 			<source ref="id4"/>
-			<target ref="id7"/>
+			<target ref="id0"/>
 			<label kind="guard" x="-1623" y="-204">cl&gt;=3</label>
 			<label kind="assignment" x="-1564" y="-187">cl=0, c=8*node+5</label>
 			<nail x="-1573" y="-161"/>
@@ -69,7 +75,7 @@
 		</transition>
 		<transition>
 			<source ref="id3"/>
-			<target ref="id7"/>
+			<target ref="id0"/>
 			<label kind="guard" x="-1683" y="-272">cl&gt;=8</label>
 			<label kind="assignment" x="-1691" y="-246">cl=0, c=8*node+4</label>
 		</transition>
@@ -98,6 +104,28 @@
 			<label kind="guard" x="-1666" y="-340">cl&gt;=2</label>
 			<label kind="assignment" x="-1690" y="-314">c=8*node+0</label>
 			<nail x="-1836" y="-314"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id7"/>
+			<label kind="assignment" x="-1555" y="-391">cl=0, c=8*node+7</label>
+			<nail x="-1436" y="-331"/>
+			<nail x="-1436" y="-374"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id9"/>
+			<label kind="guard" x="-1360" y="-467">cl&gt;=8</label>
+			<label kind="assignment" x="-1394" y="-442">cl=0, c=8*node+4</label>
+			<nail x="-1232" y="-442"/>
+			<nail x="-1249" y="-442"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id8"/>
+			<label kind="assignment" x="-1385" y="-348">cl=0, c=8*node+2</label>
+			<nail x="-1394" y="-348"/>
+			<nail x="-1394" y="-348"/>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
