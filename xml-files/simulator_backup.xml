@@ -28,7 +28,7 @@
 		<transition>
 			<source ref="id4"/>
 			<target ref="id0"/>
-			<label kind="guard" x="-1657" y="-221">cl&gt;=2.5</label>
+			<label kind="guard" x="-1657" y="-221">cl&gt;=2.9</label>
 			<label kind="assignment" x="-1598" y="-212">cl=0, c=8*node+5</label>
 			<nail x="-1410" y="-195"/>
 			<nail x="-1665" y="-195"/>

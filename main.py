@@ -25,6 +25,7 @@ class Event:
         ts:     timestamp
         type:   either SUT or ENV, depending on origin
     """
+
     def __init__(self, signal, origin, target, ts):
         self.signal = signal
         self.origin = origin
@@ -48,6 +49,7 @@ class Log:
     Attributes:
         events: list of events from class Event
     """
+
     def __init__(self):
         self.events = []
 
@@ -245,6 +247,7 @@ def new_channel(ori, tar, name, suffix):
     return label
 
 
+# TODO: Insert nails in the middle of the transition in order to make it movable later
 def add_qual_trans(node, src, tar, guard, comments, **kwargs):
     """
     Adds a new transition to a node's template
@@ -344,6 +347,29 @@ def in_target_locs(loc, transitions):
     return False
 
 
+def in_target_locs_guard(loc, guard_val, transitions):
+    """Checks whether a list of transition has a transition with a specific value
+
+    :param u.Location loc:                      location to be checked
+    :param int guard_val:                       value of the guard to be checked
+    :param list of u.Transition transitions:    list of transitions to be checked
+    :return:                                    whether a guard value is in the guards
+    :rtype:                                     bool
+    """
+    for trans in transitions:
+        if trans.target == loc.id:
+            s = trans.guard.value
+            # if int(s[s.rfind("==")+1:]) not in [3, 8]:
+            # print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX: " + s[s.rfind("=="):])
+            if s[s.rfind("=="):] == "==" + str(guard_val):
+                if guard_val == 2:
+                    enablePrint()
+                print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX guard_val= " + str(guard_val))
+                return True
+    # print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX returning false: ")
+    return False
+
+
 def num_locations(node):
     """Determines the number of locations for a specific node
 
@@ -374,7 +400,7 @@ logs = read_logs("traces_output.txt")
 
 # iterate over all logs
 for count, log in enumerate(logs):
-    print("\nLog: " + str(count))
+    print("\nLog: " + str(count+1))
 
     # setup everything
     if count == 0:
@@ -452,8 +478,9 @@ for count, log in enumerate(logs):
                 else:
                     inv_ub = int(working_loc[proc - 1].invariant.value[4:])
                 working_loc[proc - 1].invariant.value = "cl<=" + str(max(timeout_units[proc - 1], inv_ub))
-                # appending the last location before the timeout
-                if not in_target_locs(init_loc, env[proc - 1].get_trans_by_source(working_loc[proc - 1])):
+
+                if not in_target_locs_guard(init_loc, timeout_units[proc - 1],
+                                            env[proc - 1].get_trans_by_source(working_loc[proc - 1])):
                     add_qual_trans(node=proc, src=working_loc[proc - 1], tar=init_loc, guard=timeout_units[proc - 1],
                                    comments="timeout", guard_string="cl==")  # nails=[-30, -30],
                     # reposition last location
@@ -693,6 +720,19 @@ for count, log in enumerate(logs):
 
 # --- Finishing Ops ---
 
+# post-processing
+
+# insert nail in the middle of all transitions
+for node in env:
+    transitions = node.get_edges()
+    locations = node.get_nodes()
+    for trans in transitions:
+        pos = middle_nail_pos(
+            get_loc_by_id(locations, trans.source), get_loc_by_id(locations, trans.target))
+        print(pos)
+        middle_nail = u.Nail(pos=pos)
+        trans.nails = [middle_nail]
+
 # write global declarations
 declarations = "// Place global declarations here.\n"
 if channels:
@@ -725,7 +765,12 @@ sys.system = u.SystemDeclaration(system_declarations)
 # save the system to xml
 sys.to_file(path='xml-files/output.xml', pretty=True)
 
+enablePrint()
+print("UPPAAL is running now...")
+
 # run UPPAAL and suppressing its output
 running_uppaal = subprocess.call(['java', '-jar', 'UPPAAL-Stratego/uppaal.jar', 'xml-files/output.xml'],
                                  stdout=subprocess.DEVNULL,
                                  stderr=subprocess.STDOUT)
+
+

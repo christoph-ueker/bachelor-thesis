@@ -101,14 +101,6 @@ def del_duplicates(arr):
     return temp
 
 
-def wanna_delete_double_to_log(log):
-    # print("deleting log")
-    for i, event in enumerate(log):
-        if mapping(log[i][1]) == "." and mapping(log[i - 1][1]) == ".":
-            return True
-    return False
-
-
 with open(in_path, 'r') as trace_file:
     lines = trace_file.readlines()
 
@@ -199,13 +191,12 @@ for index, log in enumerate(logs):
 
         # sort by time (first part of tuple)
         log = sorted(log, key=lambda x: x[0])
-        # deleting all logs with two timeouts in a row
-        if not wanna_delete_double_to_log(log):
-            log_number += 1
-            output.write("log: " + str(log_number) + "\n")
-            for i, event in enumerate(log):
 
-                event_string = "<"
-                event_string += mapping(event[1]) + "," + str(event[0]) + ">"
-                output.write(str(event_string) + "\n")
+        log_number += 1
+        output.write("log: " + str(log_number) + "\n")
+        for i, event in enumerate(log):
+
+            event_string = "<"
+            event_string += mapping(event[1]) + "," + str(event[0]) + ">"
+            output.write(str(event_string) + "\n")
 output.close()

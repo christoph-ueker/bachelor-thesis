@@ -22,6 +22,11 @@ def enablePrint():
 """ BEGIN POSITIONAL HELPER FUNCTIONS """
 
 
+def middle_nail_pos(src, tar):
+    return int((src.pos[0] + tar.pos[0]) / 2), int((src.pos[1] + tar.pos[1]) / 2)
+
+
+# same as nail position
 def guard_label_pos(src, tar):
     """Determines the position for the guard label of a transition
 
@@ -30,7 +35,7 @@ def guard_label_pos(src, tar):
     :return:                position tuple
     :rtype:                 tuple of int
     """
-    return [(src.pos[0] + tar.pos[0]) / 2, (src.pos[1] + tar.pos[1]) / 2]
+    return (src.pos[0] + tar.pos[0]) / 2, (src.pos[1] + tar.pos[1]) / 2
 
 
 def asgn_label_pos(src, tar):

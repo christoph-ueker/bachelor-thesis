@@ -58,7 +58,7 @@ sys.to_file(path='UPPAAL-Stratego/bin-Windows/simulator_output.xml', pretty=True
 
 # Write the query file
 query_file = open('UPPAAL-Stratego/bin-Windows/query.q', 'w')
-query = "simulate " + str(simulations) + " [<= 100] {"
+query = "simulate " + str(simulations) + " [<= 1000] {"
 for i in range(nodes):
     if i > 0:
         query += ", "

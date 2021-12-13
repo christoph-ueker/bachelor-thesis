@@ -172,6 +172,13 @@ class Template:
                 edge_list.append(edge)
         return edge_list
 
+    # adjusted 13.12.: added in order to receive all edges for post-processing
+    # def get_all_trans(self):
+    #     edge_list = []
+    #     for edge in self.get_edges():
+    #         edge_list.append(edge)
+    #     return edge_list
+
     @classmethod
     def from_element(cls, et):
         """Convert an Element to a Template object. Called from NTA.from_element."""
