@@ -359,14 +359,8 @@ def in_target_locs_guard(loc, guard_val, transitions):
     for trans in transitions:
         if trans.target == loc.id:
             s = trans.guard.value
-            # if int(s[s.rfind("==")+1:]) not in [3, 8]:
-            # print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX: " + s[s.rfind("=="):])
             if s[s.rfind("=="):] == "==" + str(guard_val):
-                if guard_val == 2:
-                    enablePrint()
-                print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX guard_val= " + str(guard_val))
                 return True
-    # print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX returning false: ")
     return False
 
 
@@ -595,14 +589,18 @@ for count, log in enumerate(logs):
             print("Working loc is: " + working_loc[proc - 1].name.name)
 
             """ --- BEGIN TIMEOUT HANDLING --- """
+
             # last event was timeout
             if timeout_ts[proc - 1] != 0:
+                enablePrint()
+                print("xxx")
+                blockPrint()
                 clock = internal_clock[proc - 1] - timeout_ts[proc - 1]
                 print("timeout handling")
                 last_loc = working_loc[proc - 1]
                 cond = False
                 for transition in env[proc - 1].get_trans_by_source(last_loc):
-                    # we dont go back to initial location by assumption
+                    # we go back to initial location by assumption
                     if transition.target != init_loc.id:
                         guard_lb = int(transition.guard.value[4:])
                         target_loc = get_loc_by_id(all_locations(proc), transition.target)
@@ -723,15 +721,15 @@ for count, log in enumerate(logs):
 # post-processing
 
 # insert nail in the middle of all transitions
-for node in env:
-    transitions = node.get_edges()
-    locations = node.get_nodes()
-    for trans in transitions:
-        pos = middle_nail_pos(
-            get_loc_by_id(locations, trans.source), get_loc_by_id(locations, trans.target))
-        print(pos)
-        middle_nail = u.Nail(pos=pos)
-        trans.nails = [middle_nail]
+# for node in env:
+#     transitions = node.get_edges()
+#     locations = node.get_nodes()
+#     for trans in transitions:
+#         pos = middle_nail_pos(
+#             get_loc_by_id(locations, trans.source), get_loc_by_id(locations, trans.target))
+#         print(pos)
+#         middle_nail = u.Nail(pos=pos)
+#         trans.nails = [middle_nail]
 
 # write global declarations
 declarations = "// Place global declarations here.\n"

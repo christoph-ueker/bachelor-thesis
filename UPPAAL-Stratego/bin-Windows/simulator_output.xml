@@ -5,8 +5,8 @@
 		<name x="None" y="None">NodeENV</name>
 		<parameter>int &amp;c, int node</parameter>
 		<declaration>clock cl;</declaration>
-		<location id="id0" x="-1708" y="-246">
-			<label kind="invariant" x="-1768" y="-255">cl&lt;=3</label>
+		<location id="id0" x="-1836" y="-246">
+			<label kind="invariant" x="-1896" y="-255">cl&lt;=3</label>
 		</location>
 		<location id="id1" x="-1436" y="-314">
 			<label kind="exponentialrate" x="-1428" y="-348">1</label>
@@ -17,8 +17,8 @@
 		<location id="id3" x="-1564" y="-246">
 			<label kind="invariant" x="-1581" y="-289">cl&lt;=8</label>
 		</location>
-		<location id="id4" x="-1428" y="-195">
-			<label kind="invariant" x="-1419" y="-187">cl&lt;=3</label>
+		<location id="id4" x="-1428" y="-161">
+			<label kind="invariant" x="-1419" y="-153">cl&lt;=3</label>
 		</location>
 		<location id="id5" x="-1215" y="-246">
 			<label kind="invariant" x="-1232" y="-289">cl&lt;=2</label>
@@ -26,20 +26,35 @@
 		<location id="id6" x="-1350" y="-246">
 			<label kind="invariant" x="-1343" y="-238">cl&lt;=3</label>
 		</location>
+		<location id="id7" x="-1751" y="-246">
+			<label kind="invariant" x="-1793" y="-280">cl&lt;=3</label>
+			<label kind="exponentialrate" x="-1742" y="-280">1</label>
+		</location>
 		<init ref="id0"/>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id5"/>
+			<label kind="assignment" x="-1581" y="-144">cl=0, c=8*node+6</label>
+			<nail x="-1751" y="-119"/>
+			<nail x="-1215" y="-119"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id0"/>
+		</transition>
 		<transition>
 			<source ref="id1"/>
 			<target ref="id4"/>
-			<label kind="assignment" x="-1419" y="-229">cl=0, c=8*node+2</label>
+			<label kind="assignment" x="-1428" y="-204">cl=0, c=8*node+2</label>
 		</transition>
 		<transition>
 			<source ref="id4"/>
-			<target ref="id0"/>
-			<label kind="guard" x="-1657" y="-221">cl&gt;=3</label>
-			<label kind="assignment" x="-1598" y="-212">cl=0, c=8*node+5</label>
-			<nail x="-1445" y="-195"/>
-			<nail x="-1453" y="-195"/>
-			<nail x="-1665" y="-195"/>
+			<target ref="id7"/>
+			<label kind="guard" x="-1623" y="-204">cl&gt;=3</label>
+			<label kind="assignment" x="-1564" y="-187">cl=0, c=8*node+5</label>
+			<nail x="-1573" y="-161"/>
+			<nail x="-1649" y="-195"/>
+			<nail x="-1683" y="-212"/>
 		</transition>
 		<transition>
 			<source ref="id5"/>
@@ -54,7 +69,7 @@
 		</transition>
 		<transition>
 			<source ref="id3"/>
-			<target ref="id0"/>
+			<target ref="id7"/>
 			<label kind="guard" x="-1683" y="-272">cl&gt;=8</label>
 			<label kind="assignment" x="-1691" y="-246">cl=0, c=8*node+4</label>
 		</transition>
@@ -82,17 +97,15 @@
 			<target ref="id1"/>
 			<label kind="guard" x="-1666" y="-340">cl&gt;=2</label>
 			<label kind="assignment" x="-1690" y="-314">c=8*node+0</label>
-			<nail x="-1708" y="-314"/>
+			<nail x="-1836" y="-314"/>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
-int c0 = -1, c1 = -1, c2 = -1;
+int c0 = -1;
 Node0 = NodeENV(c0, 0);
-Node1 = NodeENV(c1, 1);
-Node2 = NodeENV(c2, 2);
 
  // List one or more processes to be composed into a system.
-system Node0, Node1, Node2;</system>
+system Node0;</system>
 	<queries>
 		<query>
 			<formula>simulate 1001 [&lt;= 1000] {c0}</formula>
