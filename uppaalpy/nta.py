@@ -27,6 +27,7 @@ import networkx as nx
 class NTA:
     """UPPAAL system of extended timed automata object.
 
+
     Attributes:
         declaration: Declaration object for global declarations.
         templates: List of TA template objects.

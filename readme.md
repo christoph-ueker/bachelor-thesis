@@ -15,7 +15,7 @@ It contains _uppaal.jar_, which will run the created UPPAAL Model automatically.
 which is used in order to run a _simulate_ query.
 
 The folder _uppaalpy_ contains the module uppaalpy, which is a UPPAAL wrapper for python by Deniz Koluaçık.
-The used version is from June 8th 2021, downloaded from his [github repository](https://github.com/koluacik/uppaal-py).
+The used version 0.0.4 was committed on June 8th, 2021 downloaded from his [github repository](https://github.com/koluacik/uppaal-py).
 **WARNING: The module has been adjusted in order to work properly and to make things easier**
 (Look for comments stating "adjusted").
 

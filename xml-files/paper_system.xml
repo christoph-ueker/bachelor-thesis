@@ -15,28 +15,28 @@ int __reach__ = 0;</declaration>
 		<transition>
 			<source ref="id0"/>
 			<target ref="id0"/>
-			<label kind="synchronisation" x="-3051" y="-1045">Ack03!</label>
-			<nail x="-3068" y="-1045"/>
-			<nail x="-3043" y="-1011"/>
+			<label kind="synchronisation" x="-3060" y="-1054">Ack03?</label>
+			<nail x="-3077" y="-1045"/>
+			<nail x="-3051" y="-1020"/>
 		</transition>
 		<transition>
 			<source ref="id0"/>
 			<target ref="id0"/>
-			<label kind="synchronisation" x="-3145" y="-1079">Req03!</label>
+			<label kind="synchronisation" x="-3136" y="-1079">Req03!</label>
 			<nail x="-3145" y="-1062"/>
 			<nail x="-3102" y="-1054"/>
 		</transition>
 		<transition>
 			<source ref="id0"/>
 			<target ref="id0"/>
-			<label kind="synchronisation" x="-3238" y="-1079">Ack30?</label>
+			<label kind="synchronisation" x="-3238" y="-1071">Ack30!</label>
 			<nail x="-3221" y="-1045"/>
 			<nail x="-3179" y="-1062"/>
 		</transition>
 		<transition>
 			<source ref="id0"/>
 			<target ref="id0"/>
-			<label kind="synchronisation" x="-3315" y="-1028">Req30?</label>
+			<label kind="synchronisation" x="-3306" y="-1028">Req30?</label>
 			<nail x="-3264" y="-994"/>
 			<nail x="-3247" y="-1028"/>
 		</transition>
@@ -50,7 +50,7 @@ int __reach__ = 0;</declaration>
 		<transition>
 			<source ref="id0"/>
 			<target ref="id0"/>
-			<label kind="synchronisation" x="-3060" y="-926">Ack20?</label>
+			<label kind="synchronisation" x="-3060" y="-926">Ack20!</label>
 			<nail x="-3077" y="-909"/>
 			<nail x="-3060" y="-926"/>
 		</transition>
@@ -64,14 +64,14 @@ int __reach__ = 0;</declaration>
 		<transition>
 			<source ref="id0"/>
 			<target ref="id0"/>
-			<label kind="synchronisation" x="-3128" y="-875">Ack02!</label>
+			<label kind="synchronisation" x="-3128" y="-875">Ack02?</label>
 			<nail x="-3136" y="-875"/>
 			<nail x="-3111" y="-884"/>
 		</transition>
 		<transition>
 			<source ref="id0"/>
 			<target ref="id0"/>
-			<label kind="synchronisation" x="-3187" y="-875">Ack01!</label>
+			<label kind="synchronisation" x="-3187" y="-875">Ack01?</label>
 			<nail x="-3170" y="-875"/>
 			<nail x="-3145" y="-875"/>
 		</transition>
@@ -85,7 +85,7 @@ int __reach__ = 0;</declaration>
 		<transition>
 			<source ref="id0"/>
 			<target ref="id0"/>
-			<label kind="synchronisation" x="-3281" y="-918">Ack10?</label>
+			<label kind="synchronisation" x="-3281" y="-918">Ack10!</label>
 			<nail x="-3238" y="-926"/>
 			<nail x="-3221" y="-901"/>
 		</transition>
@@ -101,12 +101,11 @@ int __reach__ = 0;</declaration>
 		<name>NodeENV1</name>
 		<declaration>clock cl;</declaration>
 		<location id="id1" x="-1708" y="-246">
-			<label kind="invariant" x="-1768" y="-255">cl&lt;=3</label>
+			<label kind="invariant" x="-1759" y="-246">cl&lt;=3</label>
 		</location>
 		<location id="id2" x="-1436" y="-314">
 		</location>
 		<location id="id3" x="-1096" y="-246">
-			<name x="-1105" y="-238">end</name>
 		</location>
 		<location id="id4" x="-1564" y="-246">
 			<label kind="invariant" x="-1598" y="-289">cl&lt;=TO10</label>
@@ -121,7 +120,7 @@ int __reach__ = 0;</declaration>
 		<transition>
 			<source ref="id5"/>
 			<target ref="id1"/>
-			<label kind="guard" x="-1657" y="-221">cl&gt;=TO100</label>
+			<label kind="guard" x="-1666" y="-221">cl&gt;=TO100</label>
 			<label kind="assignment" x="-1572" y="-221">cl=0</label>
 			<nail x="-1410" y="-195"/>
 			<nail x="-1665" y="-195"/>
@@ -138,7 +137,7 @@ int __reach__ = 0;</declaration>
 			<source ref="id6"/>
 			<target ref="id3"/>
 			<label kind="guard" x="-1198" y="-272">cl&gt;=1</label>
-			<label kind="synchronisation" x="-1156" y="-272">Ack10!</label>
+			<label kind="synchronisation" x="-1156" y="-272">Ack01!</label>
 		</transition>
 		<transition>
 			<source ref="id5"/>
@@ -169,13 +168,13 @@ int __reach__ = 0;</declaration>
 		<transition>
 			<source ref="id2"/>
 			<target ref="id3"/>
-			<label kind="synchronisation" x="-1275" y="-340">Ack01?</label>
+			<label kind="synchronisation" x="-1275" y="-340">Ack10?</label>
 			<nail x="-1096" y="-314"/>
 		</transition>
 		<transition>
 			<source ref="id1"/>
 			<target ref="id2"/>
-			<label kind="guard" x="-1666" y="-340">cl&gt;=2</label>
+			<label kind="guard" x="-1674" y="-340">cl&gt;=2</label>
 			<label kind="synchronisation" x="-1564" y="-340">Req10!</label>
 			<nail x="-1708" y="-314"/>
 		</transition>

@@ -17,6 +17,16 @@ def enablePrint():
     sys.stdout = sys.__stdout__
 
 
+def forcePrint(text):
+    """Print a string to console, although it is currently blocked
+
+    :param str text: text to be printed to console
+    """
+    enablePrint()
+    print(text)
+    blockPrint()
+
+
 """ END GENERAL HELPER FUNCTIONS """
 
 """ BEGIN POSITIONAL HELPER FUNCTIONS """

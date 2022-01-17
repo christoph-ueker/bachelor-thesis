@@ -75,7 +75,7 @@ def new_template(name):
 
 
 def read_logs(file):
-    """Reads logs line-wise from file into an array
+    """Reads logs line-wise from text file into an array
 
     :param str file: text file containing the logs in a line-wise fashion
     :return: array of logs
@@ -247,7 +247,6 @@ def new_channel(ori, tar, name, suffix):
     return label
 
 
-# TODO: Insert nails in the middle of the transition in order to make it movable later
 def add_qual_trans(node, src, tar, guard, comments, **kwargs):
     """
     Adds a new transition to a node's template
@@ -308,7 +307,7 @@ def interval_extension(lb, ub, r):
     :return:        new lower and upper bound
     :rtype:         (int, int)
     """
-    delta = r - (ub - lb)
+    delta = (r - (ub - lb))/2
     # TODO: Check whether this is valid
     # we only EXTEND the interval
     if delta > 0:
@@ -510,6 +509,7 @@ for count, log in enumerate(logs):
             if cond:
                 print("Env Case 1 for " + str(env[proc - 1].name.name))
 
+                # forcePrint("log: " + str(count+1) + " --- " + str(inv_ub) + ", " + str(clock))
                 # update corresponding guard
                 found_trans.guard.value = "cl>=" + str(min(clock, guard_lb))
                 # update corresponding invariant
@@ -574,7 +574,7 @@ for count, log in enumerate(logs):
                 print("timeout event, skipping...")
                 timeout_ts[proc - 1] = event.ts
 
-                # accessing predecessor in that process
+                # accessing predecessor event involving that process
                 temp_target = 1
                 temp_origin = 1
                 for i in range(1, 100):
@@ -590,10 +590,8 @@ for count, log in enumerate(logs):
                 else:
                     temp = temp_origin
                 timeout_units[proc - 1] = timeout_ts[proc - 1] - log.events[event_index - temp].ts
-                if timeout_units[proc - 1] == 9:
-                    enablePrint()
-                    print(count)
-                    blockPrint()
+                # if timeout_units[proc - 1] == 9:
+                #     forcePrint(count)
                 print("TIMEOUT UNITS = " + str(timeout_units[proc - 1]))
                 continue
             clock = event.ts - internal_clock[proc - 1]
@@ -606,12 +604,10 @@ for count, log in enumerate(logs):
 
             # last event was timeout
             if timeout_ts[proc - 1] != 0:
-                # TODO: Revision this
+                # TODO: Revision this, this is never used due to assumptions
                 clock = internal_clock[proc - 1] - timeout_ts[proc - 1]
 
-                # enablePrint()
-                # print("timeout handling for SUT")
-                # blockPrint()
+                # forcePrint("timeout handling for SUT")
 
                 # there is no invariant in the working location yet
                 if not hasattr(working_loc[proc - 1].invariant, 'value'):
