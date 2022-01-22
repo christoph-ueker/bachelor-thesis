@@ -142,7 +142,7 @@ class Template:
     # adjusted 09.11. added in order to easily add locations
     def add_loc(self, loc):
         self.graph.add_node((self.name.name, loc.id), obj=loc)
-        print("Adding location " + str(loc.id) +" with pos: " + str(loc.pos) + " for: " + self.name.name)
+        # print("Adding location " + str(loc.id) +" with pos: " + str(loc.pos) + " for: " + self.name.name)
         return loc
 
     # adjusted 19.11.: added in order to easily delete locations

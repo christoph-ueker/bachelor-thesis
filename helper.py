@@ -5,6 +5,22 @@ from uppaalpy import nta as u
 """ BEGIN GENERAL HELPER FUNCTIONS """
 
 
+# def proceeding(curr, max, put):
+#     new_max = int(max / 4)
+#     curr = curr + 1
+#     if curr / new_max >= 0.5:
+#         if curr / new_max >= 0.75:
+#             if (curr / new_max >= 0.9) and (put == (1, 1, 0)):
+#                 put = (1, 1, 1)
+#                 forcePrint("95%")
+#             elif put == (1, 0, 0):
+#                 put = (1, 1, 0)
+#                 forcePrint("75%")
+#         elif put == (0, 0, 0):
+#             put = (1, 0, 0)
+#             forcePrint("50%")
+#     return put
+
 def blockPrint():
     """Disable printing to console
     """
@@ -112,7 +128,7 @@ def repos_loc(loc, x_pos, y_pos):
     :return:                repositioned location
     :rtype:                 u.Location
     """
-    print("repositioning " + loc.name.name)
+    # print("repositioning " + loc.name.name)
     loc.pos = [x_pos, y_pos]
     loc.name.pos = name_loc_pos(x_pos, y_pos)
     loc.invariant.pos = inv_loc_pos(x_pos, y_pos)

@@ -7,7 +7,8 @@ import subprocess
 from uppaalpy import nta as u
 
 nodes = int(input("How many Env nodes?:\n"))
-simulations = int(input("How many simulations?:\n"))
+# simulations = int(input("How many simulations?:\n"))
+simulations = 1000
 # We need a bonus simulation in order to drop it lateron due to weird simulation savings by UPPAAL
 simulations += 1
 
@@ -75,4 +76,4 @@ with open('simulations.txt', 'w') as out:
 # Call the trace converter
 os.chdir('..')
 os.chdir('..')
-os.system('python trace_converter.py ' + str(nodes) + " " + str(simulations) + " " + 'UPPAAL-Stratego/bin-Windows/simulations.txt')
+os.system('python converter.py ' + str(nodes) + " " + str(simulations) + " " + 'UPPAAL-Stratego/bin-Windows/simulations.txt')

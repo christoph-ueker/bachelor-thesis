@@ -57,14 +57,14 @@ class Log:
 node_count = int(sys.argv[1])
 sim_count = int(sys.argv[2])
 in_path = sys.argv[3]
-print("Trace converter is running now...")
-print("Reading from path: " + in_path)
+print("Converter is running now...")
+# print("Reading from path: " + in_path)
 
 
 def mapping(number):
     """This is the chosen mapping between the values for the integers and their corresponding signal.
 
-    :param int number:  number defined in the adjusted UPPAAL paper_system called paper_system_input
+    :param int number:  number defined in the adjusted UPPAAL paper_system called simulator.xml
     :return:            signal used for learning process
     :rtype:             str
     """
@@ -72,18 +72,18 @@ def mapping(number):
     # 8 types of signals
     # if number == -1:
     #     return "Req10"
-    if number % 8 == 0:
-        return "Req" + str(math.floor(number / 8) + 1) + "x0"
-    if number % 8 == 1:
-        return "Ack" + "0x" + str(math.floor(number / 8) + 1)
-    if number % 8 in [2, 6, 7]:
-        return "Req" + "0x" + str(math.floor(number / 8) + 1)
-    if number % 8 == 3:
-        return "Ack" + str(math.floor(number / 8) + 1) + "x0"
-    if number % 8 == 4:
-        return "To" + str(math.floor(number / 8) + 1)
-    if number % 8 == 5:
-        return "To" + str(math.floor(number / 8) + 1)
+    if number % 7 == 0:
+        return "Req" + str(math.floor(number / 7) + 1) + "x0"
+    if number % 7 == 1:
+        return "Ack" + "0x" + str(math.floor(number / 7) + 1)
+    if number % 7 in [2, 6]:
+        return "Req" + "0x" + str(math.floor(number / 7) + 1)
+    if number % 7 == 3:
+        return "Ack" + str(math.floor(number / 7) + 1) + "x0"
+    if number % 7 == 4:
+        return "To" + str(math.floor(number / 7) + 1)
+    if number % 7 == 5:
+        return "To" + str(math.floor(number / 7) + 1)
     return signal
 
 
