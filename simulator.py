@@ -6,7 +6,8 @@ import os
 import subprocess
 from uppaalpy import nta as u
 
-nodes = int(input("How many Env nodes?:\n"))
+# nodes = int(input("How many Env nodes?:\n"))
+nodes = 10
 # simulations = int(input("How many simulations?:\n"))
 simulations = 1000
 # We need a bonus simulation in order to drop it lateron due to weird simulation savings by UPPAAL

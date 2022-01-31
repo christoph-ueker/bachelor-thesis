@@ -49,7 +49,10 @@ def forcePrint(text):
 
 
 def middle_nail_pos(src, tar):
-    return int((src.pos[0] + tar.pos[0]) / 2), int((src.pos[1] + tar.pos[1]) / 2)
+    if hasattr(src, "pos") & hasattr(tar, "pos"):
+        return int((src.pos[0] + tar.pos[0]) / 2), int((src.pos[1] + tar.pos[1]) / 2)
+    else:
+        return 1
 
 
 # same as nail position

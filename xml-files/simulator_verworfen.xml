@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.</declaration>
+	<template>
+		<name>NodeENV</name>
+		<parameter>int &amp;c, int node</parameter>
+		<declaration>clock cl;</declaration>
+		<location id="id0" x="-1836" y="-246">
+			<label kind="invariant" x="-1896" y="-255">cl&lt;=3</label>
+		</location>
+		<location id="id1" x="-1436" y="-314">
+			<label kind="exponentialrate" x="-1428" y="-348">1</label>
+		</location>
+		<location id="id2" x="-1096" y="-246">
+			<name x="-1105" y="-238">end</name>
+		</location>
+		<location id="id3" x="-1564" y="-246">
+			<label kind="invariant" x="-1581" y="-289">cl&lt;=8</label>
+		</location>
+		<location id="id4" x="-1428" y="-161">
+			<label kind="invariant" x="-1419" y="-153">cl&lt;=3</label>
+		</location>
+		<location id="id5" x="-1215" y="-246">
+			<label kind="invariant" x="-1232" y="-289">cl&lt;=2</label>
+		</location>
+		<location id="id6" x="-1350" y="-246">
+			<label kind="invariant" x="-1343" y="-238">cl&lt;=3</label>
+		</location>
+		<location id="id7" x="-1436" y="-442">
+			<label kind="invariant" x="-1453" y="-476">cl&lt;=8</label>
+		</location>
+		<location id="id8" x="-1368" y="-374">
+			<label kind="invariant" x="-1359" y="-366">cl&lt;=3</label>
+		</location>
+		<location id="id9" x="-1215" y="-442">
+			<label kind="invariant" x="-1249" y="-476">cl&lt;=3</label>
+		</location>
+		<location id="id10" x="-1096" y="-501">
+			<label kind="invariant" x="-1106" y="-484">cl&lt;=2</label>
+		</location>
+		<location id="id11" x="-1215" y="-382">
+			<label kind="invariant" x="-1215" y="-365">cl&lt;=3</label>
+		</location>
+		<location id="id12" x="-1096" y="-382">
+			<label kind="invariant" x="-1106" y="-365">cl&lt;=2</label>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-1078" y="-416">cl&gt;=1</label>
+			<label kind="assignment" x="-1078" y="-382">c=8*node+3</label>
+			<nail x="-1028" y="-382"/>
+			<nail x="-1037" y="-272"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-1078" y="-535">cl&gt;=1</label>
+			<label kind="assignment" x="-1078" y="-501">c=8*node+3</label>
+			<nail x="-986" y="-501"/>
+			<nail x="-986" y="-246"/>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id12"/>
+			<label kind="assignment" x="-1215" y="-416">cl=0, c=8*node+6</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id10"/>
+			<label kind="assignment" x="-1249" y="-510">cl=0, c=8*node+6</label>
+			<nail x="-1147" y="-476"/>
+			<nail x="-1113" y="-493"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id11"/>
+			<label kind="guard" x="-1300" y="-399">cl&gt;=3</label>
+			<label kind="assignment" x="-1351" y="-416">cl=0, c=8*node+5</label>
+			<nail x="-1283" y="-382"/>
+			<nail x="-1232" y="-382"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id4"/>
+			<label kind="assignment" x="-1428" y="-204">cl=0, c=8*node+2</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-1623" y="-204">cl&gt;=3</label>
+			<label kind="assignment" x="-1564" y="-187">cl=0, c=8*node+5</label>
+			<nail x="-1573" y="-161"/>
+			<nail x="-1649" y="-195"/>
+			<nail x="-1683" y="-212"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-1198" y="-272">cl&gt;=1</label>
+			<label kind="assignment" x="-1197" y="-246">c=8*node+3</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id5"/>
+			<label kind="assignment" x="-1326" y="-272">cl=0, c=8*node+6</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-1683" y="-272">cl&gt;=8</label>
+			<label kind="assignment" x="-1691" y="-246">cl=0, c=8*node+4</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="assignment" x="-1547" y="-246">cl=0, c=8*node+7</label>
+			<nail x="-1462" y="-246"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id6"/>
+			<label kind="assignment" x="-1428" y="-280">cl=0, c=8*node+2</label>
+			<nail x="-1428" y="-246"/>
+			<nail x="-1368" y="-246"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="assignment" x="-1418" y="-314">c=8*node+1</label>
+			<nail x="-1096" y="-314"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-1666" y="-340">cl&gt;=2</label>
+			<label kind="assignment" x="-1690" y="-314">c=8*node+0</label>
+			<nail x="-1836" y="-314"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id7"/>
+			<label kind="assignment" x="-1555" y="-391">cl=0, c=8*node+7</label>
+			<nail x="-1436" y="-331"/>
+			<nail x="-1436" y="-374"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id9"/>
+			<label kind="guard" x="-1360" y="-467">cl&gt;=8</label>
+			<label kind="assignment" x="-1394" y="-442">cl=0, c=8*node+4</label>
+			<nail x="-1232" y="-442"/>
+			<nail x="-1249" y="-442"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id8"/>
+			<label kind="assignment" x="-1385" y="-348">cl=0, c=8*node+2</label>
+			<nail x="-1394" y="-348"/>
+			<nail x="-1394" y="-348"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+// Node0 = NodeSUT();
+int c0 = -1;
+Node0 = NodeENV(c0, 0);
+
+// List one or more processes to be composed into a system.
+system Node0;
+    </system>
+	<queries>
+		<query>
+			<formula>simulate 1001 [&lt;= 1000] {c0}</formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>

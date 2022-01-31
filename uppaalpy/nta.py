@@ -1,3 +1,5 @@
+import helper
+from helper import *
 """
     Copyright © 2020 Deniz Koluaçık
     
@@ -220,9 +222,10 @@ class Template:
         element.extend(self._graph_to_element())
         return element
 
+    # adjusted 31.01.: filtering out empty elements, that originate from earlier deleting of nodes
     def get_nodes(self):
         """Return a list of nodes from the multidigraph."""
-        return [data['obj'] for node, data in self.graph.nodes(data=True)]
+        return [data['obj'] for data in [x for x in [data for node, data in self.graph.nodes(data=True)] if x]]
 
     def get_edges(self):
         """Return a list of transitions from the multidigraph."""

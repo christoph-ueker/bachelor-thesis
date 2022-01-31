@@ -1,8 +1,9 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
 <nta>
 	<declaration>// Place global declarations here.</declaration>
 	<template>
-		<name x="None" y="None">NodeENV</name>
+		<name>NodeENV</name>
 		<parameter>int &amp;c, int node</parameter>
 		<declaration>clock cl;</declaration>
 		<location id="id0" x="-1836" y="-246">
@@ -86,24 +87,17 @@
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
-int c0 = -1, c1 = -1, c2 = -1, c3 = -1, c4 = -1, c5 = -1, c6 = -1, c7 = -1, c8 = -1, c9 = -1;
+// Node0 = NodeSUT();
+int c0 = -1;
 Node0 = NodeENV(c0, 0);
-Node1 = NodeENV(c1, 1);
-Node2 = NodeENV(c2, 2);
-Node3 = NodeENV(c3, 3);
-Node4 = NodeENV(c4, 4);
-Node5 = NodeENV(c5, 5);
-Node6 = NodeENV(c6, 6);
-Node7 = NodeENV(c7, 7);
-Node8 = NodeENV(c8, 8);
-Node9 = NodeENV(c9, 9);
 
- // List one or more processes to be composed into a system.
-system Node0, Node1, Node2, Node3, Node4, Node5, Node6, Node7, Node8, Node9;</system>
+// List one or more processes to be composed into a system.
+system Node0;
+    </system>
 	<queries>
 		<query>
 			<formula>simulate 1001 [&lt;= 1000] {c0}</formula>
-			<comment/>
+			<comment></comment>
 		</query>
 	</queries>
 </nta>
