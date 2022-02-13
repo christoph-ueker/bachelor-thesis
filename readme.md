@@ -38,7 +38,7 @@ The folder _xml-files_ contains all Uppaal Timed Automata given as .xml files us
 1. Running **main.py** will run **simulator.py** first, asking the user for the interval abstraction parameter value (R), the number of environment nodes to be modelled
 and the desired number of simulations used in order to generate traces using the _simulator.xml_.
 2. **simulator.py** produces _simulator_output.xml_ and _query.q_ in order to use them in a **verifyta** command. The
-command writes the resulting simulation output to _simulations.txt_.
+command writes the resulting simulation output to _simulations.txt_. Both files can be found in _UPPAAL-Stratego/bin-Windows/_.
 3. The **conerter.py** translates the simulation output to useful traces by applying a **mapping**.
 4. The produced traces will then be used by the algorithm implemented in **main.py**.
 5. **main.py** uses the library **uppaalpy** in order to create an UPPAAL system and later write it to _output.xml_.
