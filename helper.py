@@ -5,22 +5,6 @@ from uppaalpy import nta as u
 """ BEGIN GENERAL HELPER FUNCTIONS """
 
 
-# def proceeding(curr, max, put):
-#     new_max = int(max / 4)
-#     curr = curr + 1
-#     if curr / new_max >= 0.5:
-#         if curr / new_max >= 0.75:
-#             if (curr / new_max >= 0.9) and (put == (1, 1, 0)):
-#                 put = (1, 1, 1)
-#                 forcePrint("95%")
-#             elif put == (1, 0, 0):
-#                 put = (1, 1, 0)
-#                 forcePrint("75%")
-#         elif put == (0, 0, 0):
-#             put = (1, 0, 0)
-#             forcePrint("50%")
-#     return put
-
 def blockPrint():
     """Disable printing to console
     """
@@ -138,7 +122,7 @@ def repos_loc(loc, x_pos, y_pos):
     return loc
 
 
-# TODO: finish this
+# TODO: Future work on edge positioning in SUT template
 def arrange_sut_edges(sut):
     all_edges = sut.get_trans_by_source(sut.graph.initial_location)
     num_edges = len(all_edges)

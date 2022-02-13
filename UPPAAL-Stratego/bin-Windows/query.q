@@ -1,1 +1,1 @@
-simulate 1001 [<= 1000] {c0, c1, c2, c3, c4, c5, c6, c7, c8, c9}
+simulate 10001 [<= 1000] {c0, c1, c2, c3, c4, c5, c6, c7, c8, c9}

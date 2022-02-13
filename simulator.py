@@ -6,10 +6,8 @@ import os
 import subprocess
 from uppaalpy import nta as u
 
-# nodes = int(input("How many Env nodes?:\n"))
-nodes = 10
-# simulations = int(input("How many simulations?:\n"))
-simulations = 1000
+nodes = int(input("How many Env nodes?:\n"))
+simulations = int(input("How many simulations?:\n"))
 # We need a bonus simulation in order to drop it lateron due to weird simulation savings by UPPAAL
 simulations += 1
 
@@ -17,21 +15,6 @@ print("Simulator is running now...")
 
 # load the basic model build from the paper
 sys = u.NTA.from_xml(path='xml-files/simulator.xml')
-
-# --- Global declarations ---
-# global_decls = "// Place global declarations here.\n// We need 'broadcast' here in order to run simulations." \
-#                "\nbroadcast chan "
-# for i in range(1, nodes+1):
-#     if i > 1:
-#         global_decls += ", "
-#     global_decls += "Req" + str(i) + "x0, Ack" + str(i) + "x0, Req0x" + str(i) + ", Ack0x" + str(i)
-
-# global_decls += ";\n"
-# for i in range(1, nodes+1):
-#     global_decls += "int c" + str(i) + " = -1;\n"
-#
-# print(global_decls)
-# sys.declaration = u.Declaration(global_decls)
 
 # --- System declarations ---
 
