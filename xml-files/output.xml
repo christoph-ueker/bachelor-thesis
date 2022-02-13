@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <nta>
 	<declaration>// Place global declarations here.
-chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, Req0x5, Req6x0, Req8x0, Req0x8, Req9x0, Req0x9, Ack0x4, Req0x6, Req0x1, Ack0x2, Ack9x0, Ack1x0, Ack3x0, Req0x7, Ack7x0, Ack0x8, Ack5x0, Ack10x0, Ack6x0, Req0x4, Ack0x9, Ack0x10, Req0x2, Ack4x0, Ack0x3, Ack0x6, Ack2x0, Ack8x0, Ack0x1, Ack0x7, Ack0x5;</declaration>
+chan Req3x0, Req8x0, Req9x0, Req10x0, Req1x0, Req0x1, Req2x0, Ack0x2, Req0x3, Req4x0, Req5x0, Req0x5, Req6x0, Req7x0, Ack0x7, Ack0x8, Req0x10, Req0x4, Req0x6, Req0x9, Ack6x0, Ack5x0, Ack4x0, Ack9x0, Ack0x1, Ack3x0, Ack10x0, Req0x2, Req0x7, Ack0x9, Ack0x3, Ack7x0, Ack0x4, Ack2x0, Ack0x5, Req0x8, Ack8x0, Ack0x10, Ack0x6, Ack1x0;</declaration>
 	<template>
 		<name x="0" y="0">SUT</name>
 		<declaration>// Place local declarations here.</declaration>
@@ -10,12 +10,17 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		<transition>
 			<source ref="id0"/>
 			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Req1x0?</label>
+			<label kind="synchronisation" x="10.0" y="0.0">Req3x0?</label>
 		</transition>
 		<transition>
 			<source ref="id0"/>
 			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Req7x0?</label>
+			<label kind="synchronisation" x="10.0" y="0.0">Req8x0?</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Req9x0?</label>
 		</transition>
 		<transition>
 			<source ref="id0"/>
@@ -25,7 +30,12 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		<transition>
 			<source ref="id0"/>
 			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Req0x10!</label>
+			<label kind="synchronisation" x="10.0" y="0.0">Req1x0?</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Req0x1!</label>
 		</transition>
 		<transition>
 			<source ref="id0"/>
@@ -35,7 +45,7 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		<transition>
 			<source ref="id0"/>
 			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Req3x0?</label>
+			<label kind="synchronisation" x="10.0" y="0.0">Ack0x2!</label>
 		</transition>
 		<transition>
 			<source ref="id0"/>
@@ -65,137 +75,7 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		<transition>
 			<source ref="id0"/>
 			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Req8x0?</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Req0x8!</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Req9x0?</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Req0x9!</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Ack0x4!</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Req0x6!</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Req0x1!</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Ack0x2!</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Ack9x0?</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Ack1x0?</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Ack3x0?</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Req0x7!</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Ack7x0?</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Ack0x8!</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Ack5x0?</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Ack10x0?</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Ack6x0?</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Req0x4!</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Ack0x9!</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Ack0x10!</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Req0x2!</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Ack4x0?</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Ack0x3!</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Ack0x6!</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Ack2x0?</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Ack8x0?</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="10.0" y="0.0">Ack0x1!</label>
+			<label kind="synchronisation" x="10.0" y="0.0">Req7x0?</label>
 		</transition>
 		<transition>
 			<source ref="id0"/>
@@ -205,7 +85,127 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		<transition>
 			<source ref="id0"/>
 			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Ack0x8!</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Req0x10!</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Req0x4!</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Req0x6!</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Req0x9!</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Ack6x0?</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Ack5x0?</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Ack4x0?</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Ack9x0?</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Ack0x1!</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Ack3x0?</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Ack10x0?</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Req0x2!</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Req0x7!</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Ack0x9!</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Ack0x3!</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Ack7x0?</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Ack0x4!</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Ack2x0?</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
 			<label kind="synchronisation" x="10.0" y="0.0">Ack0x5!</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Req0x8!</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Ack8x0?</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Ack0x10!</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Ack0x6!</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="10.0" y="0.0">Ack1x0?</label>
 		</transition>
 	</template>
 	<template>
@@ -217,34 +217,34 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		</location>
 		<location id="id1" x="200" y="0">
 			<name x="207" y="7">Lp1</name>
-			<label kind="invariant" x="207" y="20">cl&lt;=12</label>
+			<label kind="invariant" x="207" y="20">cl&lt;=11</label>
 		</location>
 		<location id="id2" x="0" y="200">
 			<name x="7" y="207">La2</name>
 			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
 		</location>
 		<location id="id3" x="600" y="0">
-			<name x="607" y="7">La3</name>
-			<label kind="invariant" x="607" y="20">cl&lt;=2</label>
+			<name x="607" y="7">END</name>
 		</location>
 		<location id="id4" x="800" y="0">
-			<name x="807" y="7">END</name>
+			<name x="807" y="7">La4</name>
+			<label kind="invariant" x="807" y="20">cl&lt;=2</label>
 		</location>
-		<location id="id5" x="0" y="200">
-			<name x="7" y="207">La4</name>
+		<location id="id6" x="0" y="200">
+			<name x="7" y="207">La6</name>
 			<label kind="invariant" x="7" y="220">cl&lt;=3</label>
 		</location>
-		<location id="id6" x="1200" y="0">
-			<name x="1207" y="7">La5</name>
-			<label kind="invariant" x="1207" y="20">cl&lt;=1</label>
+		<location id="id7" x="1400" y="0">
+			<name x="1407" y="7">La7</name>
+			<label kind="invariant" x="1407" y="20">cl&lt;=2</label>
+		</location>
+		<location id="id8" x="1600" y="0">
+			<name x="1607" y="7">La8</name>
+			<label kind="invariant" x="1607" y="20">cl&lt;=2</label>
 		</location>
 		<location id="id9" x="0" y="200">
-			<name x="7" y="207">La8</name>
-			<label kind="invariant" x="7" y="220">cl&lt;=3</label>
-		</location>
-		<location id="id10" x="0" y="200">
 			<name x="7" y="207">La9</name>
-			<label kind="invariant" x="7" y="220">cl&lt;=3</label>
+			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
 		</location>
 		<init ref="id0"/>
 		<transition>
@@ -267,66 +267,48 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		</transition>
 		<transition>
 			<source ref="id1"/>
-			<target ref="id5"/>
-			<label kind="guard" x="600.0" y="0.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="610.0" y="0.0">Req0x1?</label>
+			<target ref="id3"/>
+			<label kind="guard" x="400.0" y="0.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="410.0" y="0.0">Ack0x1?</label>
+			<label kind="assignment" x="405.0" y="0.0">cl=0</label>
+			<label kind="comments" x="405.0" y="0.0">observable</label>
+			<nail x="400" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="guard" x="600.0" y="0.0">cl&gt;=4</label>
+			<label kind="synchronisation" x="610.0" y="0.0">Ack0x1?</label>
 			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
 			<label kind="comments" x="605.0" y="0.0">observable</label>
+			<nail x="400" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="guard" x="1100.0" y="0.0">cl&gt;=11</label>
+			<label kind="synchronisation" x="1110.0" y="0.0">Ack0x1?</label>
+			<label kind="assignment" x="1105.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1105.0" y="0.0">observable</label>
+			<nail x="400" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id6"/>
+			<label kind="guard" x="700.0" y="0.0">cl&gt;=5</label>
+			<label kind="synchronisation" x="710.0" y="0.0">Req0x1?</label>
+			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
+			<label kind="comments" x="705.0" y="0.0">observable</label>
 			<nail x="100" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id4"/>
-			<label kind="guard" x="800.0" y="0.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="810.0" y="0.0">Ack0x1?</label>
-			<label kind="assignment" x="805.0" y="0.0">cl=0</label>
-			<label kind="comments" x="805.0" y="0.0">observable</label>
-			<nail x="500" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id4"/>
-			<label kind="guard" x="900.0" y="0.0">cl&gt;=4</label>
-			<label kind="synchronisation" x="910.0" y="0.0">Ack0x1?</label>
-			<label kind="assignment" x="905.0" y="0.0">cl=0</label>
-			<label kind="comments" x="905.0" y="0.0">observable</label>
-			<nail x="500" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id4"/>
-			<label kind="guard" x="1200.0" y="0.0">cl&gt;=12</label>
-			<label kind="synchronisation" x="1210.0" y="0.0">Ack0x1?</label>
-			<label kind="assignment" x="1205.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1205.0" y="0.0">observable</label>
-			<nail x="500" y="0"/>
 		</transition>
 		<transition>
 			<source ref="id1"/>
 			<target ref="id9"/>
-			<label kind="guard" x="1000.0" y="0.0">cl&gt;=5</label>
+			<label kind="guard" x="1000.0" y="0.0">cl&gt;=9</label>
 			<label kind="synchronisation" x="1010.0" y="0.0">Req0x1?</label>
 			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
 			<label kind="comments" x="1005.0" y="0.0">observable</label>
 			<nail x="100" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id10"/>
-			<label kind="guard" x="1100.0" y="0.0">cl&gt;=8</label>
-			<label kind="synchronisation" x="1110.0" y="0.0">Req0x1?</label>
-			<label kind="assignment" x="1105.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1105.0" y="0.0">observable</label>
-			<nail x="100" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id2"/>
-			<target ref="id3"/>
-			<label kind="guard" x="500.0" y="0.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="510.0" y="0.0">Req0x1?</label>
-			<label kind="assignment" x="505.0" y="0.0">cl=0</label>
-			<label kind="comments" x="505.0" y="0.0">observable</label>
-			<nail x="300" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id2"/>
@@ -345,8 +327,26 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 			<nail x="0" y="100"/>
 		</transition>
 		<transition>
-			<source ref="id3"/>
+			<source ref="id2"/>
 			<target ref="id4"/>
+			<label kind="guard" x="400.0" y="100.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="410.0" y="100.0">Req0x1?</label>
+			<label kind="assignment" x="405.0" y="100.0">cl=0</label>
+			<label kind="comments" x="405.0" y="100.0">observable</label>
+			<nail x="400" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id8"/>
+			<label kind="guard" x="800.0" y="100.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="810.0" y="100.0">Req0x1?</label>
+			<label kind="assignment" x="805.0" y="100.0">cl=0</label>
+			<label kind="comments" x="805.0" y="100.0">observable</label>
+			<nail x="800" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id3"/>
 			<label kind="guard" x="700.0" y="0.0">cl&gt;=1</label>
 			<label kind="synchronisation" x="710.0" y="0.0">Ack1x0!</label>
 			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
@@ -354,45 +354,46 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 			<nail x="700" y="0"/>
 		</transition>
 		<transition>
-			<source ref="id5"/>
-			<target ref="id0"/>
-			<label kind="guard" x="500.0" y="0.0">cl==3</label>
-			<label kind="assignment" x="505.0" y="0.0">cl=0</label>
-			<label kind="comments" x="505.0" y="0.0">timeout</label>
-			<nail x="0" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id5"/>
-			<target ref="id6"/>
-			<label kind="guard" x="600.0" y="100.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="610.0" y="100.0">Req0x1?</label>
-			<label kind="assignment" x="605.0" y="100.0">cl=0</label>
-			<label kind="comments" x="605.0" y="100.0">observable</label>
-			<nail x="600" y="100"/>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="guard" x="1300.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="1310.0" y="0.0">Req0x1?</label>
+			<label kind="assignment" x="1305.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1305.0" y="0.0">observable</label>
+			<nail x="700" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id6"/>
-			<target ref="id4"/>
-			<label kind="guard" x="1000.0" y="0.0">cl&gt;=1</label>
+			<target ref="id0"/>
+			<label kind="guard" x="600.0" y="0.0">cl==3</label>
+			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
+			<label kind="comments" x="605.0" y="0.0">timeout</label>
+			<nail x="0" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id3"/>
+			<label kind="guard" x="1000.0" y="0.0">cl&gt;=2</label>
 			<label kind="synchronisation" x="1010.0" y="0.0">Ack1x0!</label>
 			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
 			<label kind="comments" x="1005.0" y="0.0">controllable</label>
 			<nail x="1000" y="0"/>
 		</transition>
 		<transition>
-			<source ref="id9"/>
-			<target ref="id0"/>
-			<label kind="guard" x="900.0" y="0.0">cl==3</label>
-			<label kind="assignment" x="905.0" y="0.0">cl=0</label>
-			<label kind="comments" x="905.0" y="0.0">timeout</label>
-			<nail x="0" y="100"/>
+			<source ref="id8"/>
+			<target ref="id3"/>
+			<label kind="guard" x="1100.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="1110.0" y="0.0">Ack1x0!</label>
+			<label kind="assignment" x="1105.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1105.0" y="0.0">controllable</label>
+			<nail x="1100" y="0"/>
 		</transition>
 		<transition>
-			<source ref="id10"/>
+			<source ref="id9"/>
 			<target ref="id0"/>
-			<label kind="guard" x="1000.0" y="0.0">cl==3</label>
-			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1005.0" y="0.0">timeout</label>
+			<label kind="guard" x="900.0" y="0.0">cl==8</label>
+			<label kind="assignment" x="905.0" y="0.0">cl=0</label>
+			<label kind="comments" x="905.0" y="0.0">timeout</label>
 			<nail x="0" y="100"/>
 		</transition>
 	</template>
@@ -405,7 +406,7 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		</location>
 		<location id="id1" x="200" y="0">
 			<name x="207" y="7">Lp1</name>
-			<label kind="invariant" x="207" y="20">cl&lt;=9</label>
+			<label kind="invariant" x="207" y="20">cl&lt;=10</label>
 		</location>
 		<location id="id2" x="400" y="0">
 			<name x="407" y="7">END</name>
@@ -414,9 +415,9 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 			<name x="7" y="207">La3</name>
 			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
 		</location>
-		<location id="id4" x="800" y="0">
-			<name x="807" y="7">La4</name>
-			<label kind="invariant" x="807" y="20">cl&lt;=2</label>
+		<location id="id4" x="0" y="200">
+			<name x="7" y="207">La4</name>
+			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
 		</location>
 		<location id="id5" x="1000" y="0">
 			<name x="1007" y="7">La5</name>
@@ -434,8 +435,8 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 			<name x="1607" y="7">La8</name>
 			<label kind="invariant" x="1607" y="20">cl&lt;=2</label>
 		</location>
-		<location id="id10" x="0" y="200">
-			<name x="7" y="207">La10</name>
+		<location id="id9" x="0" y="200">
+			<name x="7" y="207">La9</name>
 			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
 		</location>
 		<init ref="id0"/>
@@ -459,15 +460,6 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		</transition>
 		<transition>
 			<source ref="id1"/>
-			<target ref="id2"/>
-			<label kind="guard" x="1000.0" y="0.0">cl&gt;=7</label>
-			<label kind="synchronisation" x="1010.0" y="0.0">Ack0x2?</label>
-			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1005.0" y="0.0">observable</label>
-			<nail x="300" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
 			<target ref="id3"/>
 			<label kind="guard" x="400.0" y="0.0">cl&gt;=0</label>
 			<label kind="synchronisation" x="410.0" y="0.0">Req0x2?</label>
@@ -477,26 +469,26 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		</transition>
 		<transition>
 			<source ref="id1"/>
-			<target ref="id6"/>
-			<label kind="guard" x="700.0" y="0.0">cl&gt;=4</label>
-			<label kind="synchronisation" x="710.0" y="0.0">Req0x2?</label>
-			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
-			<label kind="comments" x="705.0" y="0.0">observable</label>
-			<nail x="700" y="0"/>
+			<target ref="id4"/>
+			<label kind="guard" x="500.0" y="0.0">cl&gt;=5</label>
+			<label kind="synchronisation" x="510.0" y="0.0">Req0x2?</label>
+			<label kind="assignment" x="505.0" y="0.0">cl=0</label>
+			<label kind="comments" x="505.0" y="0.0">observable</label>
+			<nail x="100" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id1"/>
-			<target ref="id10"/>
-			<label kind="guard" x="1100.0" y="0.0">cl&gt;=8</label>
-			<label kind="synchronisation" x="1110.0" y="0.0">Req0x2?</label>
-			<label kind="assignment" x="1105.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1105.0" y="0.0">observable</label>
+			<target ref="id9"/>
+			<label kind="guard" x="1000.0" y="0.0">cl&gt;=8</label>
+			<label kind="synchronisation" x="1010.0" y="0.0">Req0x2?</label>
+			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1005.0" y="0.0">observable</label>
 			<nail x="100" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id3"/>
 			<target ref="id0"/>
-			<label kind="guard" x="300.0" y="0.0">cl==8</label>
+			<label kind="guard" x="300.0" y="0.0">cl==3</label>
 			<label kind="assignment" x="305.0" y="0.0">cl=0</label>
 			<label kind="comments" x="305.0" y="0.0">timeout</label>
 			<nail x="0" y="100"/>
@@ -504,28 +496,37 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		<transition>
 			<source ref="id3"/>
 			<target ref="id0"/>
-			<label kind="guard" x="0.0" y="100.0">cl==3</label>
+			<label kind="guard" x="0.0" y="100.0">cl==8</label>
 			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
 			<label kind="comments" x="5.0" y="100.0">timeout</label>
 			<nail x="0" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id3"/>
-			<target ref="id4"/>
-			<label kind="guard" x="400.0" y="100.0">cl&gt;=2</label>
-			<label kind="synchronisation" x="410.0" y="100.0">Req0x2?</label>
-			<label kind="assignment" x="405.0" y="100.0">cl=0</label>
-			<label kind="comments" x="405.0" y="100.0">observable</label>
-			<nail x="400" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id3"/>
 			<target ref="id5"/>
-			<label kind="guard" x="500.0" y="100.0">cl&gt;=1</label>
+			<label kind="guard" x="500.0" y="100.0">cl&gt;=3</label>
 			<label kind="synchronisation" x="510.0" y="100.0">Req0x2?</label>
 			<label kind="assignment" x="505.0" y="100.0">cl=0</label>
 			<label kind="comments" x="505.0" y="100.0">observable</label>
 			<nail x="500" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id6"/>
+			<label kind="guard" x="600.0" y="100.0">cl&gt;=2</label>
+			<label kind="synchronisation" x="610.0" y="100.0">Req0x2?</label>
+			<label kind="assignment" x="605.0" y="100.0">cl=0</label>
+			<label kind="comments" x="605.0" y="100.0">observable</label>
+			<nail x="600" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id7"/>
+			<label kind="guard" x="700.0" y="100.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="710.0" y="100.0">Req0x2?</label>
+			<label kind="assignment" x="705.0" y="100.0">cl=0</label>
+			<label kind="comments" x="705.0" y="100.0">observable</label>
+			<nail x="700" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id3"/>
@@ -538,12 +539,11 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		</transition>
 		<transition>
 			<source ref="id4"/>
-			<target ref="id2"/>
-			<label kind="guard" x="600.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="610.0" y="0.0">Ack2x0!</label>
-			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
-			<label kind="comments" x="605.0" y="0.0">controllable</label>
-			<nail x="600" y="0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="400.0" y="0.0">cl==8</label>
+			<label kind="assignment" x="405.0" y="0.0">cl=0</label>
+			<label kind="comments" x="405.0" y="0.0">timeout</label>
+			<nail x="0" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id5"/>
@@ -556,12 +556,12 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		</transition>
 		<transition>
 			<source ref="id6"/>
-			<target ref="id7"/>
-			<label kind="guard" x="1300.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="1310.0" y="0.0">Req0x2?</label>
-			<label kind="assignment" x="1305.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1305.0" y="0.0">observable</label>
-			<nail x="1300" y="0"/>
+			<target ref="id2"/>
+			<label kind="guard" x="800.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="810.0" y="0.0">Ack2x0!</label>
+			<label kind="assignment" x="805.0" y="0.0">cl=0</label>
+			<label kind="comments" x="805.0" y="0.0">controllable</label>
+			<nail x="800" y="0"/>
 		</transition>
 		<transition>
 			<source ref="id7"/>
@@ -582,11 +582,19 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 			<nail x="1000" y="0"/>
 		</transition>
 		<transition>
-			<source ref="id10"/>
+			<source ref="id9"/>
 			<target ref="id0"/>
-			<label kind="guard" x="1000.0" y="0.0">cl==8</label>
-			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1005.0" y="0.0">timeout</label>
+			<label kind="guard" x="900.0" y="0.0">cl==3</label>
+			<label kind="assignment" x="905.0" y="0.0">cl=0</label>
+			<label kind="comments" x="905.0" y="0.0">timeout</label>
+			<nail x="0" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id0"/>
+			<label kind="guard" x="0.0" y="100.0">cl==8</label>
+			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
+			<label kind="comments" x="5.0" y="100.0">timeout</label>
 			<nail x="0" y="100"/>
 		</transition>
 	</template>
@@ -599,7 +607,7 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		</location>
 		<location id="id1" x="200" y="0">
 			<name x="207" y="7">Lp1</name>
-			<label kind="invariant" x="207" y="20">cl&lt;=12</label>
+			<label kind="invariant" x="207" y="20">cl&lt;=9</label>
 		</location>
 		<location id="id2" x="0" y="200">
 			<name x="7" y="207">La2</name>
@@ -612,21 +620,13 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		<location id="id4" x="800" y="0">
 			<name x="807" y="7">END</name>
 		</location>
-		<location id="id6" x="1200" y="0">
-			<name x="1207" y="7">La5</name>
-			<label kind="invariant" x="1207" y="20">cl&lt;=2</label>
-		</location>
-		<location id="id7" x="0" y="200">
-			<name x="7" y="207">La6</name>
+		<location id="id6" x="0" y="200">
+			<name x="7" y="207">La5</name>
 			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
 		</location>
-		<location id="id8" x="1600" y="0">
-			<name x="1607" y="7">La7</name>
-			<label kind="invariant" x="1607" y="20">cl&lt;=2</label>
-		</location>
-		<location id="id9" x="0" y="200">
-			<name x="7" y="207">La8</name>
-			<label kind="invariant" x="7" y="220">cl&lt;=3</label>
+		<location id="id8" x="0" y="200">
+			<name x="7" y="207">La7</name>
+			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
 		</location>
 		<init ref="id0"/>
 		<transition>
@@ -659,35 +659,204 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		<transition>
 			<source ref="id1"/>
 			<target ref="id4"/>
-			<label kind="guard" x="1100.0" y="0.0">cl&gt;=12</label>
-			<label kind="synchronisation" x="1110.0" y="0.0">Ack0x3?</label>
-			<label kind="assignment" x="1105.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1105.0" y="0.0">observable</label>
+			<label kind="guard" x="800.0" y="0.0">cl&gt;=7</label>
+			<label kind="synchronisation" x="810.0" y="0.0">Ack0x3?</label>
+			<label kind="assignment" x="805.0" y="0.0">cl=0</label>
+			<label kind="comments" x="805.0" y="0.0">observable</label>
 			<nail x="500" y="0"/>
 		</transition>
 		<transition>
 			<source ref="id1"/>
-			<target ref="id7"/>
-			<label kind="guard" x="800.0" y="0.0">cl&gt;=4</label>
-			<label kind="synchronisation" x="810.0" y="0.0">Req0x3?</label>
-			<label kind="assignment" x="805.0" y="0.0">cl=0</label>
-			<label kind="comments" x="805.0" y="0.0">observable</label>
+			<target ref="id6"/>
+			<label kind="guard" x="700.0" y="0.0">cl&gt;=3</label>
+			<label kind="synchronisation" x="710.0" y="0.0">Req0x3?</label>
+			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
+			<label kind="comments" x="705.0" y="0.0">observable</label>
 			<nail x="100" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id1"/>
-			<target ref="id9"/>
-			<label kind="guard" x="1000.0" y="0.0">cl&gt;=8</label>
-			<label kind="synchronisation" x="1010.0" y="0.0">Req0x3?</label>
-			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1005.0" y="0.0">observable</label>
+			<target ref="id8"/>
+			<label kind="guard" x="900.0" y="0.0">cl&gt;=8</label>
+			<label kind="synchronisation" x="910.0" y="0.0">Req0x3?</label>
+			<label kind="assignment" x="905.0" y="0.0">cl=0</label>
+			<label kind="comments" x="905.0" y="0.0">observable</label>
 			<nail x="100" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id0"/>
+			<label kind="guard" x="200.0" y="0.0">cl==3</label>
+			<label kind="assignment" x="205.0" y="0.0">cl=0</label>
+			<label kind="comments" x="205.0" y="0.0">timeout</label>
+			<nail x="0" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id0"/>
+			<label kind="guard" x="0.0" y="100.0">cl==8</label>
+			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
+			<label kind="comments" x="5.0" y="100.0">timeout</label>
+			<nail x="0" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="guard" x="300.0" y="100.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="310.0" y="100.0">Req0x3?</label>
+			<label kind="assignment" x="305.0" y="100.0">cl=0</label>
+			<label kind="comments" x="305.0" y="100.0">observable</label>
+			<nail x="300" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="guard" x="700.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="710.0" y="0.0">Ack3x0!</label>
+			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
+			<label kind="comments" x="705.0" y="0.0">controllable</label>
+			<nail x="700" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id0"/>
+			<label kind="guard" x="600.0" y="0.0">cl==3</label>
+			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
+			<label kind="comments" x="605.0" y="0.0">timeout</label>
+			<nail x="0" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id0"/>
+			<label kind="guard" x="0.0" y="100.0">cl==8</label>
+			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
+			<label kind="comments" x="5.0" y="100.0">timeout</label>
+			<nail x="0" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id0"/>
+			<label kind="guard" x="800.0" y="0.0">cl==8</label>
+			<label kind="assignment" x="805.0" y="0.0">cl=0</label>
+			<label kind="comments" x="805.0" y="0.0">timeout</label>
+			<nail x="0" y="100"/>
+		</transition>
+	</template>
+	<template>
+		<name x="0" y="0">Node4</name>
+		<declaration>clock cl;</declaration>
+		<location id="id0" x="0" y="0">
+			<name x="7" y="7">La1</name>
+			<label kind="invariant" x="7" y="20">cl&lt;=4</label>
+		</location>
+		<location id="id1" x="200" y="0">
+			<name x="207" y="7">Lp1</name>
+			<label kind="invariant" x="207" y="20">cl&lt;=10</label>
+		</location>
+		<location id="id2" x="0" y="200">
+			<name x="7" y="207">La2</name>
+			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
+		</location>
+		<location id="id3" x="600" y="0">
+			<name x="607" y="7">La3</name>
+			<label kind="invariant" x="607" y="20">cl&lt;=2</label>
+		</location>
+		<location id="id4" x="800" y="0">
+			<name x="807" y="7">END</name>
+		</location>
+		<location id="id7" x="1400" y="0">
+			<name x="1407" y="7">La6</name>
+			<label kind="invariant" x="1407" y="20">cl&lt;=2</label>
+		</location>
+		<location id="id8" x="0" y="200">
+			<name x="7" y="207">La7</name>
+			<label kind="invariant" x="7" y="220">cl&lt;=3</label>
+		</location>
+		<location id="id9" x="1800" y="0">
+			<name x="1807" y="7">La8</name>
+			<label kind="invariant" x="1807" y="20">cl&lt;=1</label>
+		</location>
+		<location id="id10" x="2000" y="0">
+			<name x="2007" y="7">La9</name>
+			<label kind="invariant" x="2007" y="20">cl&lt;=2</label>
+		</location>
+		<location id="id11" x="2200" y="0">
+			<name x="2207" y="7">La10</name>
+			<label kind="invariant" x="2207" y="20">cl&lt;=2</label>
+		</location>
+		<location id="id12" x="2400" y="0">
+			<name x="2407" y="7">La11</name>
+			<label kind="invariant" x="2407" y="20">cl&lt;=1</label>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="guard" x="100.0" y="0.0">cl&gt;=2</label>
+			<label kind="synchronisation" x="110.0" y="0.0">Req4x0!</label>
+			<label kind="assignment" x="105.0" y="0.0">cl=0</label>
+			<label kind="comments" x="105.0" y="0.0">controllable</label>
+			<nail x="100" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="guard" x="300.0" y="0.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="310.0" y="0.0">Req0x4?</label>
+			<label kind="assignment" x="305.0" y="0.0">cl=0</label>
+			<label kind="comments" x="305.0" y="0.0">observable</label>
+			<nail x="100" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id4"/>
+			<label kind="guard" x="600.0" y="0.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="610.0" y="0.0">Ack0x4?</label>
+			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
+			<label kind="comments" x="605.0" y="0.0">observable</label>
+			<nail x="500" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id4"/>
+			<label kind="guard" x="700.0" y="0.0">cl&gt;=3</label>
+			<label kind="synchronisation" x="710.0" y="0.0">Ack0x4?</label>
+			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
+			<label kind="comments" x="705.0" y="0.0">observable</label>
+			<nail x="500" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id4"/>
+			<label kind="guard" x="1400.0" y="0.0">cl&gt;=10</label>
+			<label kind="synchronisation" x="1410.0" y="0.0">Ack0x4?</label>
+			<label kind="assignment" x="1405.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1405.0" y="0.0">observable</label>
+			<nail x="500" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id8"/>
+			<label kind="guard" x="900.0" y="0.0">cl&gt;=4</label>
+			<label kind="synchronisation" x="910.0" y="0.0">Req0x4?</label>
+			<label kind="assignment" x="905.0" y="0.0">cl=0</label>
+			<label kind="comments" x="905.0" y="0.0">observable</label>
+			<nail x="100" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id11"/>
+			<label kind="guard" x="1200.0" y="0.0">cl&gt;=8</label>
+			<label kind="synchronisation" x="1210.0" y="0.0">Req0x4?</label>
+			<label kind="assignment" x="1205.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1205.0" y="0.0">observable</label>
+			<nail x="1200" y="0"/>
 		</transition>
 		<transition>
 			<source ref="id2"/>
 			<target ref="id3"/>
 			<label kind="guard" x="500.0" y="0.0">cl&gt;=2</label>
-			<label kind="synchronisation" x="510.0" y="0.0">Req0x3?</label>
+			<label kind="synchronisation" x="510.0" y="0.0">Req0x4?</label>
 			<label kind="assignment" x="505.0" y="0.0">cl=0</label>
 			<label kind="comments" x="505.0" y="0.0">observable</label>
 			<nail x="300" y="100"/>
@@ -710,230 +879,92 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		</transition>
 		<transition>
 			<source ref="id2"/>
-			<target ref="id6"/>
-			<label kind="guard" x="600.0" y="100.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="610.0" y="100.0">Req0x3?</label>
-			<label kind="assignment" x="605.0" y="100.0">cl=0</label>
-			<label kind="comments" x="605.0" y="100.0">observable</label>
-			<nail x="600" y="100"/>
+			<target ref="id7"/>
+			<label kind="guard" x="700.0" y="100.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="710.0" y="100.0">Req0x4?</label>
+			<label kind="assignment" x="705.0" y="100.0">cl=0</label>
+			<label kind="comments" x="705.0" y="100.0">observable</label>
+			<nail x="700" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id10"/>
+			<label kind="guard" x="1000.0" y="100.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="1010.0" y="100.0">Req0x4?</label>
+			<label kind="assignment" x="1005.0" y="100.0">cl=0</label>
+			<label kind="comments" x="1005.0" y="100.0">observable</label>
+			<nail x="1000" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id3"/>
 			<target ref="id4"/>
 			<label kind="guard" x="700.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="710.0" y="0.0">Ack3x0!</label>
+			<label kind="synchronisation" x="710.0" y="0.0">Ack4x0!</label>
 			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
 			<label kind="comments" x="705.0" y="0.0">controllable</label>
 			<nail x="700" y="0"/>
 		</transition>
 		<transition>
-			<source ref="id6"/>
+			<source ref="id7"/>
 			<target ref="id4"/>
-			<label kind="guard" x="1000.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="1010.0" y="0.0">Ack3x0!</label>
-			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1005.0" y="0.0">controllable</label>
-			<nail x="1000" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id7"/>
-			<target ref="id8"/>
-			<label kind="guard" x="1500.0" y="0.0">cl&gt;=2</label>
-			<label kind="synchronisation" x="1510.0" y="0.0">Req0x3?</label>
-			<label kind="assignment" x="1505.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1505.0" y="0.0">observable</label>
-			<nail x="800" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id7"/>
-			<target ref="id0"/>
-			<label kind="guard" x="700.0" y="0.0">cl==8</label>
-			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
-			<label kind="comments" x="705.0" y="0.0">timeout</label>
-			<nail x="0" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id7"/>
-			<target ref="id0"/>
-			<label kind="guard" x="0.0" y="100.0">cl==3</label>
-			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
-			<label kind="comments" x="5.0" y="100.0">timeout</label>
-			<nail x="0" y="100"/>
+			<label kind="guard" x="1100.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="1110.0" y="0.0">Ack4x0!</label>
+			<label kind="assignment" x="1105.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1105.0" y="0.0">controllable</label>
+			<nail x="1100" y="0"/>
 		</transition>
 		<transition>
 			<source ref="id8"/>
-			<target ref="id4"/>
-			<label kind="guard" x="1200.0" y="0.0">cl&gt;=2</label>
-			<label kind="synchronisation" x="1210.0" y="0.0">Ack3x0!</label>
-			<label kind="assignment" x="1205.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1205.0" y="0.0">controllable</label>
-			<nail x="1200" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id9"/>
-			<target ref="id0"/>
-			<label kind="guard" x="900.0" y="0.0">cl==3</label>
-			<label kind="assignment" x="905.0" y="0.0">cl=0</label>
-			<label kind="comments" x="905.0" y="0.0">timeout</label>
-			<nail x="0" y="100"/>
-		</transition>
-	</template>
-	<template>
-		<name x="0" y="0">Node4</name>
-		<declaration>clock cl;</declaration>
-		<location id="id0" x="0" y="0">
-			<name x="7" y="7">La1</name>
-			<label kind="invariant" x="7" y="20">cl&lt;=4</label>
-		</location>
-		<location id="id1" x="200" y="0">
-			<name x="207" y="7">Lp1</name>
-			<label kind="invariant" x="207" y="20">cl&lt;=12</label>
-		</location>
-		<location id="id2" x="400" y="0">
-			<name x="407" y="7">END</name>
-		</location>
-		<location id="id3" x="0" y="200">
-			<name x="7" y="207">La3</name>
-			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
-		</location>
-		<location id="id4" x="800" y="0">
-			<name x="807" y="7">La4</name>
-			<label kind="invariant" x="807" y="20">cl&lt;=2</label>
-		</location>
-		<location id="id5" x="0" y="200">
-			<name x="7" y="207">La5</name>
-			<label kind="invariant" x="7" y="220">cl&lt;=3</label>
-		</location>
-		<location id="id6" x="1200" y="0">
-			<name x="1207" y="7">La6</name>
-			<label kind="invariant" x="1207" y="20">cl&lt;=1</label>
-		</location>
-		<location id="id8" x="0" y="200">
-			<name x="7" y="207">La8</name>
-			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
-		</location>
-		<init ref="id0"/>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id1"/>
-			<label kind="guard" x="100.0" y="0.0">cl&gt;=2</label>
-			<label kind="synchronisation" x="110.0" y="0.0">Req4x0!</label>
-			<label kind="assignment" x="105.0" y="0.0">cl=0</label>
-			<label kind="comments" x="105.0" y="0.0">controllable</label>
-			<nail x="100" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id2"/>
-			<label kind="guard" x="300.0" y="0.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="310.0" y="0.0">Ack0x4?</label>
-			<label kind="assignment" x="305.0" y="0.0">cl=0</label>
-			<label kind="comments" x="305.0" y="0.0">observable</label>
-			<nail x="300" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id2"/>
-			<label kind="guard" x="800.0" y="0.0">cl&gt;=7</label>
-			<label kind="synchronisation" x="810.0" y="0.0">Ack0x4?</label>
-			<label kind="assignment" x="805.0" y="0.0">cl=0</label>
-			<label kind="comments" x="805.0" y="0.0">observable</label>
-			<nail x="300" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id3"/>
-			<label kind="guard" x="400.0" y="0.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="410.0" y="0.0">Req0x4?</label>
-			<label kind="assignment" x="405.0" y="0.0">cl=0</label>
-			<label kind="comments" x="405.0" y="0.0">observable</label>
-			<nail x="100" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id5"/>
-			<label kind="guard" x="600.0" y="0.0">cl&gt;=3</label>
-			<label kind="synchronisation" x="610.0" y="0.0">Req0x4?</label>
-			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
-			<label kind="comments" x="605.0" y="0.0">observable</label>
-			<nail x="100" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id8"/>
-			<label kind="guard" x="900.0" y="0.0">cl&gt;=12</label>
-			<label kind="synchronisation" x="910.0" y="0.0">Req0x4?</label>
-			<label kind="assignment" x="905.0" y="0.0">cl=0</label>
-			<label kind="comments" x="905.0" y="0.0">observable</label>
-			<nail x="100" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id3"/>
-			<target ref="id0"/>
-			<label kind="guard" x="300.0" y="0.0">cl==3</label>
-			<label kind="assignment" x="305.0" y="0.0">cl=0</label>
-			<label kind="comments" x="305.0" y="0.0">timeout</label>
-			<nail x="0" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id3"/>
-			<target ref="id0"/>
-			<label kind="guard" x="0.0" y="100.0">cl==8</label>
-			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
-			<label kind="comments" x="5.0" y="100.0">timeout</label>
-			<nail x="0" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id3"/>
-			<target ref="id4"/>
-			<label kind="guard" x="400.0" y="100.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="410.0" y="100.0">Req0x4?</label>
-			<label kind="assignment" x="405.0" y="100.0">cl=0</label>
-			<label kind="comments" x="405.0" y="100.0">observable</label>
-			<nail x="400" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id4"/>
-			<target ref="id2"/>
-			<label kind="guard" x="600.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="610.0" y="0.0">Ack4x0!</label>
-			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
-			<label kind="comments" x="605.0" y="0.0">controllable</label>
-			<nail x="600" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id5"/>
-			<target ref="id0"/>
-			<label kind="guard" x="500.0" y="0.0">cl==3</label>
-			<label kind="assignment" x="505.0" y="0.0">cl=0</label>
-			<label kind="comments" x="505.0" y="0.0">timeout</label>
-			<nail x="0" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id5"/>
-			<target ref="id6"/>
-			<label kind="guard" x="600.0" y="100.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="610.0" y="100.0">Req0x4?</label>
-			<label kind="assignment" x="605.0" y="100.0">cl=0</label>
-			<label kind="comments" x="605.0" y="100.0">observable</label>
-			<nail x="600" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id6"/>
-			<target ref="id2"/>
-			<label kind="guard" x="800.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="810.0" y="0.0">Ack4x0!</label>
-			<label kind="assignment" x="805.0" y="0.0">cl=0</label>
-			<label kind="comments" x="805.0" y="0.0">controllable</label>
-			<nail x="800" y="0"/>
+			<target ref="id9"/>
+			<label kind="guard" x="1700.0" y="0.0">cl&gt;=2</label>
+			<label kind="synchronisation" x="1710.0" y="0.0">Req0x4?</label>
+			<label kind="assignment" x="1705.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1705.0" y="0.0">observable</label>
+			<nail x="900" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id8"/>
 			<target ref="id0"/>
-			<label kind="guard" x="800.0" y="0.0">cl==8</label>
+			<label kind="guard" x="800.0" y="0.0">cl==3</label>
 			<label kind="assignment" x="805.0" y="0.0">cl=0</label>
 			<label kind="comments" x="805.0" y="0.0">timeout</label>
 			<nail x="0" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id4"/>
+			<label kind="guard" x="1300.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="1310.0" y="0.0">Ack4x0!</label>
+			<label kind="assignment" x="1305.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1305.0" y="0.0">controllable</label>
+			<nail x="1300" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id4"/>
+			<label kind="guard" x="1400.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="1410.0" y="0.0">Ack4x0!</label>
+			<label kind="assignment" x="1405.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1405.0" y="0.0">controllable</label>
+			<nail x="1400" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id12"/>
+			<label kind="guard" x="2300.0" y="0.0">cl&gt;=2</label>
+			<label kind="synchronisation" x="2310.0" y="0.0">Req0x4?</label>
+			<label kind="assignment" x="2305.0" y="0.0">cl=0</label>
+			<label kind="comments" x="2305.0" y="0.0">observable</label>
+			<nail x="2300" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id4"/>
+			<label kind="guard" x="1600.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="1610.0" y="0.0">Ack4x0!</label>
+			<label kind="assignment" x="1605.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1605.0" y="0.0">controllable</label>
+			<nail x="1600" y="0"/>
 		</transition>
 	</template>
 	<template>
@@ -945,7 +976,7 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		</location>
 		<location id="id1" x="200" y="0">
 			<name x="207" y="7">Lp1</name>
-			<label kind="invariant" x="207" y="20">cl&lt;=10</label>
+			<label kind="invariant" x="207" y="20">cl&lt;=9</label>
 		</location>
 		<location id="id2" x="0" y="200">
 			<name x="7" y="207">La2</name>
@@ -958,21 +989,25 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		<location id="id4" x="800" y="0">
 			<name x="807" y="7">END</name>
 		</location>
-		<location id="id5" x="1000" y="0">
-			<name x="1007" y="7">La4</name>
-			<label kind="invariant" x="1007" y="20">cl&lt;=2</label>
+		<location id="id6" x="0" y="200">
+			<name x="7" y="207">La5</name>
+			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
 		</location>
 		<location id="id7" x="1400" y="0">
 			<name x="1407" y="7">La6</name>
-			<label kind="invariant" x="1407" y="20">cl&lt;=2</label>
+			<label kind="invariant" x="1407" y="20">cl&lt;=1</label>
 		</location>
 		<location id="id8" x="0" y="200">
 			<name x="7" y="207">La7</name>
-			<label kind="invariant" x="7" y="220">cl&lt;=3</label>
-		</location>
-		<location id="id9" x="0" y="200">
-			<name x="7" y="207">La8</name>
 			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
+		</location>
+		<location id="id9" x="1800" y="0">
+			<name x="1807" y="7">La8</name>
+			<label kind="invariant" x="1807" y="20">cl&lt;=2</label>
+		</location>
+		<location id="id10" x="2000" y="0">
+			<name x="2007" y="7">La9</name>
+			<label kind="invariant" x="2007" y="20">cl&lt;=1</label>
 		</location>
 		<init ref="id0"/>
 		<transition>
@@ -996,29 +1031,38 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		<transition>
 			<source ref="id1"/>
 			<target ref="id4"/>
-			<label kind="guard" x="700.0" y="0.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="710.0" y="0.0">Ack0x5?</label>
-			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
-			<label kind="comments" x="705.0" y="0.0">observable</label>
+			<label kind="guard" x="600.0" y="0.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="610.0" y="0.0">Ack0x5?</label>
+			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
+			<label kind="comments" x="605.0" y="0.0">observable</label>
 			<nail x="500" y="0"/>
 		</transition>
 		<transition>
 			<source ref="id1"/>
+			<target ref="id6"/>
+			<label kind="guard" x="700.0" y="0.0">cl&gt;=4</label>
+			<label kind="synchronisation" x="710.0" y="0.0">Req0x5?</label>
+			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
+			<label kind="comments" x="705.0" y="0.0">observable</label>
+			<nail x="100" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
 			<target ref="id8"/>
-			<label kind="guard" x="900.0" y="0.0">cl&gt;=6</label>
+			<label kind="guard" x="900.0" y="0.0">cl&gt;=7</label>
 			<label kind="synchronisation" x="910.0" y="0.0">Req0x5?</label>
 			<label kind="assignment" x="905.0" y="0.0">cl=0</label>
 			<label kind="comments" x="905.0" y="0.0">observable</label>
 			<nail x="100" y="100"/>
 		</transition>
 		<transition>
-			<source ref="id1"/>
-			<target ref="id9"/>
-			<label kind="guard" x="1000.0" y="0.0">cl&gt;=9</label>
-			<label kind="synchronisation" x="1010.0" y="0.0">Req0x5?</label>
-			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1005.0" y="0.0">observable</label>
-			<nail x="100" y="100"/>
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="guard" x="500.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="510.0" y="0.0">Req0x5?</label>
+			<label kind="assignment" x="505.0" y="0.0">cl=0</label>
+			<label kind="comments" x="505.0" y="0.0">observable</label>
+			<nail x="300" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id2"/>
@@ -1038,30 +1082,12 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		</transition>
 		<transition>
 			<source ref="id2"/>
-			<target ref="id3"/>
-			<label kind="guard" x="300.0" y="100.0">cl&gt;=2</label>
-			<label kind="synchronisation" x="310.0" y="100.0">Req0x5?</label>
-			<label kind="assignment" x="305.0" y="100.0">cl=0</label>
-			<label kind="comments" x="305.0" y="100.0">observable</label>
-			<nail x="300" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id2"/>
-			<target ref="id5"/>
-			<label kind="guard" x="500.0" y="100.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="510.0" y="100.0">Req0x5?</label>
-			<label kind="assignment" x="505.0" y="100.0">cl=0</label>
-			<label kind="comments" x="505.0" y="100.0">observable</label>
-			<nail x="500" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id2"/>
-			<target ref="id7"/>
-			<label kind="guard" x="700.0" y="100.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="710.0" y="100.0">Req0x5?</label>
-			<label kind="assignment" x="705.0" y="100.0">cl=0</label>
-			<label kind="comments" x="705.0" y="100.0">observable</label>
-			<nail x="700" y="100"/>
+			<target ref="id9"/>
+			<label kind="guard" x="900.0" y="100.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="910.0" y="100.0">Req0x5?</label>
+			<label kind="assignment" x="905.0" y="100.0">cl=0</label>
+			<label kind="comments" x="905.0" y="100.0">observable</label>
+			<nail x="900" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id3"/>
@@ -1073,13 +1099,21 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 			<nail x="700" y="0"/>
 		</transition>
 		<transition>
-			<source ref="id5"/>
-			<target ref="id4"/>
-			<label kind="guard" x="900.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="910.0" y="0.0">Ack5x0!</label>
-			<label kind="assignment" x="905.0" y="0.0">cl=0</label>
-			<label kind="comments" x="905.0" y="0.0">controllable</label>
-			<nail x="900" y="0"/>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="guard" x="1300.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="1310.0" y="0.0">Req0x5?</label>
+			<label kind="assignment" x="1305.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1305.0" y="0.0">observable</label>
+			<nail x="700" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id0"/>
+			<label kind="guard" x="600.0" y="0.0">cl==8</label>
+			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
+			<label kind="comments" x="605.0" y="0.0">timeout</label>
+			<nail x="0" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id7"/>
@@ -1093,18 +1127,45 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		<transition>
 			<source ref="id8"/>
 			<target ref="id0"/>
-			<label kind="guard" x="800.0" y="0.0">cl==3</label>
+			<label kind="guard" x="800.0" y="0.0">cl==8</label>
 			<label kind="assignment" x="805.0" y="0.0">cl=0</label>
 			<label kind="comments" x="805.0" y="0.0">timeout</label>
 			<nail x="0" y="100"/>
 		</transition>
 		<transition>
-			<source ref="id9"/>
+			<source ref="id8"/>
 			<target ref="id0"/>
-			<label kind="guard" x="900.0" y="0.0">cl==8</label>
-			<label kind="assignment" x="905.0" y="0.0">cl=0</label>
-			<label kind="comments" x="905.0" y="0.0">timeout</label>
+			<label kind="guard" x="0.0" y="100.0">cl==3</label>
+			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
+			<label kind="comments" x="5.0" y="100.0">timeout</label>
 			<nail x="0" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id10"/>
+			<label kind="guard" x="1000.0" y="100.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="1010.0" y="100.0">Req0x5?</label>
+			<label kind="assignment" x="1005.0" y="100.0">cl=0</label>
+			<label kind="comments" x="1005.0" y="100.0">observable</label>
+			<nail x="1000" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id4"/>
+			<label kind="guard" x="1300.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="1310.0" y="0.0">Ack5x0!</label>
+			<label kind="assignment" x="1305.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1305.0" y="0.0">controllable</label>
+			<nail x="1300" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id4"/>
+			<label kind="guard" x="1400.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="1410.0" y="0.0">Ack5x0!</label>
+			<label kind="assignment" x="1405.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1405.0" y="0.0">controllable</label>
+			<nail x="1400" y="0"/>
 		</transition>
 	</template>
 	<template>
@@ -1116,201 +1177,7 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		</location>
 		<location id="id1" x="200" y="0">
 			<name x="207" y="7">Lp1</name>
-			<label kind="invariant" x="207" y="20">cl&lt;=9</label>
-		</location>
-		<location id="id2" x="0" y="200">
-			<name x="7" y="207">La2</name>
-			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
-		</location>
-		<location id="id3" x="600" y="0">
-			<name x="607" y="7">La3</name>
-			<label kind="invariant" x="607" y="20">cl&lt;=2</label>
-		</location>
-		<location id="id4" x="800" y="0">
-			<name x="807" y="7">END</name>
-		</location>
-		<location id="id7" x="1400" y="0">
-			<name x="1407" y="7">La6</name>
-			<label kind="invariant" x="1407" y="20">cl&lt;=2</label>
-		</location>
-		<location id="id8" x="1600" y="0">
-			<name x="1607" y="7">La7</name>
-			<label kind="invariant" x="1607" y="20">cl&lt;=2</label>
-		</location>
-		<location id="id9" x="1800" y="0">
-			<name x="1807" y="7">La8</name>
-			<label kind="invariant" x="1807" y="20">cl&lt;=1</label>
-		</location>
-		<location id="id10" x="2000" y="0">
-			<name x="2007" y="7">La9</name>
-			<label kind="invariant" x="2007" y="20">cl&lt;=2</label>
-		</location>
-		<location id="id11" x="0" y="200">
-			<name x="7" y="207">La10</name>
-			<label kind="invariant" x="7" y="220">cl&lt;=3</label>
-		</location>
-		<init ref="id0"/>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id1"/>
-			<label kind="guard" x="100.0" y="0.0">cl&gt;=2</label>
-			<label kind="synchronisation" x="110.0" y="0.0">Req6x0!</label>
-			<label kind="assignment" x="105.0" y="0.0">cl=0</label>
-			<label kind="comments" x="105.0" y="0.0">controllable</label>
-			<nail x="100" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id2"/>
-			<label kind="guard" x="300.0" y="0.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="310.0" y="0.0">Req0x6?</label>
-			<label kind="assignment" x="305.0" y="0.0">cl=0</label>
-			<label kind="comments" x="305.0" y="0.0">observable</label>
-			<nail x="100" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id4"/>
-			<label kind="guard" x="600.0" y="0.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="610.0" y="0.0">Ack0x6?</label>
-			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
-			<label kind="comments" x="605.0" y="0.0">observable</label>
-			<nail x="500" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id4"/>
-			<label kind="guard" x="700.0" y="0.0">cl&gt;=4</label>
-			<label kind="synchronisation" x="710.0" y="0.0">Ack0x6?</label>
-			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
-			<label kind="comments" x="705.0" y="0.0">observable</label>
-			<nail x="500" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id9"/>
-			<label kind="guard" x="1000.0" y="0.0">cl&gt;=5</label>
-			<label kind="synchronisation" x="1010.0" y="0.0">Req0x6?</label>
-			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1005.0" y="0.0">observable</label>
-			<nail x="1000" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id11"/>
-			<label kind="guard" x="1200.0" y="0.0">cl&gt;=8</label>
-			<label kind="synchronisation" x="1210.0" y="0.0">Req0x6?</label>
-			<label kind="assignment" x="1205.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1205.0" y="0.0">observable</label>
-			<nail x="100" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id2"/>
-			<target ref="id0"/>
-			<label kind="guard" x="200.0" y="0.0">cl==8</label>
-			<label kind="assignment" x="205.0" y="0.0">cl=0</label>
-			<label kind="comments" x="205.0" y="0.0">timeout</label>
-			<nail x="0" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id2"/>
-			<target ref="id0"/>
-			<label kind="guard" x="0.0" y="100.0">cl==3</label>
-			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
-			<label kind="comments" x="5.0" y="100.0">timeout</label>
-			<nail x="0" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id2"/>
-			<target ref="id3"/>
-			<label kind="guard" x="300.0" y="100.0">cl&gt;=2</label>
-			<label kind="synchronisation" x="310.0" y="100.0">Req0x6?</label>
-			<label kind="assignment" x="305.0" y="100.0">cl=0</label>
-			<label kind="comments" x="305.0" y="100.0">observable</label>
-			<nail x="300" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id2"/>
-			<target ref="id7"/>
-			<label kind="guard" x="700.0" y="100.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="710.0" y="100.0">Req0x6?</label>
-			<label kind="assignment" x="705.0" y="100.0">cl=0</label>
-			<label kind="comments" x="705.0" y="100.0">observable</label>
-			<nail x="700" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id2"/>
-			<target ref="id8"/>
-			<label kind="guard" x="800.0" y="100.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="810.0" y="100.0">Req0x6?</label>
-			<label kind="assignment" x="805.0" y="100.0">cl=0</label>
-			<label kind="comments" x="805.0" y="100.0">observable</label>
-			<nail x="800" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id3"/>
-			<target ref="id4"/>
-			<label kind="guard" x="700.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="710.0" y="0.0">Ack6x0!</label>
-			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
-			<label kind="comments" x="705.0" y="0.0">controllable</label>
-			<nail x="700" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id7"/>
-			<target ref="id4"/>
-			<label kind="guard" x="1100.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="1110.0" y="0.0">Ack6x0!</label>
-			<label kind="assignment" x="1105.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1105.0" y="0.0">controllable</label>
-			<nail x="1100" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id8"/>
-			<target ref="id4"/>
-			<label kind="guard" x="1200.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="1210.0" y="0.0">Ack6x0!</label>
-			<label kind="assignment" x="1205.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1205.0" y="0.0">controllable</label>
-			<nail x="1200" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id9"/>
-			<target ref="id10"/>
-			<label kind="guard" x="1900.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="1910.0" y="0.0">Req0x6?</label>
-			<label kind="assignment" x="1905.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1905.0" y="0.0">observable</label>
-			<nail x="1900" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id10"/>
-			<target ref="id4"/>
-			<label kind="guard" x="1400.0" y="0.0">cl&gt;=2</label>
-			<label kind="synchronisation" x="1410.0" y="0.0">Ack6x0!</label>
-			<label kind="assignment" x="1405.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1405.0" y="0.0">controllable</label>
-			<nail x="1400" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id11"/>
-			<target ref="id0"/>
-			<label kind="guard" x="1100.0" y="0.0">cl==3</label>
-			<label kind="assignment" x="1105.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1105.0" y="0.0">timeout</label>
-			<nail x="0" y="100"/>
-		</transition>
-	</template>
-	<template>
-		<name x="0" y="0">Node7</name>
-		<declaration>clock cl;</declaration>
-		<location id="id0" x="0" y="0">
-			<name x="7" y="7">La1</name>
-			<label kind="invariant" x="7" y="20">cl&lt;=4</label>
-		</location>
-		<location id="id1" x="200" y="0">
-			<name x="207" y="7">Lp1</name>
-			<label kind="invariant" x="207" y="20">cl&lt;=9</label>
+			<label kind="invariant" x="207" y="20">cl&lt;=11</label>
 		</location>
 		<location id="id2" x="0" y="200">
 			<name x="7" y="207">La2</name>
@@ -1335,25 +1202,17 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 			<name x="1407" y="7">La6</name>
 			<label kind="invariant" x="1407" y="20">cl&lt;=2</label>
 		</location>
-		<location id="id8" x="1600" y="0">
-			<name x="1607" y="7">La7</name>
-			<label kind="invariant" x="1607" y="20">cl&lt;=2</label>
-		</location>
 		<location id="id10" x="2000" y="0">
 			<name x="2007" y="7">La9</name>
 			<label kind="invariant" x="2007" y="20">cl&lt;=2</label>
 		</location>
-		<location id="id11" x="2200" y="0">
-			<name x="2207" y="7">La10</name>
-			<label kind="invariant" x="2207" y="20">cl&lt;=2</label>
-		</location>
-		<location id="id12" x="2400" y="0">
-			<name x="2407" y="7">La11</name>
-			<label kind="invariant" x="2407" y="20">cl&lt;=2</label>
-		</location>
-		<location id="id13" x="0" y="200">
-			<name x="7" y="207">La12</name>
+		<location id="id12" x="0" y="200">
+			<name x="7" y="207">La11</name>
 			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
+		</location>
+		<location id="id13" x="2600" y="0">
+			<name x="2607" y="7">La12</name>
+			<label kind="invariant" x="2607" y="20">cl&lt;=0</label>
 		</location>
 		<location id="id14" x="2800" y="0">
 			<name x="2807" y="7">La13</name>
@@ -1364,7 +1223,7 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 			<source ref="id0"/>
 			<target ref="id1"/>
 			<label kind="guard" x="100.0" y="0.0">cl&gt;=2</label>
-			<label kind="synchronisation" x="110.0" y="0.0">Req7x0!</label>
+			<label kind="synchronisation" x="110.0" y="0.0">Req6x0!</label>
 			<label kind="assignment" x="105.0" y="0.0">cl=0</label>
 			<label kind="comments" x="105.0" y="0.0">controllable</label>
 			<nail x="100" y="0"/>
@@ -1372,8 +1231,8 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		<transition>
 			<source ref="id1"/>
 			<target ref="id2"/>
-			<label kind="guard" x="300.0" y="0.0">cl&gt;=2</label>
-			<label kind="synchronisation" x="310.0" y="0.0">Req0x7?</label>
+			<label kind="guard" x="300.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="310.0" y="0.0">Req0x6?</label>
 			<label kind="assignment" x="305.0" y="0.0">cl=0</label>
 			<label kind="comments" x="305.0" y="0.0">observable</label>
 			<nail x="100" y="100"/>
@@ -1381,8 +1240,8 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		<transition>
 			<source ref="id1"/>
 			<target ref="id5"/>
-			<label kind="guard" x="600.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="610.0" y="0.0">Req0x7?</label>
+			<label kind="guard" x="600.0" y="0.0">cl&gt;=4</label>
+			<label kind="synchronisation" x="610.0" y="0.0">Req0x6?</label>
 			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
 			<label kind="comments" x="605.0" y="0.0">observable</label>
 			<nail x="100" y="100"/>
@@ -1391,7 +1250,7 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 			<source ref="id1"/>
 			<target ref="id6"/>
 			<label kind="guard" x="700.0" y="0.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="710.0" y="0.0">Req0x7?</label>
+			<label kind="synchronisation" x="710.0" y="0.0">Req0x6?</label>
 			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
 			<label kind="comments" x="705.0" y="0.0">observable</label>
 			<nail x="100" y="100"/>
@@ -1399,26 +1258,53 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		<transition>
 			<source ref="id1"/>
 			<target ref="id4"/>
+			<label kind="guard" x="900.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="910.0" y="0.0">Ack0x6?</label>
+			<label kind="assignment" x="905.0" y="0.0">cl=0</label>
+			<label kind="comments" x="905.0" y="0.0">observable</label>
+			<nail x="500" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id4"/>
 			<label kind="guard" x="1000.0" y="0.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="1010.0" y="0.0">Ack0x7?</label>
+			<label kind="synchronisation" x="1010.0" y="0.0">Ack0x6?</label>
 			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
 			<label kind="comments" x="1005.0" y="0.0">observable</label>
 			<nail x="500" y="0"/>
 		</transition>
 		<transition>
 			<source ref="id1"/>
+			<target ref="id4"/>
+			<label kind="guard" x="1200.0" y="0.0">cl&gt;=7</label>
+			<label kind="synchronisation" x="1210.0" y="0.0">Ack0x6?</label>
+			<label kind="assignment" x="1205.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1205.0" y="0.0">observable</label>
+			<nail x="500" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id12"/>
+			<label kind="guard" x="1300.0" y="0.0">cl&gt;=8</label>
+			<label kind="synchronisation" x="1310.0" y="0.0">Req0x6?</label>
+			<label kind="assignment" x="1305.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1305.0" y="0.0">observable</label>
+			<nail x="100" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
 			<target ref="id13"/>
-			<label kind="guard" x="1400.0" y="0.0">cl&gt;=8</label>
-			<label kind="synchronisation" x="1410.0" y="0.0">Req0x7?</label>
+			<label kind="guard" x="1400.0" y="0.0">cl&gt;=11</label>
+			<label kind="synchronisation" x="1410.0" y="0.0">Req0x6?</label>
 			<label kind="assignment" x="1405.0" y="0.0">cl=0</label>
 			<label kind="comments" x="1405.0" y="0.0">observable</label>
-			<nail x="100" y="100"/>
+			<nail x="1400" y="0"/>
 		</transition>
 		<transition>
 			<source ref="id2"/>
 			<target ref="id3"/>
-			<label kind="guard" x="500.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="510.0" y="0.0">Req0x7?</label>
+			<label kind="guard" x="500.0" y="0.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="510.0" y="0.0">Req0x6?</label>
 			<label kind="assignment" x="505.0" y="0.0">cl=0</label>
 			<label kind="comments" x="505.0" y="0.0">observable</label>
 			<nail x="300" y="100"/>
@@ -1440,19 +1326,10 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 			<nail x="0" y="100"/>
 		</transition>
 		<transition>
-			<source ref="id2"/>
-			<target ref="id10"/>
-			<label kind="guard" x="1000.0" y="100.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="1010.0" y="100.0">Req0x7?</label>
-			<label kind="assignment" x="1005.0" y="100.0">cl=0</label>
-			<label kind="comments" x="1005.0" y="100.0">observable</label>
-			<nail x="1000" y="100"/>
-		</transition>
-		<transition>
 			<source ref="id3"/>
 			<target ref="id4"/>
 			<label kind="guard" x="700.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="710.0" y="0.0">Ack7x0!</label>
+			<label kind="synchronisation" x="710.0" y="0.0">Ack6x0!</label>
 			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
 			<label kind="comments" x="705.0" y="0.0">controllable</label>
 			<nail x="700" y="0"/>
@@ -1466,45 +1343,10 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 			<nail x="0" y="100"/>
 		</transition>
 		<transition>
-			<source ref="id5"/>
-			<target ref="id0"/>
-			<label kind="guard" x="0.0" y="100.0">cl==3</label>
-			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
-			<label kind="comments" x="5.0" y="100.0">timeout</label>
-			<nail x="0" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id5"/>
-			<target ref="id11"/>
-			<label kind="guard" x="1100.0" y="100.0">cl&gt;=2</label>
-			<label kind="synchronisation" x="1110.0" y="100.0">Req0x7?</label>
-			<label kind="assignment" x="1105.0" y="100.0">cl=0</label>
-			<label kind="comments" x="1105.0" y="100.0">observable</label>
-			<nail x="1100" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id5"/>
-			<target ref="id12"/>
-			<label kind="guard" x="1200.0" y="100.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="1210.0" y="100.0">Req0x7?</label>
-			<label kind="assignment" x="1205.0" y="100.0">cl=0</label>
-			<label kind="comments" x="1205.0" y="100.0">observable</label>
-			<nail x="1200" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id5"/>
-			<target ref="id14"/>
-			<label kind="guard" x="1400.0" y="100.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="1410.0" y="100.0">Req0x7?</label>
-			<label kind="assignment" x="1405.0" y="100.0">cl=0</label>
-			<label kind="comments" x="1405.0" y="100.0">observable</label>
-			<nail x="1400" y="100"/>
-		</transition>
-		<transition>
 			<source ref="id6"/>
 			<target ref="id7"/>
 			<label kind="guard" x="1300.0" y="0.0">cl&gt;=2</label>
-			<label kind="synchronisation" x="1310.0" y="0.0">Req0x7?</label>
+			<label kind="synchronisation" x="1310.0" y="0.0">Req0x6?</label>
 			<label kind="assignment" x="1305.0" y="0.0">cl=0</label>
 			<label kind="comments" x="1305.0" y="0.0">observable</label>
 			<nail x="700" y="100"/>
@@ -1527,68 +1369,174 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		</transition>
 		<transition>
 			<source ref="id6"/>
-			<target ref="id8"/>
-			<label kind="guard" x="800.0" y="100.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="810.0" y="100.0">Req0x7?</label>
-			<label kind="assignment" x="805.0" y="100.0">cl=0</label>
-			<label kind="comments" x="805.0" y="100.0">observable</label>
-			<nail x="800" y="100"/>
+			<target ref="id10"/>
+			<label kind="guard" x="1000.0" y="100.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="1010.0" y="100.0">Req0x6?</label>
+			<label kind="assignment" x="1005.0" y="100.0">cl=0</label>
+			<label kind="comments" x="1005.0" y="100.0">observable</label>
+			<nail x="1000" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id7"/>
 			<target ref="id4"/>
 			<label kind="guard" x="1100.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="1110.0" y="0.0">Ack7x0!</label>
+			<label kind="synchronisation" x="1110.0" y="0.0">Ack6x0!</label>
 			<label kind="assignment" x="1105.0" y="0.0">cl=0</label>
 			<label kind="comments" x="1105.0" y="0.0">controllable</label>
 			<nail x="1100" y="0"/>
 		</transition>
 		<transition>
-			<source ref="id8"/>
-			<target ref="id4"/>
-			<label kind="guard" x="1200.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="1210.0" y="0.0">Ack7x0!</label>
-			<label kind="assignment" x="1205.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1205.0" y="0.0">controllable</label>
-			<nail x="1200" y="0"/>
-		</transition>
-		<transition>
 			<source ref="id10"/>
 			<target ref="id4"/>
 			<label kind="guard" x="1400.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="1410.0" y="0.0">Ack7x0!</label>
+			<label kind="synchronisation" x="1410.0" y="0.0">Ack6x0!</label>
 			<label kind="assignment" x="1405.0" y="0.0">cl=0</label>
 			<label kind="comments" x="1405.0" y="0.0">controllable</label>
 			<nail x="1400" y="0"/>
 		</transition>
 		<transition>
-			<source ref="id11"/>
-			<target ref="id4"/>
-			<label kind="guard" x="1500.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="1510.0" y="0.0">Ack7x0!</label>
-			<label kind="assignment" x="1505.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1505.0" y="0.0">controllable</label>
-			<nail x="1500" y="0"/>
-		</transition>
-		<transition>
 			<source ref="id12"/>
-			<target ref="id4"/>
-			<label kind="guard" x="1600.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="1610.0" y="0.0">Ack7x0!</label>
-			<label kind="assignment" x="1605.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1605.0" y="0.0">controllable</label>
-			<nail x="1600" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id13"/>
 			<target ref="id0"/>
-			<label kind="guard" x="1300.0" y="0.0">cl==3</label>
-			<label kind="assignment" x="1305.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1305.0" y="0.0">timeout</label>
+			<label kind="guard" x="1200.0" y="0.0">cl==8</label>
+			<label kind="assignment" x="1205.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1205.0" y="0.0">timeout</label>
 			<nail x="0" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id13"/>
+			<target ref="id14"/>
+			<label kind="guard" x="2700.0" y="0.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="2710.0" y="0.0">Req0x6?</label>
+			<label kind="assignment" x="2705.0" y="0.0">cl=0</label>
+			<label kind="comments" x="2705.0" y="0.0">observable</label>
+			<nail x="2700" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id4"/>
+			<label kind="guard" x="1800.0" y="0.0">cl&gt;=2</label>
+			<label kind="synchronisation" x="1810.0" y="0.0">Ack6x0!</label>
+			<label kind="assignment" x="1805.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1805.0" y="0.0">controllable</label>
+			<nail x="1800" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name x="0" y="0">Node7</name>
+		<declaration>clock cl;</declaration>
+		<location id="id0" x="0" y="0">
+			<name x="7" y="7">La1</name>
+			<label kind="invariant" x="7" y="20">cl&lt;=4</label>
+		</location>
+		<location id="id1" x="200" y="0">
+			<name x="207" y="7">Lp1</name>
+			<label kind="invariant" x="207" y="20">cl&lt;=10</label>
+		</location>
+		<location id="id2" x="400" y="0">
+			<name x="407" y="7">END</name>
+		</location>
+		<location id="id3" x="0" y="200">
+			<name x="7" y="207">La3</name>
+			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
+		</location>
+		<location id="id4" x="800" y="0">
+			<name x="807" y="7">La4</name>
+			<label kind="invariant" x="807" y="20">cl&lt;=2</label>
+		</location>
+		<location id="id5" x="0" y="200">
+			<name x="7" y="207">La5</name>
+			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
+		</location>
+		<location id="id6" x="1200" y="0">
+			<name x="1207" y="7">La6</name>
+			<label kind="invariant" x="1207" y="20">cl&lt;=2</label>
+		</location>
+		<location id="id8" x="1600" y="0">
+			<name x="1607" y="7">La8</name>
+			<label kind="invariant" x="1607" y="20">cl&lt;=1</label>
+		</location>
+		<location id="id9" x="0" y="200">
+			<name x="7" y="207">La9</name>
+			<label kind="invariant" x="7" y="220">cl&lt;=3</label>
+		</location>
+		<location id="id10" x="2000" y="0">
+			<name x="2007" y="7">La10</name>
+			<label kind="invariant" x="2007" y="20">cl&lt;=2</label>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="guard" x="100.0" y="0.0">cl&gt;=2</label>
+			<label kind="synchronisation" x="110.0" y="0.0">Req7x0!</label>
+			<label kind="assignment" x="105.0" y="0.0">cl=0</label>
+			<label kind="comments" x="105.0" y="0.0">controllable</label>
+			<nail x="100" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="guard" x="300.0" y="0.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="310.0" y="0.0">Ack0x7?</label>
+			<label kind="assignment" x="305.0" y="0.0">cl=0</label>
+			<label kind="comments" x="305.0" y="0.0">observable</label>
+			<nail x="300" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="guard" x="800.0" y="0.0">cl&gt;=5</label>
+			<label kind="synchronisation" x="810.0" y="0.0">Ack0x7?</label>
+			<label kind="assignment" x="805.0" y="0.0">cl=0</label>
+			<label kind="comments" x="805.0" y="0.0">observable</label>
+			<nail x="300" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="guard" x="400.0" y="0.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="410.0" y="0.0">Req0x7?</label>
+			<label kind="assignment" x="405.0" y="0.0">cl=0</label>
+			<label kind="comments" x="405.0" y="0.0">observable</label>
+			<nail x="100" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id5"/>
+			<label kind="guard" x="600.0" y="0.0">cl&gt;=3</label>
+			<label kind="synchronisation" x="610.0" y="0.0">Req0x7?</label>
+			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
+			<label kind="comments" x="605.0" y="0.0">observable</label>
+			<nail x="100" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id9"/>
+			<label kind="guard" x="1000.0" y="0.0">cl&gt;=7</label>
+			<label kind="synchronisation" x="1010.0" y="0.0">Req0x7?</label>
+			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1005.0" y="0.0">observable</label>
+			<nail x="100" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="guard" x="700.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="710.0" y="0.0">Req0x7?</label>
+			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
+			<label kind="comments" x="705.0" y="0.0">observable</label>
+			<nail x="400" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id0"/>
+			<label kind="guard" x="300.0" y="0.0">cl==3</label>
+			<label kind="assignment" x="305.0" y="0.0">cl=0</label>
+			<label kind="comments" x="305.0" y="0.0">timeout</label>
+			<nail x="0" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
 			<target ref="id0"/>
 			<label kind="guard" x="0.0" y="100.0">cl==8</label>
 			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
@@ -1596,13 +1544,83 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 			<nail x="0" y="100"/>
 		</transition>
 		<transition>
-			<source ref="id14"/>
-			<target ref="id4"/>
-			<label kind="guard" x="1800.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="1810.0" y="0.0">Ack7x0!</label>
-			<label kind="assignment" x="1805.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1805.0" y="0.0">controllable</label>
-			<nail x="1800" y="0"/>
+			<source ref="id3"/>
+			<target ref="id6"/>
+			<label kind="guard" x="600.0" y="100.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="610.0" y="100.0">Req0x7?</label>
+			<label kind="assignment" x="605.0" y="100.0">cl=0</label>
+			<label kind="comments" x="605.0" y="100.0">observable</label>
+			<nail x="600" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id2"/>
+			<label kind="guard" x="600.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="610.0" y="0.0">Ack7x0!</label>
+			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
+			<label kind="comments" x="605.0" y="0.0">controllable</label>
+			<nail x="600" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id0"/>
+			<label kind="guard" x="500.0" y="0.0">cl==8</label>
+			<label kind="assignment" x="505.0" y="0.0">cl=0</label>
+			<label kind="comments" x="505.0" y="0.0">timeout</label>
+			<nail x="0" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id8"/>
+			<label kind="guard" x="800.0" y="100.0">cl&gt;=2</label>
+			<label kind="synchronisation" x="810.0" y="100.0">Req0x7?</label>
+			<label kind="assignment" x="805.0" y="100.0">cl=0</label>
+			<label kind="comments" x="805.0" y="100.0">observable</label>
+			<nail x="800" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id2"/>
+			<label kind="guard" x="800.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="810.0" y="0.0">Ack7x0!</label>
+			<label kind="assignment" x="805.0" y="0.0">cl=0</label>
+			<label kind="comments" x="805.0" y="0.0">controllable</label>
+			<nail x="800" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id2"/>
+			<label kind="guard" x="1000.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="1010.0" y="0.0">Ack7x0!</label>
+			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1005.0" y="0.0">controllable</label>
+			<nail x="1000" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id0"/>
+			<label kind="guard" x="900.0" y="0.0">cl==3</label>
+			<label kind="assignment" x="905.0" y="0.0">cl=0</label>
+			<label kind="comments" x="905.0" y="0.0">timeout</label>
+			<nail x="0" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id10"/>
+			<label kind="guard" x="1000.0" y="100.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="1010.0" y="100.0">Req0x7?</label>
+			<label kind="assignment" x="1005.0" y="100.0">cl=0</label>
+			<label kind="comments" x="1005.0" y="100.0">observable</label>
+			<nail x="1000" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id2"/>
+			<label kind="guard" x="1200.0" y="0.0">cl&gt;=2</label>
+			<label kind="synchronisation" x="1210.0" y="0.0">Ack7x0!</label>
+			<label kind="assignment" x="1205.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1205.0" y="0.0">controllable</label>
+			<nail x="1200" y="0"/>
 		</transition>
 	</template>
 	<template>
@@ -1614,34 +1632,42 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		</location>
 		<location id="id1" x="200" y="0">
 			<name x="207" y="7">Lp1</name>
-			<label kind="invariant" x="207" y="20">cl&lt;=10</label>
+			<label kind="invariant" x="207" y="20">cl&lt;=13</label>
 		</location>
-		<location id="id2" x="0" y="200">
-			<name x="7" y="207">La2</name>
+		<location id="id2" x="400" y="0">
+			<name x="407" y="7">END</name>
+		</location>
+		<location id="id3" x="0" y="200">
+			<name x="7" y="207">La3</name>
 			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
 		</location>
-		<location id="id3" x="600" y="0">
-			<name x="607" y="7">END</name>
+		<location id="id4" x="800" y="0">
+			<name x="807" y="7">La4</name>
+			<label kind="invariant" x="807" y="20">cl&lt;=2</label>
 		</location>
-		<location id="id4" x="0" y="200">
-			<name x="7" y="207">La4</name>
-			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
-		</location>
-		<location id="id5" x="1000" y="0">
-			<name x="1007" y="7">La5</name>
-			<label kind="invariant" x="1007" y="20">cl&lt;=2</label>
+		<location id="id5" x="0" y="200">
+			<name x="7" y="207">La5</name>
+			<label kind="invariant" x="7" y="220">cl&lt;=3</label>
 		</location>
 		<location id="id6" x="1200" y="0">
 			<name x="1207" y="7">La6</name>
 			<label kind="invariant" x="1207" y="20">cl&lt;=2</label>
 		</location>
+		<location id="id7" x="0" y="200">
+			<name x="7" y="207">La7</name>
+			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
+		</location>
+		<location id="id8" x="1600" y="0">
+			<name x="1607" y="7">La8</name>
+			<label kind="invariant" x="1607" y="20">cl&lt;=2</label>
+		</location>
 		<location id="id9" x="0" y="200">
 			<name x="7" y="207">La9</name>
-			<label kind="invariant" x="7" y="220">cl&lt;=3</label>
+			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
 		</location>
-		<location id="id10" x="2000" y="0">
-			<name x="2007" y="7">La10</name>
-			<label kind="invariant" x="2007" y="20">cl&lt;=1</label>
+		<location id="id10" x="0" y="200">
+			<name x="7" y="207">La10</name>
+			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
 		</location>
 		<init ref="id0"/>
 		<transition>
@@ -1657,66 +1683,75 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 			<source ref="id1"/>
 			<target ref="id2"/>
 			<label kind="guard" x="300.0" y="0.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="310.0" y="0.0">Req0x8?</label>
+			<label kind="synchronisation" x="310.0" y="0.0">Ack0x8?</label>
 			<label kind="assignment" x="305.0" y="0.0">cl=0</label>
 			<label kind="comments" x="305.0" y="0.0">observable</label>
+			<nail x="300" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="guard" x="400.0" y="0.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="410.0" y="0.0">Req0x8?</label>
+			<label kind="assignment" x="405.0" y="0.0">cl=0</label>
+			<label kind="comments" x="405.0" y="0.0">observable</label>
 			<nail x="100" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id1"/>
-			<target ref="id3"/>
-			<label kind="guard" x="400.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="410.0" y="0.0">Ack0x8?</label>
-			<label kind="assignment" x="405.0" y="0.0">cl=0</label>
-			<label kind="comments" x="405.0" y="0.0">observable</label>
-			<nail x="400" y="0"/>
+			<target ref="id5"/>
+			<label kind="guard" x="600.0" y="0.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="610.0" y="0.0">Req0x8?</label>
+			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
+			<label kind="comments" x="605.0" y="0.0">observable</label>
+			<nail x="100" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id1"/>
-			<target ref="id3"/>
-			<label kind="guard" x="800.0" y="0.0">cl&gt;=5</label>
-			<label kind="synchronisation" x="810.0" y="0.0">Ack0x8?</label>
+			<target ref="id7"/>
+			<label kind="guard" x="800.0" y="0.0">cl&gt;=4</label>
+			<label kind="synchronisation" x="810.0" y="0.0">Req0x8?</label>
 			<label kind="assignment" x="805.0" y="0.0">cl=0</label>
 			<label kind="comments" x="805.0" y="0.0">observable</label>
-			<nail x="400" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id3"/>
-			<label kind="guard" x="900.0" y="0.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="910.0" y="0.0">Ack0x8?</label>
-			<label kind="assignment" x="905.0" y="0.0">cl=0</label>
-			<label kind="comments" x="905.0" y="0.0">observable</label>
-			<nail x="400" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id4"/>
-			<label kind="guard" x="500.0" y="0.0">cl&gt;=3</label>
-			<label kind="synchronisation" x="510.0" y="0.0">Req0x8?</label>
-			<label kind="assignment" x="505.0" y="0.0">cl=0</label>
-			<label kind="comments" x="505.0" y="0.0">observable</label>
 			<nail x="100" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id1"/>
 			<target ref="id9"/>
-			<label kind="guard" x="1000.0" y="0.0">cl&gt;=9</label>
+			<label kind="guard" x="1000.0" y="0.0">cl&gt;=8</label>
 			<label kind="synchronisation" x="1010.0" y="0.0">Req0x8?</label>
 			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
 			<label kind="comments" x="1005.0" y="0.0">observable</label>
 			<nail x="100" y="100"/>
 		</transition>
 		<transition>
-			<source ref="id2"/>
+			<source ref="id1"/>
+			<target ref="id10"/>
+			<label kind="guard" x="1100.0" y="0.0">cl&gt;=12</label>
+			<label kind="synchronisation" x="1110.0" y="0.0">Req0x8?</label>
+			<label kind="assignment" x="1105.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1105.0" y="0.0">observable</label>
+			<nail x="100" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="guard" x="700.0" y="0.0">cl&gt;=2</label>
+			<label kind="synchronisation" x="710.0" y="0.0">Req0x8?</label>
+			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
+			<label kind="comments" x="705.0" y="0.0">observable</label>
+			<nail x="400" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
 			<target ref="id0"/>
-			<label kind="guard" x="200.0" y="0.0">cl==3</label>
-			<label kind="assignment" x="205.0" y="0.0">cl=0</label>
-			<label kind="comments" x="205.0" y="0.0">timeout</label>
+			<label kind="guard" x="300.0" y="0.0">cl==3</label>
+			<label kind="assignment" x="305.0" y="0.0">cl=0</label>
+			<label kind="comments" x="305.0" y="0.0">timeout</label>
 			<nail x="0" y="100"/>
 		</transition>
 		<transition>
-			<source ref="id2"/>
+			<source ref="id3"/>
 			<target ref="id0"/>
 			<label kind="guard" x="0.0" y="100.0">cl==8</label>
 			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
@@ -1724,74 +1759,89 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 			<nail x="0" y="100"/>
 		</transition>
 		<transition>
-			<source ref="id2"/>
-			<target ref="id5"/>
-			<label kind="guard" x="500.0" y="100.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="510.0" y="100.0">Req0x8?</label>
-			<label kind="assignment" x="505.0" y="100.0">cl=0</label>
-			<label kind="comments" x="505.0" y="100.0">observable</label>
-			<nail x="500" y="100"/>
+			<source ref="id3"/>
+			<target ref="id8"/>
+			<label kind="guard" x="800.0" y="100.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="810.0" y="100.0">Req0x8?</label>
+			<label kind="assignment" x="805.0" y="100.0">cl=0</label>
+			<label kind="comments" x="805.0" y="100.0">observable</label>
+			<nail x="800" y="100"/>
 		</transition>
 		<transition>
-			<source ref="id2"/>
+			<source ref="id4"/>
+			<target ref="id2"/>
+			<label kind="guard" x="600.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="610.0" y="0.0">Ack8x0!</label>
+			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
+			<label kind="comments" x="605.0" y="0.0">controllable</label>
+			<nail x="600" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id0"/>
+			<label kind="guard" x="500.0" y="0.0">cl==3</label>
+			<label kind="assignment" x="505.0" y="0.0">cl=0</label>
+			<label kind="comments" x="505.0" y="0.0">timeout</label>
+			<nail x="0" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
 			<target ref="id6"/>
-			<label kind="guard" x="600.0" y="100.0">cl&gt;=0</label>
+			<label kind="guard" x="600.0" y="100.0">cl&gt;=2</label>
 			<label kind="synchronisation" x="610.0" y="100.0">Req0x8?</label>
 			<label kind="assignment" x="605.0" y="100.0">cl=0</label>
 			<label kind="comments" x="605.0" y="100.0">observable</label>
 			<nail x="600" y="100"/>
 		</transition>
 		<transition>
-			<source ref="id4"/>
-			<target ref="id0"/>
-			<label kind="guard" x="400.0" y="0.0">cl==8</label>
-			<label kind="assignment" x="405.0" y="0.0">cl=0</label>
-			<label kind="comments" x="405.0" y="0.0">timeout</label>
-			<nail x="0" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id5"/>
-			<target ref="id3"/>
-			<label kind="guard" x="800.0" y="0.0">cl&gt;=1</label>
+			<source ref="id6"/>
+			<target ref="id2"/>
+			<label kind="guard" x="800.0" y="0.0">cl&gt;=2</label>
 			<label kind="synchronisation" x="810.0" y="0.0">Ack8x0!</label>
 			<label kind="assignment" x="805.0" y="0.0">cl=0</label>
 			<label kind="comments" x="805.0" y="0.0">controllable</label>
 			<nail x="800" y="0"/>
 		</transition>
 		<transition>
-			<source ref="id6"/>
-			<target ref="id3"/>
-			<label kind="guard" x="900.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="910.0" y="0.0">Ack8x0!</label>
-			<label kind="assignment" x="905.0" y="0.0">cl=0</label>
-			<label kind="comments" x="905.0" y="0.0">controllable</label>
-			<nail x="900" y="0"/>
+			<source ref="id7"/>
+			<target ref="id0"/>
+			<label kind="guard" x="700.0" y="0.0">cl==8</label>
+			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
+			<label kind="comments" x="705.0" y="0.0">timeout</label>
+			<nail x="0" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id2"/>
+			<label kind="guard" x="1000.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="1010.0" y="0.0">Ack8x0!</label>
+			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1005.0" y="0.0">controllable</label>
+			<nail x="1000" y="0"/>
 		</transition>
 		<transition>
 			<source ref="id9"/>
 			<target ref="id0"/>
-			<label kind="guard" x="900.0" y="0.0">cl==3</label>
+			<label kind="guard" x="900.0" y="0.0">cl==8</label>
 			<label kind="assignment" x="905.0" y="0.0">cl=0</label>
 			<label kind="comments" x="905.0" y="0.0">timeout</label>
 			<nail x="0" y="100"/>
 		</transition>
 		<transition>
-			<source ref="id9"/>
-			<target ref="id10"/>
-			<label kind="guard" x="1000.0" y="100.0">cl&gt;=2</label>
-			<label kind="synchronisation" x="1010.0" y="100.0">Req0x8?</label>
-			<label kind="assignment" x="1005.0" y="100.0">cl=0</label>
-			<label kind="comments" x="1005.0" y="100.0">observable</label>
-			<nail x="1000" y="100"/>
+			<source ref="id10"/>
+			<target ref="id0"/>
+			<label kind="guard" x="1000.0" y="0.0">cl==8</label>
+			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1005.0" y="0.0">timeout</label>
+			<nail x="0" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id10"/>
-			<target ref="id3"/>
-			<label kind="guard" x="1300.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="1310.0" y="0.0">Ack8x0!</label>
-			<label kind="assignment" x="1305.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1305.0" y="0.0">controllable</label>
-			<nail x="1300" y="0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="0.0" y="100.0">cl==3</label>
+			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
+			<label kind="comments" x="5.0" y="100.0">timeout</label>
+			<nail x="0" y="100"/>
 		</transition>
 	</template>
 	<template>
@@ -1816,17 +1866,33 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		<location id="id4" x="800" y="0">
 			<name x="807" y="7">END</name>
 		</location>
-		<location id="id5" x="0" y="200">
-			<name x="7" y="207">La4</name>
-			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
+		<location id="id6" x="1200" y="0">
+			<name x="1207" y="7">La5</name>
+			<label kind="invariant" x="1207" y="20">cl&lt;=2</label>
 		</location>
-		<location id="id9" x="0" y="200">
-			<name x="7" y="207">La8</name>
-			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
+		<location id="id7" x="1400" y="0">
+			<name x="1407" y="7">La6</name>
+			<label kind="invariant" x="1407" y="20">cl&lt;=3</label>
 		</location>
-		<location id="id10" x="2000" y="0">
-			<name x="2007" y="7">La9</name>
-			<label kind="invariant" x="2007" y="20">cl&lt;=1</label>
+		<location id="id8" x="1600" y="0">
+			<name x="1607" y="7">La7</name>
+			<label kind="invariant" x="1607" y="20">cl&lt;=1</label>
+		</location>
+		<location id="id9" x="1800" y="0">
+			<name x="1807" y="7">La8</name>
+			<label kind="invariant" x="1807" y="20">cl&lt;=2</label>
+		</location>
+		<location id="id10" x="0" y="200">
+			<name x="7" y="207">La9</name>
+			<label kind="invariant" x="7" y="220">cl&lt;=3</label>
+		</location>
+		<location id="id11" x="2200" y="0">
+			<name x="2207" y="7">La10</name>
+			<label kind="invariant" x="2207" y="20">cl&lt;=2</label>
+		</location>
+		<location id="id12" x="0" y="200">
+			<name x="7" y="207">La11</name>
+			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
 		</location>
 		<init ref="id0"/>
 		<transition>
@@ -1849,53 +1915,44 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		</transition>
 		<transition>
 			<source ref="id1"/>
-			<target ref="id5"/>
-			<label kind="guard" x="600.0" y="0.0">cl&gt;=3</label>
-			<label kind="synchronisation" x="610.0" y="0.0">Req0x9?</label>
+			<target ref="id4"/>
+			<label kind="guard" x="600.0" y="0.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="610.0" y="0.0">Ack0x9?</label>
 			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
 			<label kind="comments" x="605.0" y="0.0">observable</label>
+			<nail x="500" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id7"/>
+			<label kind="guard" x="800.0" y="0.0">cl&gt;=4</label>
+			<label kind="synchronisation" x="810.0" y="0.0">Req0x9?</label>
+			<label kind="assignment" x="805.0" y="0.0">cl=0</label>
+			<label kind="comments" x="805.0" y="0.0">observable</label>
+			<nail x="800" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id10"/>
+			<label kind="guard" x="1100.0" y="0.0">cl&gt;=7</label>
+			<label kind="synchronisation" x="1110.0" y="0.0">Req0x9?</label>
+			<label kind="assignment" x="1105.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1105.0" y="0.0">observable</label>
 			<nail x="100" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id1"/>
-			<target ref="id4"/>
-			<label kind="guard" x="700.0" y="0.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="710.0" y="0.0">Ack0x9?</label>
-			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
-			<label kind="comments" x="705.0" y="0.0">observable</label>
-			<nail x="500" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id4"/>
-			<label kind="guard" x="800.0" y="0.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="810.0" y="0.0">Ack0x9?</label>
-			<label kind="assignment" x="805.0" y="0.0">cl=0</label>
-			<label kind="comments" x="805.0" y="0.0">observable</label>
-			<nail x="500" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id4"/>
-			<label kind="guard" x="900.0" y="0.0">cl&gt;=5</label>
-			<label kind="synchronisation" x="910.0" y="0.0">Ack0x9?</label>
-			<label kind="assignment" x="905.0" y="0.0">cl=0</label>
-			<label kind="comments" x="905.0" y="0.0">observable</label>
-			<nail x="500" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id9"/>
-			<label kind="guard" x="1000.0" y="0.0">cl&gt;=8</label>
-			<label kind="synchronisation" x="1010.0" y="0.0">Req0x9?</label>
-			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1005.0" y="0.0">observable</label>
+			<target ref="id12"/>
+			<label kind="guard" x="1300.0" y="0.0">cl&gt;=10</label>
+			<label kind="synchronisation" x="1310.0" y="0.0">Req0x9?</label>
+			<label kind="assignment" x="1305.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1305.0" y="0.0">observable</label>
 			<nail x="100" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id2"/>
 			<target ref="id3"/>
-			<label kind="guard" x="500.0" y="0.0">cl&gt;=0</label>
+			<label kind="guard" x="500.0" y="0.0">cl&gt;=2</label>
 			<label kind="synchronisation" x="510.0" y="0.0">Req0x9?</label>
 			<label kind="assignment" x="505.0" y="0.0">cl=0</label>
 			<label kind="comments" x="505.0" y="0.0">observable</label>
@@ -1904,7 +1961,7 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		<transition>
 			<source ref="id2"/>
 			<target ref="id0"/>
-			<label kind="guard" x="200.0" y="0.0">cl==8</label>
+			<label kind="guard" x="200.0" y="0.0">cl==3</label>
 			<label kind="assignment" x="205.0" y="0.0">cl=0</label>
 			<label kind="comments" x="205.0" y="0.0">timeout</label>
 			<nail x="0" y="100"/>
@@ -1912,10 +1969,28 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		<transition>
 			<source ref="id2"/>
 			<target ref="id0"/>
-			<label kind="guard" x="0.0" y="100.0">cl==3</label>
+			<label kind="guard" x="0.0" y="100.0">cl==8</label>
 			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
 			<label kind="comments" x="5.0" y="100.0">timeout</label>
 			<nail x="0" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id6"/>
+			<label kind="guard" x="600.0" y="100.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="610.0" y="100.0">Req0x9?</label>
+			<label kind="assignment" x="605.0" y="100.0">cl=0</label>
+			<label kind="comments" x="605.0" y="100.0">observable</label>
+			<nail x="600" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id9"/>
+			<label kind="guard" x="900.0" y="100.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="910.0" y="100.0">Req0x9?</label>
+			<label kind="assignment" x="905.0" y="100.0">cl=0</label>
+			<label kind="comments" x="905.0" y="100.0">observable</label>
+			<nail x="900" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id3"/>
@@ -1927,54 +2002,74 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 			<nail x="700" y="0"/>
 		</transition>
 		<transition>
-			<source ref="id5"/>
-			<target ref="id0"/>
-			<label kind="guard" x="500.0" y="0.0">cl==8</label>
-			<label kind="assignment" x="505.0" y="0.0">cl=0</label>
-			<label kind="comments" x="505.0" y="0.0">timeout</label>
-			<nail x="0" y="100"/>
+			<source ref="id6"/>
+			<target ref="id4"/>
+			<label kind="guard" x="1000.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="1010.0" y="0.0">Ack9x0!</label>
+			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1005.0" y="0.0">controllable</label>
+			<nail x="1000" y="0"/>
 		</transition>
 		<transition>
-			<source ref="id5"/>
-			<target ref="id0"/>
-			<label kind="guard" x="0.0" y="100.0">cl==3</label>
-			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
-			<label kind="comments" x="5.0" y="100.0">timeout</label>
-			<nail x="0" y="100"/>
+			<source ref="id7"/>
+			<target ref="id8"/>
+			<label kind="guard" x="1500.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="1510.0" y="0.0">Req0x9?</label>
+			<label kind="assignment" x="1505.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1505.0" y="0.0">observable</label>
+			<nail x="1500" y="0"/>
 		</transition>
 		<transition>
-			<source ref="id9"/>
-			<target ref="id10"/>
-			<label kind="guard" x="1900.0" y="0.0">cl&gt;=2</label>
-			<label kind="synchronisation" x="1910.0" y="0.0">Req0x9?</label>
-			<label kind="assignment" x="1905.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1905.0" y="0.0">observable</label>
-			<nail x="1000" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id9"/>
-			<target ref="id0"/>
-			<label kind="guard" x="900.0" y="0.0">cl==3</label>
-			<label kind="assignment" x="905.0" y="0.0">cl=0</label>
-			<label kind="comments" x="905.0" y="0.0">timeout</label>
-			<nail x="0" y="100"/>
+			<source ref="id8"/>
+			<target ref="id4"/>
+			<label kind="guard" x="1200.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="1210.0" y="0.0">Ack9x0!</label>
+			<label kind="assignment" x="1205.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1205.0" y="0.0">controllable</label>
+			<nail x="1200" y="0"/>
 		</transition>
 		<transition>
 			<source ref="id9"/>
+			<target ref="id4"/>
+			<label kind="guard" x="1300.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="1310.0" y="0.0">Ack9x0!</label>
+			<label kind="assignment" x="1305.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1305.0" y="0.0">controllable</label>
+			<nail x="1300" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
 			<target ref="id0"/>
-			<label kind="guard" x="0.0" y="100.0">cl==8</label>
-			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
-			<label kind="comments" x="5.0" y="100.0">timeout</label>
+			<label kind="guard" x="1000.0" y="0.0">cl==3</label>
+			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1005.0" y="0.0">timeout</label>
 			<nail x="0" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id10"/>
+			<target ref="id11"/>
+			<label kind="guard" x="1100.0" y="100.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="1110.0" y="100.0">Req0x9?</label>
+			<label kind="assignment" x="1105.0" y="100.0">cl=0</label>
+			<label kind="comments" x="1105.0" y="100.0">observable</label>
+			<nail x="1100" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id11"/>
 			<target ref="id4"/>
-			<label kind="guard" x="1400.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="1410.0" y="0.0">Ack9x0!</label>
-			<label kind="assignment" x="1405.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1405.0" y="0.0">controllable</label>
-			<nail x="1400" y="0"/>
+			<label kind="guard" x="1500.0" y="0.0">cl&gt;=2</label>
+			<label kind="synchronisation" x="1510.0" y="0.0">Ack9x0!</label>
+			<label kind="assignment" x="1505.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1505.0" y="0.0">controllable</label>
+			<nail x="1500" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id0"/>
+			<label kind="guard" x="1200.0" y="0.0">cl==8</label>
+			<label kind="assignment" x="1205.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1205.0" y="0.0">timeout</label>
+			<nail x="0" y="100"/>
 		</transition>
 	</template>
 	<template>
@@ -1986,33 +2081,29 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		</location>
 		<location id="id1" x="200" y="0">
 			<name x="207" y="7">Lp1</name>
-			<label kind="invariant" x="207" y="20">cl&lt;=10</label>
+			<label kind="invariant" x="207" y="20">cl&lt;=12</label>
 		</location>
 		<location id="id2" x="0" y="200">
 			<name x="7" y="207">La2</name>
 			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
 		</location>
-		<location id="id3" x="0" y="200">
-			<name x="7" y="207">La3</name>
-			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
+		<location id="id3" x="600" y="0">
+			<name x="607" y="7">La3</name>
+			<label kind="invariant" x="607" y="20">cl&lt;=2</label>
 		</location>
 		<location id="id4" x="800" y="0">
-			<name x="807" y="7">La4</name>
-			<label kind="invariant" x="807" y="20">cl&lt;=2</label>
+			<name x="807" y="7">END</name>
 		</location>
-		<location id="id5" x="1000" y="0">
-			<name x="1007" y="7">END</name>
+		<location id="id6" x="0" y="200">
+			<name x="7" y="207">La5</name>
+			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
 		</location>
 		<location id="id7" x="1400" y="0">
 			<name x="1407" y="7">La6</name>
-			<label kind="invariant" x="1407" y="20">cl&lt;=2</label>
+			<label kind="invariant" x="1407" y="20">cl&lt;=1</label>
 		</location>
-		<location id="id8" x="1600" y="0">
-			<name x="1607" y="7">La7</name>
-			<label kind="invariant" x="1607" y="20">cl&lt;=2</label>
-		</location>
-		<location id="id10" x="0" y="200">
-			<name x="7" y="207">La9</name>
+		<location id="id8" x="0" y="200">
+			<name x="7" y="207">La7</name>
 			<label kind="invariant" x="7" y="220">cl&lt;=8</label>
 		</location>
 		<init ref="id0"/>
@@ -2036,38 +2127,29 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		</transition>
 		<transition>
 			<source ref="id1"/>
-			<target ref="id3"/>
-			<label kind="guard" x="400.0" y="0.0">cl&gt;=4</label>
-			<label kind="synchronisation" x="410.0" y="0.0">Req0x10?</label>
-			<label kind="assignment" x="405.0" y="0.0">cl=0</label>
-			<label kind="comments" x="405.0" y="0.0">observable</label>
+			<target ref="id4"/>
+			<label kind="guard" x="600.0" y="0.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="610.0" y="0.0">Ack0x10?</label>
+			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
+			<label kind="comments" x="605.0" y="0.0">observable</label>
+			<nail x="500" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id6"/>
+			<label kind="guard" x="700.0" y="0.0">cl&gt;=6</label>
+			<label kind="synchronisation" x="710.0" y="0.0">Req0x10?</label>
+			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
+			<label kind="comments" x="705.0" y="0.0">observable</label>
 			<nail x="100" y="100"/>
 		</transition>
 		<transition>
 			<source ref="id1"/>
-			<target ref="id5"/>
-			<label kind="guard" x="700.0" y="0.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="710.0" y="0.0">Ack0x10?</label>
-			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
-			<label kind="comments" x="705.0" y="0.0">observable</label>
-			<nail x="600" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id5"/>
-			<label kind="guard" x="1000.0" y="0.0">cl&gt;=6</label>
-			<label kind="synchronisation" x="1010.0" y="0.0">Ack0x10?</label>
-			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1005.0" y="0.0">observable</label>
-			<nail x="600" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id10"/>
-			<label kind="guard" x="1100.0" y="0.0">cl&gt;=9</label>
-			<label kind="synchronisation" x="1110.0" y="0.0">Req0x10?</label>
-			<label kind="assignment" x="1105.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1105.0" y="0.0">observable</label>
+			<target ref="id8"/>
+			<label kind="guard" x="900.0" y="0.0">cl&gt;=10</label>
+			<label kind="synchronisation" x="910.0" y="0.0">Req0x10?</label>
+			<label kind="assignment" x="905.0" y="0.0">cl=0</label>
+			<label kind="comments" x="905.0" y="0.0">observable</label>
 			<nail x="100" y="100"/>
 		</transition>
 		<transition>
@@ -2088,80 +2170,70 @@ chan Req1x0, Req7x0, Req10x0, Req0x10, Req2x0, Req3x0, Req0x3, Req4x0, Req5x0, R
 		</transition>
 		<transition>
 			<source ref="id2"/>
-			<target ref="id4"/>
-			<label kind="guard" x="400.0" y="100.0">cl&gt;=3</label>
-			<label kind="synchronisation" x="410.0" y="100.0">Req0x10?</label>
-			<label kind="assignment" x="405.0" y="100.0">cl=0</label>
-			<label kind="comments" x="405.0" y="100.0">observable</label>
-			<nail x="400" y="100"/>
+			<target ref="id3"/>
+			<label kind="guard" x="300.0" y="100.0">cl&gt;=0</label>
+			<label kind="synchronisation" x="310.0" y="100.0">Req0x10?</label>
+			<label kind="assignment" x="305.0" y="100.0">cl=0</label>
+			<label kind="comments" x="305.0" y="100.0">observable</label>
+			<nail x="300" y="100"/>
 		</transition>
 		<transition>
-			<source ref="id2"/>
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="guard" x="700.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="710.0" y="0.0">Ack10x0!</label>
+			<label kind="assignment" x="705.0" y="0.0">cl=0</label>
+			<label kind="comments" x="705.0" y="0.0">controllable</label>
+			<nail x="700" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id0"/>
+			<label kind="guard" x="600.0" y="0.0">cl==8</label>
+			<label kind="assignment" x="605.0" y="0.0">cl=0</label>
+			<label kind="comments" x="605.0" y="0.0">timeout</label>
+			<nail x="0" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id0"/>
+			<label kind="guard" x="0.0" y="100.0">cl==3</label>
+			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
+			<label kind="comments" x="5.0" y="100.0">timeout</label>
+			<nail x="0" y="100"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
 			<target ref="id7"/>
-			<label kind="guard" x="700.0" y="100.0">cl&gt;=2</label>
+			<label kind="guard" x="700.0" y="100.0">cl&gt;=0</label>
 			<label kind="synchronisation" x="710.0" y="100.0">Req0x10?</label>
 			<label kind="assignment" x="705.0" y="100.0">cl=0</label>
 			<label kind="comments" x="705.0" y="100.0">observable</label>
 			<nail x="700" y="100"/>
 		</transition>
 		<transition>
-			<source ref="id2"/>
-			<target ref="id8"/>
-			<label kind="guard" x="800.0" y="100.0">cl&gt;=0</label>
-			<label kind="synchronisation" x="810.0" y="100.0">Req0x10?</label>
-			<label kind="assignment" x="805.0" y="100.0">cl=0</label>
-			<label kind="comments" x="805.0" y="100.0">observable</label>
-			<nail x="800" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id3"/>
-			<target ref="id0"/>
-			<label kind="guard" x="300.0" y="0.0">cl==3</label>
-			<label kind="assignment" x="305.0" y="0.0">cl=0</label>
-			<label kind="comments" x="305.0" y="0.0">timeout</label>
-			<nail x="0" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id3"/>
-			<target ref="id0"/>
-			<label kind="guard" x="0.0" y="100.0">cl==8</label>
-			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
-			<label kind="comments" x="5.0" y="100.0">timeout</label>
-			<nail x="0" y="100"/>
-		</transition>
-		<transition>
-			<source ref="id4"/>
-			<target ref="id5"/>
-			<label kind="guard" x="900.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="910.0" y="0.0">Ack10x0!</label>
-			<label kind="assignment" x="905.0" y="0.0">cl=0</label>
-			<label kind="comments" x="905.0" y="0.0">controllable</label>
-			<nail x="900" y="0"/>
-		</transition>
-		<transition>
 			<source ref="id7"/>
-			<target ref="id5"/>
-			<label kind="guard" x="1200.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="1210.0" y="0.0">Ack10x0!</label>
-			<label kind="assignment" x="1205.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1205.0" y="0.0">controllable</label>
-			<nail x="1200" y="0"/>
+			<target ref="id4"/>
+			<label kind="guard" x="1100.0" y="0.0">cl&gt;=1</label>
+			<label kind="synchronisation" x="1110.0" y="0.0">Ack10x0!</label>
+			<label kind="assignment" x="1105.0" y="0.0">cl=0</label>
+			<label kind="comments" x="1105.0" y="0.0">controllable</label>
+			<nail x="1100" y="0"/>
 		</transition>
 		<transition>
 			<source ref="id8"/>
-			<target ref="id5"/>
-			<label kind="guard" x="1300.0" y="0.0">cl&gt;=1</label>
-			<label kind="synchronisation" x="1310.0" y="0.0">Ack10x0!</label>
-			<label kind="assignment" x="1305.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1305.0" y="0.0">controllable</label>
-			<nail x="1300" y="0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="800.0" y="0.0">cl==8</label>
+			<label kind="assignment" x="805.0" y="0.0">cl=0</label>
+			<label kind="comments" x="805.0" y="0.0">timeout</label>
+			<nail x="0" y="100"/>
 		</transition>
 		<transition>
-			<source ref="id10"/>
+			<source ref="id8"/>
 			<target ref="id0"/>
-			<label kind="guard" x="1000.0" y="0.0">cl==8</label>
-			<label kind="assignment" x="1005.0" y="0.0">cl=0</label>
-			<label kind="comments" x="1005.0" y="0.0">timeout</label>
+			<label kind="guard" x="0.0" y="100.0">cl==3</label>
+			<label kind="assignment" x="5.0" y="100.0">cl=0</label>
+			<label kind="comments" x="5.0" y="100.0">timeout</label>
 			<nail x="0" y="100"/>
 		</transition>
 	</template>
